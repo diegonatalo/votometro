@@ -1,0 +1,134 @@
+{
+  "name": "Votômetro",
+  "repo": "Votometro",
+  "tagline": "O resultado do 2º turno de 2026, direto da fonte.",
+  "urls": {
+    "demo": "https://votometrobr.vercel.app"
+  },
+  "stack": [
+    {
+      "pkg": "next"
+    },
+    {
+      "pkg": "react"
+    },
+    {
+      "pkg": "typescript"
+    },
+    {
+      "pkg": "tailwindcss"
+    },
+    "d3-geo",
+    "d3-zoom",
+    "d3-scale",
+    "d3-interpolate",
+    "d3-quadtree",
+    "d3-selection",
+    "topojson-client",
+    "topojson-server",
+    "topojson-simplify",
+    "next-themes",
+    "unzipper",
+    "tsx"
+  ],
+  "badges_extra": [
+    {
+      "alt": "Abrir o app",
+      "label": "abrir o app",
+      "message": "votometrobr.vercel.app",
+      "color": "10b981",
+      "logo": "vercel",
+      "logoColor": "white"
+    },
+    {
+      "alt": "Dados",
+      "label": "dados",
+      "message": "oficiais do TSE",
+      "color": "10b981"
+    }
+  ],
+  "features": [
+    {
+      "title": "Mapa interativo",
+      "desc": "Veja quem ficou à frente em cada estado, com tooltip e legenda. Dê zoom e arraste, ou use as setas do teclado."
+    },
+    {
+      "title": "Estado e municípios",
+      "desc": "Clique num estado para aproximar e listar os municípios dele, com filtro e ordenação."
+    },
+    {
+      "title": "Busca de município",
+      "desc": "Digite o nome e escolha na lista com autocomplete, inclusive pelo teclado."
+    },
+    {
+      "title": "Resumo por região",
+      "desc": "Compare Norte, Nordeste, Centro-Oeste, Sudeste e Sul: percentuais, diferença em votos e quantos estados cada lado venceu."
+    },
+    {
+      "title": "Entre os turnos",
+      "desc": "Veja a variação de cada candidato do 1º para o 2º turno, no Brasil e no exterior, sempre com sinal (+ ou −)."
+    },
+    {
+      "title": "Todos os estados",
+      "desc": "Tabela que você pode ordenar e filtrar por região, como alternativa acessível ao mapa."
+    },
+    {
+      "title": "Seções após as 17h",
+      "desc": "Mede o resultado das seções que encerraram depois do horário regular. Nunca estima nada (veja abaixo)."
+    },
+    {
+      "title": "Claro e escuro",
+      "desc": "Segue o tema do seu sistema e deixa trocar com um clique."
+    }
+  ],
+  "banner": {
+    "shot": {
+      "file": "docs/screenshots/principal-dark.png",
+      "title": "votometrobr.vercel.app"
+    },
+    "chips": 4
+  },
+  "demo": {
+    "note": "Capturas com os dados reais do TSE (referência 25/10/2026 23:27:02).",
+    "layout": "stack",
+    "shots": [
+      {
+        "file": "docs/screenshots/principal-dark.png",
+        "file_light": "docs/screenshots/principal-light.png",
+        "title": "Início",
+        "alt": "Tela inicial com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual e total de votos"
+      },
+      {
+        "file": "docs/screenshots/mapa-estado.png",
+        "title": "Estado",
+        "alt": "Mapa com a Bahia selecionada, mostrando os municípios coloridos por candidato e o painel com os totais do estado",
+        "caption": "<b>Estado</b>: municípios coloridos pelo candidato à frente e painel com os totais."
+      },
+      {
+        "file": "docs/screenshots/regioes.png",
+        "title": "Regiões",
+        "alt": "Cinco cartões, um por região, com percentuais de Lula e Flávio Bolsonaro e a diferença em votos",
+        "caption": "<b>Regiões</b>: percentuais, diferença em votos e estados vencidos."
+      },
+      {
+        "file": "docs/screenshots/turnos.png",
+        "title": "Turnos",
+        "alt": "Tabelas comparando o 1º e o 2º turno no Brasil e no exterior, com variação em votos e em percentual",
+        "caption": "<b>Turnos</b>: 1º e 2º turno lado a lado, com a variação de cada linha."
+      },
+      {
+        "file": "docs/screenshots/mobile.png",
+        "title": "Celular",
+        "alt": "Versão para celular com os cartões dos dois candidatos empilhados",
+        "caption": "<b>Celular</b>: o layout empilha os candidatos e o mapa ocupa a largura da tela."
+      }
+    ]
+  },
+  "footer": "Feito com 💚 para quem quer conferir a apuração direto da fonte.",
+  "credits": [
+    "Dados de votação, fotos dos candidatos e Boletins de Urna: [TSE](https://www.tse.jus.br).",
+    "Malhas de estados e municípios: [IBGE](https://servicodados.ibge.gov.br/api/docs/malhas).",
+    "Mapa: [d3-geo](https://d3js.org/d3-geo), [d3-zoom](https://d3js.org/d3-zoom) e [TopoJSON](https://github.com/topojson/topojson).",
+    "Fontes: Bricolage Grotesque, Instrument Sans e JetBrains Mono, via Google Fonts."
+  ]
+}

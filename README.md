@@ -1,161 +1,119 @@
+<!-- Arquivo gerado pelo readme-kit. Não edite aqui: altere docs/readme/ e rode "readme-kit build". -->
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.svg" />
-  <img src="docs/assets/banner-light.svg" alt="Votômetro: O resultado do 2º turno de 2026, direto da fonte." width="100%" />
-</picture>
+<img src="docs/assets/banner.svg" alt="Votômetro: O resultado do 2º turno de 2026, direto da fonte. github.com/diegonatalo/Votometro. Stack: Next.js 15, React 19, TypeScript 5, Tailwind CSS 4" width="100%" />
 
-<a href="https://votometrobr.vercel.app"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/btn-demo-dark.svg" />
-  <img src="docs/assets/btn-demo-light.svg" alt="Demonstração ↗" height="46" />
-</picture></a>&nbsp;&nbsp;<a href="https://github.com/diegonatalo/Votometro"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/btn-codigo-dark.svg" />
-  <img src="docs/assets/btn-codigo-light.svg" alt="Código ↗" height="46" />
-</picture></a>
+<br />
 
-[![Abrir o app](https://img.shields.io/badge/abrir_o_app-votometrobr.vercel.app-10b981?style=for-the-badge&logo=vercel&logoColor=white)](https://votometrobr.vercel.app)
+<a href="https://votometrobr.vercel.app"><img src="docs/assets/btn-demo.svg" alt="Abrir o app ↗" height="46" /></a>
+<a href="https://github.com/diegonatalo/Votometro"><img src="docs/assets/btn-code.svg" alt="Código ↗" height="46" /></a>
+
+<br />
 
 ![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat-square&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb)
-![TypeScript](https://img.shields.io/badge/TypeScript_5.9-3178c6?style=flat-square&logo=typescript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript_5-3178c6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Abrir o app](https://img.shields.io/badge/abrir_o_app-votometrobr.vercel.app-10b981?style=flat-square&logo=vercel&logoColor=white)
 ![Dados](https://img.shields.io/badge/dados-oficiais_do_TSE-10b981?style=flat-square)
+![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-16a34a?style=flat-square)
 
 </div>
 
+<br />
+
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-sobre-dark.svg" />
-  <img src="docs/assets/h-sobre-light.svg" alt="01 · SOBRE: Sobre o projeto" width="100%" />
-</picture>
+<img src="docs/assets/h-sobre.svg" alt="01 · SOBRE: Sobre o projeto" width="100%" />
 
 </div>
 
 **O resultado do 2º turno de 2026, direto da fonte.**<br />
 Mapa por estado e município, comparação com o 1º turno, voto no exterior e fonte e horário em cada número.
 
+<br />
+
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-demo-dark.svg" />
-  <img src="docs/assets/h-demo-light.svg" alt="02 · DEMO: Telas" width="100%" />
-</picture>
+<img src="docs/assets/h-demo.svg" alt="02 · DEMO: Demonstração" width="100%" />
 
 </div>
 
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-principal-dark.svg" />
-  <img src="docs/assets/shot-principal-light.svg" alt="Tela inicial com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual e total de votos" width="100%" />
-</picture>
-
 <sub>Capturas com os dados reais do TSE (referência 25/10/2026 23:27:02).</sub>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-01-dark.svg" />
-  <img src="docs/assets/shot-01-light.svg" alt="Mapa com a Bahia selecionada, mostrando os municípios coloridos por candidato e o painel com os totais do estado" width="100%" />
-</picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-01.svg" /><img src="docs/assets/shot-01-light.svg" alt="Tela inicial com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual e total de votos" width="100%" /></picture>
 
+<br />
+
+<img src="docs/assets/shot-02.svg" alt="Mapa com a Bahia selecionada, mostrando os municípios coloridos por candidato e o painel com os totais do estado" width="100%" />
+<br />
 <sub><b>Estado</b>: municípios coloridos pelo candidato à frente e painel com os totais.</sub>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-02-dark.svg" />
-  <img src="docs/assets/shot-02-light.svg" alt="Cinco cartões, um por região, com percentuais de Lula e Flávio Bolsonaro e a diferença em votos" width="100%" />
-</picture>
+<br />
 
+<img src="docs/assets/shot-03.svg" alt="Cinco cartões, um por região, com percentuais de Lula e Flávio Bolsonaro e a diferença em votos" width="100%" />
+<br />
 <sub><b>Regiões</b>: percentuais, diferença em votos e estados vencidos.</sub>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-03-dark.svg" />
-  <img src="docs/assets/shot-03-light.svg" alt="Tabelas comparando o 1º e o 2º turno no Brasil e no exterior, com variação em votos e em percentual" width="100%" />
-</picture>
+<br />
 
+<img src="docs/assets/shot-04.svg" alt="Tabelas comparando o 1º e o 2º turno no Brasil e no exterior, com variação em votos e em percentual" width="100%" />
+<br />
 <sub><b>Turnos</b>: 1º e 2º turno lado a lado, com a variação de cada linha.</sub>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-04-dark.svg" />
-  <img src="docs/assets/shot-04-light.svg" alt="Versão para celular com os cartões dos dois candidatos empilhados" width="100%" />
-</picture>
+<br />
 
+<img src="docs/assets/shot-05.svg" alt="Versão para celular com os cartões dos dois candidatos empilhados" width="380" />
+<br />
 <sub><b>Celular</b>: o layout empilha os candidatos e o mapa ocupa a largura da tela.</sub>
 
 </div>
 
-<div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-funcionalidades-dark.svg" />
-  <img src="docs/assets/h-funcionalidades-light.svg" alt="03 · FUNCIONALIDADES: O que dá para fazer" width="100%" />
-</picture>
-
-</div>
-
-<div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-01-dark.svg" />
-  <img src="docs/assets/f-01-light.svg" alt="Mapa interativo: Veja quem ficou à frente em cada estado, com tooltip e legenda. Dê zoom e arraste, ou use as setas do teclado." width="49%" />
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-02-dark.svg" />
-  <img src="docs/assets/f-02-light.svg" alt="Estado e municípios: Clique num estado para aproximar e listar os municípios dele, com filtro e ordenação." width="49%" />
-</picture>
 <br />
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-03-dark.svg" />
-  <img src="docs/assets/f-03-light.svg" alt="Busca de município: Digite o nome e escolha na lista com autocomplete, inclusive pelo teclado." width="49%" />
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-04-dark.svg" />
-  <img src="docs/assets/f-04-light.svg" alt="Resumo por região: Compare Norte, Nordeste, Centro-Oeste, Sudeste e Sul: percentuais, diferença em votos e quantos estados cada lado venceu." width="49%" />
-</picture>
+
+<div align="center">
+
+<img src="docs/assets/h-func.svg" alt="03 · FUNCIONALIDADES: O que dá para fazer" width="100%" />
+
+</div>
+
+<div align="center">
+
+<img src="docs/assets/f-01.svg" alt="Mapa interativo: Veja quem ficou à frente em cada estado, com tooltip e legenda. Dê zoom e arraste, ou use as setas do teclado." width="49%" />
+<img src="docs/assets/f-02.svg" alt="Estado e municípios: Clique num estado para aproximar e listar os municípios dele, com filtro e ordenação." width="49%" />
 <br />
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-05-dark.svg" />
-  <img src="docs/assets/f-05-light.svg" alt="Entre os turnos: Veja a variação de cada candidato do 1º para o 2º turno, no Brasil e no exterior, sempre com sinal (+ ou −)." width="49%" />
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-06-dark.svg" />
-  <img src="docs/assets/f-06-light.svg" alt="Todos os estados: Tabela que você pode ordenar e filtrar por região, como alternativa acessível ao mapa." width="49%" />
-</picture>
+<img src="docs/assets/f-03.svg" alt="Busca de município: Digite o nome e escolha na lista com autocomplete, inclusive pelo teclado." width="49%" />
+<img src="docs/assets/f-04.svg" alt="Resumo por região: Compare Norte, Nordeste, Centro-Oeste, Sudeste e Sul: percentuais, diferença em votos e quantos estados cada lado venceu." width="49%" />
 <br />
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-07-dark.svg" />
-  <img src="docs/assets/f-07-light.svg" alt="Seções após as 17h: Mede o resultado das seções que encerraram depois do horário regular. Nunca estima nada (veja abaixo)." width="49%" />
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/f-08-dark.svg" />
-  <img src="docs/assets/f-08-light.svg" alt="Claro e escuro: Segue o tema do seu sistema e deixa trocar com um clique." width="49%" />
-</picture>
+<img src="docs/assets/f-05.svg" alt="Entre os turnos: Veja a variação de cada candidato do 1º para o 2º turno, no Brasil e no exterior, sempre com sinal (+ ou −)." width="49%" />
+<img src="docs/assets/f-06.svg" alt="Todos os estados: Tabela que você pode ordenar e filtrar por região, como alternativa acessível ao mapa." width="49%" />
+<br />
+<img src="docs/assets/f-07.svg" alt="Seções após as 17h: Mede o resultado das seções que encerraram depois do horário regular. Nunca estima nada (veja abaixo)." width="49%" />
+<img src="docs/assets/f-08.svg" alt="Claro e escuro: Segue o tema do seu sistema e deixa trocar com um clique." width="49%" />
+
+</div>
+
+<br />
+
+<div align="center">
+
+<img src="docs/assets/h-stack.svg" alt="04 · STACK: Stack" width="100%" />
 
 </div>
 
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-stack-dark.svg" />
-  <img src="docs/assets/h-stack-light.svg" alt="04 · STACK: Stack" width="100%" />
-</picture>
+<img src="docs/assets/stack.svg" alt="Stack: Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, d3-geo, d3-zoom, d3-scale, d3-interpolate, d3-quadtree, d3-selection, topojson-client, topojson-server, topojson-simplify, next-themes, unzipper, tsx" width="100%" />
 
 </div>
 
-<div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/stack-dark.svg" />
-  <img src="docs/assets/stack-light.svg" alt="Stack: Next.js 15, React 19, TypeScript 5.9, Tailwind CSS 4, d3-geo, d3-zoom, d3-scale, d3-interpolate, d3-quadtree, d3-selection, topojson-client, topojson-server, topojson-simplify, next-themes, unzipper, tsx" width="100%" />
-</picture>
-
-</div>
+<br />
 
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-como-rodar-dark.svg" />
-  <img src="docs/assets/h-como-rodar-light.svg" alt="05 · COMO RODAR: Rodando localmente" width="100%" />
-</picture>
+<img src="docs/assets/h-run.svg" alt="05 · COMO RODAR: Rodando localmente" width="100%" />
 
 </div>
 
@@ -197,12 +155,11 @@ Só precisa definir se publicar em outro domínio:
 NEXT_PUBLIC_SITE_URL=https://seu-dominio.com.br npm run build
 ```
 
+<br />
+
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-estrutura-dark.svg" />
-  <img src="docs/assets/h-estrutura-light.svg" alt="06 · ESTRUTURA: Estrutura" width="100%" />
-</picture>
+<img src="docs/assets/h-estrutura.svg" alt="06 · ESTRUTURA: Estrutura" width="100%" />
 
 </div>
 
@@ -219,12 +176,11 @@ src/
 docs/               banner e capturas de tela deste README
 ```
 
+<br />
+
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-mais-dark.svg" />
-  <img src="docs/assets/h-mais-light.svg" alt="07 · MAIS: Mais informações" width="100%" />
-</picture>
+<img src="docs/assets/h-mais.svg" alt="07 · MAIS: Mais informações" width="100%" />
 
 </div>
 
@@ -289,44 +245,34 @@ Netlify, GitHub Pages ou qualquer hospedagem de arquivos. Publique a pasta `out/
 - [ ] Conferir o preview de compartilhamento no site publicado (WhatsApp, X, LinkedIn).
 - [ ] Atualizar os dados sozinho com um agendamento, em vez de rodar `build-data` à mão.
 
-### Créditos
+### 📄 Créditos e licença
 
 - Dados de votação, fotos dos candidatos e Boletins de Urna: [TSE](https://www.tse.jus.br).
 - Malhas de estados e municípios: [IBGE](https://servicodados.ibge.gov.br/api/docs/malhas).
 - Mapa: [d3-geo](https://d3js.org/d3-geo), [d3-zoom](https://d3js.org/d3-zoom) e [TopoJSON](https://github.com/topojson/topojson).
 - Fontes: Bricolage Grotesque, Instrument Sans e JetBrains Mono, via Google Fonts.
+- Distribuído sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE).
+
+<br />
 
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/h-autor-dark.svg" />
-  <img src="docs/assets/h-autor-light.svg" alt="08 · AUTOR: Autor" width="100%" />
-</picture>
+<img src="docs/assets/h-autor.svg" alt="08 · AUTOR: Autor" width="100%" />
 
 </div>
 
 <div align="center">
 
-<a href="https://diegonatalo.dev"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/btn-portfolio-dark.svg" />
-  <img src="docs/assets/btn-portfolio-light.svg" alt="Portfólio ↗" height="46" />
-</picture></a>&nbsp;&nbsp;<a href="https://www.linkedin.com/in/diegonatalo/"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/btn-linkedin-dark.svg" />
-  <img src="docs/assets/btn-linkedin-light.svg" alt="LinkedIn ↗" height="46" />
-</picture></a>&nbsp;&nbsp;<a href="https://github.com/diegonatalo"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/btn-github-dark.svg" />
-  <img src="docs/assets/btn-github-light.svg" alt="GitHub ↗" height="46" />
-</picture></a>
+<a href="https://diegonatalo.dev"><img src="docs/assets/btn-portfolio.svg" alt="Portfólio ↗" height="46" /></a>
+<a href="https://www.linkedin.com/in/diegonatalo/"><img src="docs/assets/btn-linkedin.svg" alt="LinkedIn ↗" height="46" /></a>
+<a href="https://github.com/diegonatalo"><img src="docs/assets/btn-github.svg" alt="GitHub ↗" height="46" /></a>
 
 </div>
 
+<br />
+
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/footer-dark.svg" />
-  <img src="docs/assets/footer-light.svg" alt="© 2026 Diego Natalo" width="100%" />
-</picture>
-
-<sub>Feito com 💚 para quem quer conferir a apuração direto da fonte.</sub>
+<img src="docs/assets/footer.svg" alt="© 2026 Diego Natalo. Feito com 💚 para quem quer conferir a apuração direto da fonte." width="100%" />
 
 </div>
