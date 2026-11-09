@@ -9,9 +9,9 @@ import type { Topology } from "topojson-specification";
 import { colorForPctLula, NEUTRAL_FILL } from "@/lib/colors";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { BASE, buildMuniShapes, buildStateShapes, GridIndex, makeProjection, featuresOf, type MuniShape } from "@/lib/map-geo";
-import { pctValidos } from "@/lib/stats";
-import { tallyFromTuple, type Estado, type Municipio, type MunicipiosFile, type SourceMeta, type Tally } from "@/types";
-import type { Candidato } from "@/types";
+import { validPct } from "@/lib/stats";
+import { tallyFromTuple, type State, type Municipality, type MunicipalitiesFile, type SourceMeta, type Tally } from "@/types";
+import type { Candidate } from "@/types";
 import { SourceNote } from "@/components/source-note";
 import { Legend, useThemeName } from "./legend";
 import { MapPanel, type PanelEntity } from "./map-panel";
@@ -25,31 +25,31 @@ interface Hover { kind: "uf" | "mun"; id: string; x: number; y: number }
 interface MuniBundle {
   shapes: MuniShape[];
   index: GridIndex;
-  list: Municipio[];
-  byIbge: Map<string, Municipio>;
-  byUf: Map<string, Municipio[]>;
+  list: Municipality[];
+  byIbge: Map<string, Municipality>;
+  byUf: Map<string, Municipality[]>;
   shapeIdx: Map<string, number>;
   meta: SourceMeta;
 }
 
 interface Props {
-  estados: Estado[];
+  states: State[];
   topo: Topology;
-  nacional: Tally;
+  national: Tally;
   meta: SourceMeta;
-  candidatos: Candidato[];
+  candidates: Candidate[];
 }
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) {
+export function BrazilMap({ states, topo, national, meta, candidates }: Props) {
   const theme = useThemeName();
   const [sel, setSel] = useState<Sel>({ uf: null, ibge: null });
   const [hover, setHover] = useState<Hover | null>(null);
   const [status, setStatus] = useState<LoadStatus>("idle");
   const [byUf, setByUf] = useState<Record<string, MuniBundle>>({});
-  const [searchList, setSearchList] = useState<Municipio[] | null>(null);
+  const [searchList, setSearchList] = useState<Municipality[] | null>(null);
   const [size, setSize] = useState({ w: 800, h: 800 });
   const [announce, setAnnounce] = useState("");
 
@@ -84,7 +84,7 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
   // ---------- geometria dos estados ----------
   const projection = useMemo(() => makeProjection(featuresOf(topo, "estados")), [topo]);
   const stateShapes = useMemo(() => buildStateShapes(topo, projection), [topo, projection]);
-  const estadoByUf = useMemo(() => new Map(estados.map((e) => [e.uf, e])), [estados]);
+  const stateByUf = useMemo(() => new Map(states.map((e) => [e.uf, e])), [states]);
 
   // ---------- carga dos municípios (sob demanda) ----------
   /** Carrega geometria e resultados dos municípios de uma UF. */
@@ -100,12 +100,12 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
         try {
           const [topoRes, dataRes] = await Promise.all([fetch(`/data/geo/municipios${suffix}.topo.json`), fetch(`/data/municipios${suffix}.json`)]);
           if (!topoRes.ok || !dataRes.ok) throw new Error("HTTP");
-          const [mtopo, mfile] = (await Promise.all([topoRes.json(), dataRes.json()])) as [Topology, MunicipiosFile];
+          const [mtopo, mfile] = (await Promise.all([topoRes.json(), dataRes.json()])) as [Topology, MunicipalitiesFile];
           await new Promise((r) => setTimeout(r, 0));
           const shapes = buildMuniShapes(mtopo, projection);
           const list = mfile.rows.map(tallyFromTuple);
           const byIbge = new Map(list.map((m) => [m.ibge, m]));
-          const byUf = new Map<string, Municipio[]>();
+          const byUf = new Map<string, Municipality[]>();
           for (const m of list) (byUf.get(m.uf) ?? byUf.set(m.uf, []).get(m.uf)!).push(m);
           const shapeIdx = new Map(shapes.map((sh, i) => [sh.ibge, i]));
           const nb: MuniBundle = { shapes, index: new GridIndex(shapes), list, byIbge, byUf, shapeIdx, meta: mfile.meta };
@@ -131,7 +131,7 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
     try {
       const res = await fetch("/data/municipios.json");
       if (!res.ok) return;
-      const f = (await res.json()) as MunicipiosFile;
+      const f = (await res.json()) as MunicipalitiesFile;
       setSearchList(f.rows.map(tallyFromTuple));
     } catch {
       /* a busca segue vazia */
@@ -233,7 +233,7 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
     snap.current = null;
     colorsRef.current = bundle.shapes.map((s) => {
       const m = bundle.byIbge.get(s.ibge);
-      return m && m.lula + m.flavio > 0 ? colorForPctLula(pctValidos(m).lula, theme) : NEUTRAL_FILL[theme];
+      return m && m.lula + m.flavio > 0 ? colorForPctLula(validPct(m).lula, theme) : NEUTRAL_FILL[theme];
     });
     scheduleDraw();
   }, [bundle, theme, scheduleDraw]);
@@ -337,13 +337,13 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
       setHover(null);
       animateTo(fitBounds(shape.bounds, 0.88));
       void loadMunis(uf);
-      setAnnounce(`${estadoByUf.get(uf)?.nome ?? uf} selecionado.`);
+      setAnnounce(`${stateByUf.get(uf)?.name ?? uf} selecionado.`);
     },
-    [animateTo, estadoByUf, loadMunis, stateShapes],
+    [animateTo, stateByUf, loadMunis, stateShapes],
   );
 
   const selectMuni = useCallback(
-    (m: Municipio) => {
+    (m: Municipality) => {
       setSel({ uf: m.uf, ibge: m.ibge });
       setHover(null);
       const us = stateShapes.find((x) => x.uf === m.uf);
@@ -353,7 +353,7 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
         const shape = idx !== undefined ? b?.shapes[idx] : undefined;
         if (shape && live.current.sel.ibge === m.ibge) animateTo(fitBounds(shape.bounds, 0.22));
       });
-      setAnnounce(`${m.nome}, ${m.uf} selecionado.`);
+      setAnnounce(`${m.name}, ${m.uf} selecionado.`);
     },
     [animateTo, loadMunis, stateShapes],
   );
@@ -448,32 +448,32 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
   // ---------- derivados ----------
   const entity: PanelEntity = useMemo(() => {
     if (sel.ibge && bundle?.byIbge.get(sel.ibge)) {
-      const m = bundle.byIbge.get(sel.ibge) as Municipio;
-      return { kind: "mun", nome: m.nome, subtitulo: estadoByUf.get(m.uf)?.nome, tally: m };
+      const m = bundle.byIbge.get(sel.ibge) as Municipality;
+      return { kind: "mun", name: m.name, subtitle: stateByUf.get(m.uf)?.name, tally: m };
     }
-    if (sel.uf && estadoByUf.get(sel.uf)) {
-      const e = estadoByUf.get(sel.uf) as Estado;
-      return { kind: "uf", nome: e.nome, subtitulo: `Região ${({ N: "Norte", NE: "Nordeste", CO: "Centro-Oeste", SE: "Sudeste", S: "Sul" } as const)[e.regiao]}`, tally: e };
+    if (sel.uf && stateByUf.get(sel.uf)) {
+      const e = stateByUf.get(sel.uf) as State;
+      return { kind: "uf", name: e.name, subtitle: `Região ${({ N: "Norte", NE: "Nordeste", CO: "Centro-Oeste", SE: "Sudeste", S: "Sul" } as const)[e.region]}`, tally: e };
     }
-    return { kind: "br", nome: "Brasil", subtitulo: "Todo o país, com o exterior", tally: nacional };
-  }, [sel, bundle, estadoByUf, nacional]);
+    return { kind: "br", name: "Brasil", subtitle: "Todo o país, com o exterior", tally: national };
+  }, [sel, bundle, stateByUf, national]);
 
   const tip: TooltipInfo | null = useMemo(() => {
     if (!hover) return null;
     if (hover.kind === "mun") {
       const m = bundle?.byIbge.get(hover.id);
-      return m ? { nome: m.nome, detalhe: estadoByUf.get(m.uf)?.nome, tally: m, x: hover.x, y: hover.y } : null;
+      return m ? { name: m.name, detail: stateByUf.get(m.uf)?.name, tally: m, x: hover.x, y: hover.y } : null;
     }
-    const e = estadoByUf.get(hover.id);
-    return e ? { nome: e.nome, detalhe: "Estado", tally: e, x: hover.x, y: hover.y } : null;
-  }, [hover, bundle, estadoByUf]);
+    const e = stateByUf.get(hover.id);
+    return e ? { name: e.name, detail: "Estado", tally: e, x: hover.x, y: hover.y } : null;
+  }, [hover, bundle, stateByUf]);
 
   const loadingMunis = !bundle && status !== "error" && !!sel.uf;
 
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-3">
-        <MunicipalitySearch municipios={searchList} onWake={() => void loadSearchList()} onPick={selectMuni} />
+        <MunicipalitySearch municipalities={searchList} onWake={() => void loadSearchList()} onPick={selectMuni} />
         <a href="#tabela" className="ml-auto rounded-lg border border-line px-3 py-2 text-sm hover:bg-surface-2">Ver como tabela</a>
       </div>
 
@@ -501,8 +501,8 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
                 >
                   <g ref={gRef}>
                     {stateShapes.map((s) => {
-                      const e = estadoByUf.get(s.uf);
-                      const p = e ? pctValidos(e) : { lula: 50, flavio: 50 };
+                      const e = stateByUf.get(s.uf);
+                      const p = e ? validPct(e) : { lula: 50, flavio: 50 };
                       const selected = sel.uf === s.uf;
                       const hideFill = selected && munisActive;
                       const dim = !!sel.uf && !selected;
@@ -514,7 +514,7 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
                           className="map-state outline-offset-0"
                           tabIndex={0}
                           role="button"
-                          aria-label={e ? `${e.nome}: Lula ${fmtPct(p.lula)}, Flávio Bolsonaro ${fmtPct(p.flavio)}` : s.uf}
+                          aria-label={e ? `${e.name}: Lula ${fmtPct(p.lula)}, Flávio Bolsonaro ${fmtPct(p.flavio)}` : s.uf}
                           onKeyDown={(ev) => onStateKey(ev, s.uf)}
                           onFocus={() => {
                             const c = containerRef.current?.getBoundingClientRect();
@@ -573,8 +573,8 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
 
         <MapPanel
           entity={entity}
-          candidatos={candidatos}
-          municipios={sel.uf ? bundle?.byUf.get(sel.uf) ?? null : null}
+          candidates={candidates}
+          municipalities={sel.uf ? bundle?.byUf.get(sel.uf) ?? null : null}
           munisLoading={!bundle && status !== "error"}
           selectedIbge={sel.ibge ?? undefined}
           onBack={reset}

@@ -27,13 +27,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
 };
 
+// O tipo ThemeColorDescriptor do Next 16.4.5 não lista `media`, mas o Next a aplica na meta theme-color.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f1efe8" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0d13" },
-  ],
+  ] as unknown as Viewport["themeColor"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,18 +1,18 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { SectionTitle } from "@/components/section-title";
-import { REGIOES } from "@/lib/meta";
-import { margemPp, margemVotos, pctValidos, somar, vencedor } from "@/lib/stats";
-import type { Estado, SourceMeta } from "@/types";
+import { REGIONS } from "@/lib/meta";
+import { marginPp, voteMargin, validPct, sumUp, winner } from "@/lib/stats";
+import type { State, SourceMeta } from "@/types";
 import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
 
-export function Regions({ estados, meta }: { estados: Estado[]; meta: SourceMeta }) {
+export function Regions({ states, meta }: { states: State[]; meta: SourceMeta }) {
   const wins = { lula: 0, flavio: 0 };
-  for (const e of estados) {
-    const w = vencedor(e);
-    if (w !== "empate") wins[w]++;
+  for (const e of states) {
+    const w = winner(e);
+    if (w !== "tie") wins[w]++;
   }
-  const dfWinner = vencedor(estados.find((e) => e.uf === "DF") ?? estados[0]!);
+  const dfWinner = winner(states.find((e) => e.uf === "DF") ?? states[0]!);
 
   return (
     <section id="regioes" aria-labelledby="h-regioes" className="pt-16">
@@ -23,14 +23,14 @@ export function Regions({ estados, meta }: { estados: Estado[]; meta: SourceMeta
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {REGIOES.map((r) => {
-          const es = estados.filter((e) => e.regiao === r.id);
-          const t = somar(es);
-          const p = pctValidos(t);
-          const m = margemVotos(t);
+        {REGIONS.map((r) => {
+          const es = states.filter((e) => e.region === r.id);
+          const t = sumUp(es);
+          const p = validPct(t);
+          const m = voteMargin(t);
           return (
             <div key={r.id} className="card p-4">
-              <h3 className="font-display text-xl font-semibold">{r.nome}</h3>
+              <h3 className="font-display text-xl font-semibold">{r.name}</h3>
               <p className="font-data text-xs text-ink-3">{es.length} UFs</p>
               <div className="mt-3 space-y-0.5 text-sm">
                 <p className="flex justify-between"><span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-lula" aria-hidden="true" />Lula</span><strong className="font-data">{fmtPct(p.lula)}</strong></p>
@@ -38,12 +38,12 @@ export function Regions({ estados, meta }: { estados: Estado[]; meta: SourceMeta
               </div>
               <div className="mt-2"><SplitBar lula={t.lula} flavio={t.flavio} height={8} /></div>
               <p className="font-data mt-3 text-xs font-semibold text-ink">
-                +{fmtInt(Math.abs(m))} {m > 0 ? "Lula" : "Flávio"} <span className="font-normal text-ink-3">({fmtPp(Math.abs(margemPp(t)), 1)})</span>
+                +{fmtInt(Math.abs(m))} {m > 0 ? "Lula" : "Flávio"} <span className="font-normal text-ink-3">({fmtPp(Math.abs(marginPp(t)), 1)})</span>
               </p>
               <p className="font-data text-xs text-ink-3">
                 {fmtInt(t.lula)} × {fmtInt(t.flavio)}
               </p>
-              <p className="font-data mt-1 text-xs text-ink-3">UFs: Lula {es.filter((e) => vencedor(e) === "lula").length} · Flávio {es.filter((e) => vencedor(e) === "flavio").length}</p>
+              <p className="font-data mt-1 text-xs text-ink-3">UFs: Lula {es.filter((e) => winner(e) === "lula").length} · Flávio {es.filter((e) => winner(e) === "flavio").length}</p>
             </div>
           );
         })}

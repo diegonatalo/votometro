@@ -4,128 +4,128 @@ export type CandidateId = "lula" | "flavio";
 export interface Tally {
   lula: number;
   flavio: number;
-  brancos: number;
-  nulos: number;
-  aptos: number;
-  comparecimento: number;
-  abstencoes: number;
+  blank: number;
+  nullVotes: number;
+  eligible: number;
+  turnout: number;
+  abstentions: number;
   /** Eleitores aptos em seções não instaladas (não entram em comparecimento nem em abstenção). */
-  naoInstalados: number;
-  secoes: number;
-  secoesTotalizadas: number;
+  notInstalled: number;
+  sections: number;
+  countedSections: number;
 }
 
 export interface SourceMeta {
-  fonte: string;
+  source: string;
   url: string;
   /** Data/hora de referência do arquivo TSE (dd/mm/aaaa hh:mm:ss, Brasília). */
-  referencia: string;
-  geradoEm: string;
+  reference: string;
+  generatedAt: string;
 }
 
-export interface Estado extends Tally {
+export interface State extends Tally {
   uf: string;
-  nome: string;
-  regiao: Region;
-  codIbge: string;
+  name: string;
+  region: Region;
+  ibgeCode: string;
 }
 
-export interface Municipio extends Tally {
+export interface Municipality extends Tally {
   ibge: string;
-  nome: string;
+  name: string;
   uf: string;
 }
 
 /** Resultado de um território (Brasil, UF, município ou exterior). */
-export type Resultado = Tally & { id: string; nome: string };
+export type Result = Tally & { id: string; name: string };
 
-export interface Turno1Row {
+export interface Round1Row {
   lula: number;
   flavio: number;
-  outros: number;
-  brancos: number;
-  nulos: number;
-  aptos: number;
-  comparecimento: number;
+  others: number;
+  blank: number;
+  nullVotes: number;
+  eligible: number;
+  turnout: number;
 }
 
-export interface Nota {
+export interface Note {
   id: string;
-  titulo: string;
-  texto: string;
+  title: string;
+  text: string;
 }
 
-export interface Pessoa {
+export interface Person {
   sq: string;
-  nome: string;
-  nomeUrna: string;
-  partido: string;
+  name: string;
+  ballotName: string;
+  party: string;
   /** Caminho da foto (arquivo do TSE) dentro de public/. */
-  foto: string;
+  photo: string;
 }
 
-export interface Candidato extends Pessoa {
+export interface Candidate extends Person {
   id: "lula" | "flavio";
-  numero: string;
-  partidoNome: string;
+  number: string;
+  partyName: string;
   /** Coligação ou federação como registrada no TSE. */
-  coligacao: string;
+  coalition: string;
   /** Situação no TSE (ex.: Eleito, Não eleito). */
-  situacao: string;
-  vice: Pessoa;
+  electionStatus: string;
+  vice: Person;
 }
 
 export interface NationalFile {
-  candidatos: Candidato[];
+  candidates: Candidate[];
   meta: SourceMeta;
-  nacional: Tally;
-  exterior: Tally;
-  turno1: { meta: SourceMeta; nacional: Turno1Row; exterior: Turno1Row; estados: Record<string, Turno1Row> };
-  notas: Nota[];
+  national: Tally;
+  abroad: Tally;
+  round1: { meta: SourceMeta; national: Round1Row; abroad: Round1Row; states: Record<string, Round1Row> };
+  notes: Note[];
 }
 
 export interface StatesFile {
   meta: SourceMeta;
-  estados: Estado[];
+  states: State[];
 }
 
-export type MunicipioTuple = [
+export type MunicipalityTuple = [
   ibge: string, nome: string, uf: string,
   lula: number, flavio: number, brancos: number, nulos: number,
   aptos: number, comparecimento: number, abstencoes: number,
   secoes: number, secoesTotalizadas: number, naoInstalados: number,
 ];
 
-export interface MunicipiosFile {
+export interface MunicipalitiesFile {
   meta: SourceMeta;
-  rows: MunicipioTuple[];
+  rows: MunicipalityTuple[];
 }
 
 export interface OvertimeGroup {
-  secoes: number;
+  sections: number;
   lula: number;
   flavio: number;
-  brancos: number;
-  nulos: number;
-  comparecimento: number;
+  blank: number;
+  nullVotes: number;
+  turnout: number;
 }
 
 export interface OvertimeFile {
-  status: "disponivel" | "indisponivel";
+  status: "available" | "unavailable";
   meta: SourceMeta;
-  motivo?: string;
-  corteBrasilia: string;
-  turno?: number;
-  total?: { apos: OvertimeGroup; ate: OvertimeGroup; semHorario: number };
-  limiares?: { minutos: number; secoes: number }[];
-  porUf?: Record<string, { apos: OvertimeGroup; ate: OvertimeGroup }>;
+  reason?: string;
+  brasiliaCutoff: string;
+  round?: number;
+  total?: { after: OvertimeGroup; upTo: OvertimeGroup; noTime: number };
+  thresholds?: { minutes: number; sections: number }[];
+  byState?: Record<string, { after: OvertimeGroup; upTo: OvertimeGroup }>;
   /** ibge → [secoesApos, lula, flavio, comparecimento] */
-  porMunicipio?: Record<string, [number, number, number, number]>;
+  byMunicipality?: Record<string, [number, number, number, number]>;
 }
 
-export function tallyFromTuple(t: MunicipioTuple): Municipio {
+export function tallyFromTuple(t: MunicipalityTuple): Municipality {
   return {
-    ibge: t[0], nome: t[1], uf: t[2], lula: t[3], flavio: t[4], brancos: t[5], nulos: t[6],
-    aptos: t[7], comparecimento: t[8], abstencoes: t[9], secoes: t[10], secoesTotalizadas: t[11], naoInstalados: t[12],
+    ibge: t[0], name: t[1], uf: t[2], lula: t[3], flavio: t[4], blank: t[5], nullVotes: t[6],
+    eligible: t[7], turnout: t[8], abstentions: t[9], sections: t[10], countedSections: t[11], notInstalled: t[12],
   };
 }

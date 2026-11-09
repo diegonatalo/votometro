@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Tally, Turno1Row } from "@/types";
+import type { Tally, Round1Row } from "@/types";
 
 export const TSE_BASE = "https://resultados.tse.jus.br/oficial/ele2026";
 export const ELE_T1 = "6257";
@@ -83,41 +83,41 @@ interface RawUnit {
 
 export interface ParsedUnit {
   tally: Tally;
-  votosPorNumero: Map<string, number>;
-  geracao: string;
-  totalizacao: string;
+  votesByNumber: Map<string, number>;
+  generation: string;
+  counting: string;
 }
 
 const num = (s: string | undefined): number => Number(s ?? 0);
 
 export function parseUnit(j: RawUnit): ParsedUnit {
-  const votosPorNumero = new Map<string, number>();
+  const votesByNumber = new Map<string, number>();
   for (const agr of j.carg[0]?.agr ?? []) {
     for (const par of agr.par) {
-      for (const c of par.cand ?? []) votosPorNumero.set(c.n, num(c.vap));
+      for (const c of par.cand ?? []) votesByNumber.set(c.n, num(c.vap));
     }
   }
   const tally: Tally = {
-    lula: votosPorNumero.get("13") ?? 0,
-    flavio: votosPorNumero.get("22") ?? 0,
-    brancos: num(j.v.vb),
-    nulos: num(j.v.tvn),
-    aptos: num(j.e.te),
-    comparecimento: num(j.e.c),
-    abstencoes: num(j.e.a),
-    naoInstalados: num(j.e.esni),
-    secoes: num(j.s.ts),
-    secoesTotalizadas: num(j.s.st),
+    lula: votesByNumber.get("13") ?? 0,
+    flavio: votesByNumber.get("22") ?? 0,
+    blank: num(j.v.vb),
+    nullVotes: num(j.v.tvn),
+    eligible: num(j.e.te),
+    turnout: num(j.e.c),
+    abstentions: num(j.e.a),
+    notInstalled: num(j.e.esni),
+    sections: num(j.s.ts),
+    countedSections: num(j.s.st),
   };
-  return { tally, votosPorNumero, geracao: `${j.dg} ${j.hg}`, totalizacao: `${j.dt} ${j.ht}` };
+  return { tally, votesByNumber, generation: `${j.dg} ${j.hg}`, counting: `${j.dt} ${j.ht}` };
 }
 
-export function toTurno1(p: ParsedUnit): Turno1Row {
-  let outros = 0;
-  for (const [n, v] of p.votosPorNumero) if (n !== "13" && n !== "22") outros += v;
+export function toRound1(p: ParsedUnit): Round1Row {
+  let others = 0;
+  for (const [n, v] of p.votesByNumber) if (n !== "13" && n !== "22") others += v;
   return {
-    lula: p.tally.lula, flavio: p.tally.flavio, outros,
-    brancos: p.tally.brancos, nulos: p.tally.nulos, aptos: p.tally.aptos, comparecimento: p.tally.comparecimento,
+    lula: p.tally.lula, flavio: p.tally.flavio, others,
+    blank: p.tally.blank, nullVotes: p.tally.nullVotes, eligible: p.tally.eligible, turnout: p.tally.turnout,
   };
 }
 

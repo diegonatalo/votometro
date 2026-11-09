@@ -1,7 +1,7 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { SectionTitle } from "@/components/section-title";
-import { margemPp, margemVotos, pctValidos } from "@/lib/stats";
-import type { MunicipiosFile, OvertimeFile, OvertimeGroup } from "@/types";
+import { marginPp, voteMargin, validPct } from "@/lib/stats";
+import type { MunicipalitiesFile, OvertimeFile, OvertimeGroup } from "@/types";
 import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
 
@@ -26,8 +26,8 @@ function Method() {
   );
 }
 
-export function Overtime({ data, munis }: { data: OvertimeFile; munis: MunicipiosFile }) {
-  if (data.status === "indisponivel" || !data.total) {
+export function Overtime({ data, munis }: { data: OvertimeFile; munis: MunicipalitiesFile }) {
+  if (data.status === "unavailable" || !data.total) {
     return (
       <section id="17h" aria-labelledby="h-17h" className="pt-16">
         <SectionTitle id="h-17h" n="04">Votação além do horário regular</SectionTitle>
@@ -41,17 +41,17 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
     );
   }
 
-  const { apos, ate } = data.total;
-  const pa = pctValidos(asTally(apos));
-  const pr = pctValidos(asTally(ate));
-  const nomeDe = new Map(munis.rows.map((r) => [r[0], `${r[1]} (${r[2]})`]));
-  const topMun = Object.entries(data.porMunicipio ?? {})
+  const { after, upTo } = data.total;
+  const pa = validPct(asTally(after));
+  const pr = validPct(asTally(upTo));
+  const nameOf = new Map(munis.rows.map((r) => [r[0], `${r[1]} (${r[2]})`]));
+  const topMun = Object.entries(data.byMunicipality ?? {})
     .sort((a, b) => b[1][0] - a[1][0])
     .slice(0, 12);
-  const ufs = Object.entries(data.porUf ?? {})
-    .filter(([, v]) => v.apos.secoes > 0)
-    .sort((a, b) => b[1].apos.secoes - a[1].apos.secoes);
-  const totalSecoes = apos.secoes + ate.secoes;
+  const ufs = Object.entries(data.byState ?? {})
+    .filter(([, v]) => v.after.sections > 0)
+    .sort((a, b) => b[1].after.sections - a[1].after.sections);
+  const totalSections = after.sections + upTo.sections;
 
   return (
     <section id="17h" aria-labelledby="h-17h" className="pt-16">
@@ -62,12 +62,12 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
 
       <div className="mt-6 grid gap-3 md:grid-cols-2">
         {[
-          { titulo: "Seções que encerraram depois", g: apos, p: pa },
-          { titulo: "Demais seções", g: ate, p: pr },
+          { title: "Seções que encerraram depois", g: after, p: pa },
+          { title: "Demais seções", g: upTo, p: pr },
         ].map((b) => (
-          <div key={b.titulo} className="card p-5">
-            <h3 className="font-display text-xl font-semibold">{b.titulo}</h3>
-            <p className="font-data text-xs text-ink-3">{fmtInt(b.g.secoes)} seções · {fmtInt(b.g.comparecimento)} comparecimentos</p>
+          <div key={b.title} className="card p-5">
+            <h3 className="font-display text-xl font-semibold">{b.title}</h3>
+            <p className="font-data text-xs text-ink-3">{fmtInt(b.g.sections)} seções · {fmtInt(b.g.turnout)} comparecimentos</p>
             <div className="mt-3 grid grid-cols-2 gap-3">
               {[
                 { n: "Lula", v: b.g.lula, pct: b.p.lula, tone: "lula" },
@@ -84,13 +84,13 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
             </div>
             <div className="mt-3"><SplitBar lula={b.g.lula} flavio={b.g.flavio} height={10} /></div>
             <p className="font-data mt-2 text-xs text-ink-2">
-              Diferença: {fmtInt(Math.abs(margemVotos(asTally(b.g))))} votos ({fmtPp(Math.abs(margemPp(asTally(b.g))))}, {margemVotos(asTally(b.g)) > 0 ? "Lula" : "Flávio"})
+              Diferença: {fmtInt(Math.abs(voteMargin(asTally(b.g))))} votos ({fmtPp(Math.abs(marginPp(asTally(b.g))))}, {voteMargin(asTally(b.g)) > 0 ? "Lula" : "Flávio"})
             </p>
           </div>
         ))}
       </div>
       <p className="font-data mt-3 text-xs text-ink-2">
-        {fmtPct((apos.secoes / totalSecoes) * 100)} das seções com BU analisadas encerraram depois do corte. Seções sem horário utilizável: {fmtInt(data.total.semHorario)}.
+        {fmtPct((after.sections / totalSections) * 100)} das seções com BU analisadas encerraram depois do corte. Seções sem horário utilizável: {fmtInt(data.total.noTime)}.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
@@ -109,11 +109,11 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
               </thead>
               <tbody>
                 {ufs.map(([uf, v]) => {
-                  const p = pctValidos(asTally(v.apos));
+                  const p = validPct(asTally(v.after));
                   return (
                     <tr key={uf} className="border-t border-line">
                       <th scope="row" className="px-3 py-1.5 text-left font-medium">{uf}</th>
-                      <td className="font-data px-3 py-1.5 text-right">{fmtInt(v.apos.secoes)}</td>
+                      <td className="font-data px-3 py-1.5 text-right">{fmtInt(v.after.sections)}</td>
                       <td className="font-data px-3 py-1.5 text-right">{fmtPct(p.lula)}</td>
                       <td className="font-data px-3 py-1.5 text-right">{fmtPct(p.flavio)}</td>
                     </tr>
@@ -127,10 +127,10 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
           <h3 className="section-eyebrow">Municípios com mais seções</h3>
           <ol className="mt-2 border-t border-line text-sm">
             {topMun.map(([ibge, v]) => {
-              const p = pctValidos({ lula: v[1], flavio: v[2] });
+              const p = validPct({ lula: v[1], flavio: v[2] });
               return (
                 <li key={ibge} className="flex items-baseline justify-between gap-3 border-b border-line py-1.5">
-                  <span>{nomeDe.get(ibge) ?? ibge}</span>
+                  <span>{nameOf.get(ibge) ?? ibge}</span>
                   <span className="font-data text-xs text-ink-2">{fmtInt(v[0])} seções · L {fmtPct(p.lula, 1)} · F {fmtPct(p.flavio, 1)}</span>
                 </li>
               );
@@ -138,8 +138,8 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipio
           </ol>
           <h3 className="section-eyebrow mt-6">Quantas seções passam por cada tolerância</h3>
           <ul className="font-data mt-2 flex flex-wrap gap-2 text-xs">
-            {data.limiares?.map((l) => (
-              <li key={l.minutos} className="border border-line px-2 py-1">&gt; {l.minutos} min: {fmtInt(l.secoes)}</li>
+            {data.thresholds?.map((l) => (
+              <li key={l.minutes} className="border border-line px-2 py-1">&gt; {l.minutes} min: {fmtInt(l.sections)}</li>
             ))}
           </ul>
         </div>

@@ -7,7 +7,7 @@ export function SourceNote({ meta, extra }: { meta: SourceMeta; extra?: string }
       <a href={meta.url} className="underline decoration-line underline-offset-2 hover:text-ink" target="_blank" rel="noreferrer">
         TSE
       </a>{" "}
-      · {meta.fonte.replace(/^TSE\s+—\s+/, "")} · referência: {meta.referencia}
+      · {meta.source.replace(/^TSE\s+—\s+/, "")} · referência: {meta.reference}
       {extra ? ` · ${extra}` : ""}
     </p>
   );

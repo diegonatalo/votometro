@@ -31,13 +31,13 @@ function rebuild(fc: FeatureCollection<Geometry, { id: string; uf?: string }>, n
 
 /** Gera as malhas e devolve os códigos IBGE dos municípios presentes. */
 export async function buildGeo(): Promise<Set<string>> {
-  const byCod = new Map(UFS.map((u) => [u.cod, u.uf]));
+  const byCode = new Map(UFS.map((u) => [u.code, u.uf]));
 
   console.log("Malha IBGE: estados…");
   const states = toFeatures(await fetchTopo("paises/BR?formato=application/json&qualidade=intermediaria&intrarregiao=UF"));
   const stateFc: FeatureCollection<Geometry, { id: string }> = {
     type: "FeatureCollection",
-    features: states.features.map((f) => ({ ...f, id: byCod.get(f.properties.codarea) ?? f.properties.codarea, properties: { id: byCod.get(f.properties.codarea) ?? f.properties.codarea } })),
+    features: states.features.map((f) => ({ ...f, id: byCode.get(f.properties.codarea) ?? f.properties.codarea, properties: { id: byCode.get(f.properties.codarea) ?? f.properties.codarea } })),
   };
   const stTopo = rebuild(stateFc, "estados", 1e5, 0.35);
   await writeFile("public/data/geo/estados.topo.json", JSON.stringify(stTopo));
@@ -49,7 +49,7 @@ export async function buildGeo(): Promise<Set<string>> {
     features: munis.features.map((f) => ({
       ...f,
       id: f.properties.codarea,
-      properties: { id: f.properties.codarea, uf: byCod.get(f.properties.codarea.slice(0, 2)) ?? "" },
+      properties: { id: f.properties.codarea, uf: byCode.get(f.properties.codarea.slice(0, 2)) ?? "" },
     })),
   };
   // Simplifica uma vez para todo o Brasil e divide por UF (o mapa só carrega o estado selecionado).
@@ -59,7 +59,7 @@ export async function buildGeo(): Promise<Set<string>> {
   let total = 0;
   for (const u of UFS) {
     const fc: FeatureCollection<Geometry, { id: string; uf: string }> = { type: "FeatureCollection", features: muniFc.features.filter((f) => f.properties.uf === u.uf) };
-    const t = topology({ municipios: fc }, 1e5) as Topology;
+    const t = topology({ municipalities: fc }, 1e5) as Topology;
     const out = JSON.stringify(t);
     total += out.length;
     await writeFile(`public/data/geo/municipios-${u.uf}.topo.json`, out);

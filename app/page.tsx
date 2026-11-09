@@ -11,7 +11,7 @@ import { StatesTable } from "@/components/states-table";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SourceNote } from "@/components/source-note";
 import { loadNational, loadOvertime, loadStates, loadStatesTopo } from "@/lib/data";
-import type { MunicipiosFile } from "@/types";
+import type { MunicipalitiesFile } from "@/types";
 
 const NAV = [
   { href: "#resultado", label: "Resultado" },
@@ -27,7 +27,7 @@ export default function Page() {
   const states = loadStates();
   const overtime = loadOvertime();
   const topo = loadStatesTopo();
-  const munis = JSON.parse(readFileSync(path.join(process.cwd(), "public", "data", "municipios.json"), "utf8")) as MunicipiosFile;
+  const munis = JSON.parse(readFileSync(path.join(process.cwd(), "public", "data", "municipios.json"), "utf8")) as MunicipalitiesFile;
 
   return (
     <>
@@ -54,21 +54,21 @@ export default function Page() {
           <SectionTitle id="h-mapa" n="01">Onde cada candidato ficou na frente</SectionTitle>
           <p className="mt-3 mb-6 max-w-2xl text-ink-2">Cor por candidato à frente e intensidade pela margem. Passe o mouse ou toque para ver os números; clique em um estado para aproximar e listar os municípios.</p>
           <BrazilMap
-            estados={states.estados}
+            states={states.states}
             topo={topo}
-            nacional={national.nacional}
+            national={national.national}
             meta={states.meta}
-            candidatos={national.candidatos}
+            candidates={national.candidates}
           />
         </section>
 
-        <Regions estados={states.estados} meta={states.meta} />
+        <Regions states={states.states} meta={states.meta} />
         <RoundCompare data={national} />
         <Overtime data={overtime} munis={munis} />
 
         <section id="tabela" aria-labelledby="h-tabela" className="pt-16">
           <SectionTitle id="h-tabela" n="05">Todos os estados</SectionTitle>
-          <div className="mt-6"><StatesTable estados={states.estados} /></div>
+          <div className="mt-6"><StatesTable states={states.states} /></div>
           <SourceNote meta={states.meta} />
         </section>
 
@@ -77,7 +77,7 @@ export default function Page() {
 
       <footer className="border-t border-line">
         <div className="font-data mx-auto max-w-6xl px-4 py-8 text-xs leading-relaxed text-ink-2 sm:px-6">
-          <p>Dados: Tribunal Superior Eleitoral (resultados.tse.jus.br). Geometrias: IBGE, API de malhas. Referência dos dados: {national.meta.referencia}. Atualizado em {national.meta.geradoEm}.</p>
+          <p>Dados: Tribunal Superior Eleitoral (resultados.tse.jus.br). Geometrias: IBGE, API de malhas. Referência dos dados: {national.meta.reference}. Atualizado em {national.meta.generatedAt}.</p>
           <p className="mt-1">Site informativo e independente, sem vínculo com o TSE. Os valores exibidos vêm dos arquivos oficiais, sem estimativas.</p>
         </div>
       </footer>

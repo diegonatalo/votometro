@@ -2,17 +2,17 @@ import { ImageResponse } from "next/og";
 import { fmtPct } from "./format";
 import { loadNational } from "./data";
 import { SITE_NAME } from "./site";
-import { pctValidos } from "./stats";
+import { validPct } from "./stats";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
 /** Imagem de compartilhamento: percentuais lidos de national.json, dois lados com o mesmo tratamento. */
 export function renderOg() {
   const d = loadNational();
-  const p = pctValidos(d.nacional);
-  const lados = [
-    { nome: "Lula", pct: p.lula, cor: "#ff8576" },
-    { nome: "Flávio Bolsonaro", pct: p.flavio, cor: "#7fb0ff" },
+  const p = validPct(d.national);
+  const sides = [
+    { name: "Lula", pct: p.lula, cor: "#ff8576" },
+    { name: "Flávio Bolsonaro", pct: p.flavio, cor: "#7fb0ff" },
   ];
   return new ImageResponse(
     (
@@ -27,15 +27,15 @@ export function renderOg() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ display: "flex", gap: 24 }}>
-            {lados.map((l) => (
-              <div key={l.nome} style={{ display: "flex", flexDirection: "column", flex: 1, padding: 24, borderRadius: 24, background: "#121721", border: "1px solid #263042" }}>
-                <div style={{ fontSize: 30, color: "#b0b9c8" }}>{l.nome}</div>
+            {sides.map((l) => (
+              <div key={l.name} style={{ display: "flex", flexDirection: "column", flex: 1, padding: 24, borderRadius: 24, background: "#121721", border: "1px solid #263042" }}>
+                <div style={{ fontSize: 30, color: "#b0b9c8" }}>{l.name}</div>
                 <div style={{ fontSize: 96, fontWeight: 800, color: l.cor, lineHeight: 1.1 }}>{fmtPct(l.pct)}</div>
               </div>
             ))}
           </div>
           <div style={{ display: "flex", fontSize: 24, color: "#8c97a9" }}>
-            Percentuais sobre votos válidos · Fonte: TSE · referência {d.meta.referencia}
+            Percentuais sobre votos válidos · Fonte: TSE · referência {d.meta.reference}
           </div>
         </div>
       </div>

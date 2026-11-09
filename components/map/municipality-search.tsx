@@ -2,27 +2,27 @@
 
 import { useId, useMemo, useState } from "react";
 import { normalize } from "@/lib/format";
-import type { Municipio } from "@/types";
+import type { Municipality } from "@/types";
 
 interface Props {
-  municipios: Municipio[] | null;
+  municipalities: Municipality[] | null;
   onWake: () => void;
-  onPick: (m: Municipio) => void;
+  onPick: (m: Municipality) => void;
 }
 
-export function MunicipalitySearch({ municipios, onWake, onPick }: Props) {
+export function MunicipalitySearch({ municipalities, onWake, onPick }: Props) {
   const id = useId();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
 
-  const index = useMemo(() => (municipios ?? []).map((m) => ({ m, n: normalize(m.nome) })), [municipios]);
+  const index = useMemo(() => (municipalities ?? []).map((m) => ({ m, n: normalize(m.name) })), [municipalities]);
   const results = useMemo(() => {
     const n = normalize(q);
     if (n.length < 2) return [];
-    const exact: Municipio[] = [];
-    const starts: Municipio[] = [];
-    const contains: Municipio[] = [];
+    const exact: Municipality[] = [];
+    const starts: Municipality[] = [];
+    const contains: Municipality[] = [];
     for (const r of index) {
       if (r.n === n) exact.push(r.m);
       else if (r.n.startsWith(n)) starts.push(r.m);
@@ -31,9 +31,9 @@ export function MunicipalitySearch({ municipios, onWake, onPick }: Props) {
     return [...exact, ...starts, ...contains].slice(0, 8);
   }, [q, index]);
 
-  const pick = (m: Municipio) => {
+  const pick = (m: Municipality) => {
     onPick(m);
-    setQ(`${m.nome} — ${m.uf}`);
+    setQ(`${m.name} — ${m.uf}`);
     setOpen(false);
   };
 
@@ -49,7 +49,7 @@ export function MunicipalitySearch({ municipios, onWake, onPick }: Props) {
         aria-autocomplete="list"
         aria-activedescendant={open && results[active] ? `${id}-o-${active}` : undefined}
         autoComplete="off"
-        placeholder={municipios ? "Buscar município…" : "Buscar município (carrega os municípios)…"}
+        placeholder={municipalities ? "Buscar município…" : "Buscar município (carrega os municípios)…"}
         value={q}
         onFocus={() => { onWake(); setOpen(true); }}
         onChange={(e) => { setQ(e.target.value); setActive(0); setOpen(true); }}
@@ -66,7 +66,7 @@ export function MunicipalitySearch({ municipios, onWake, onPick }: Props) {
         <ul id={`${id}-list`} role="listbox" aria-label="Municípios encontrados" className="absolute left-0 right-0 top-full z-30 mt-1 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow)]">
           {results.length === 0 ? (
             <li className="px-3 py-2 text-sm text-ink-3" role="option" aria-selected="false">
-              {municipios ? "Nenhum município encontrado" : "Carregando municípios…"}
+              {municipalities ? "Nenhum município encontrado" : "Carregando municípios…"}
             </li>
           ) : (
             results.map((m, i) => (
@@ -79,7 +79,7 @@ export function MunicipalitySearch({ municipios, onWake, onPick }: Props) {
                 onMouseEnter={() => setActive(i)}
                 className={`flex cursor-pointer items-baseline justify-between px-3 py-1.5 text-sm ${i === active ? "bg-ink text-bg" : ""}`}
               >
-                <span>{m.nome}</span>
+                <span>{m.name}</span>
                 <span className="font-data text-xs opacity-80">{m.uf}</span>
               </li>
             ))
