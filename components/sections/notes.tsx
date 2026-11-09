@@ -2,7 +2,7 @@ import type { NationalFile } from "@/types";
 import { SectionTitle } from "@/components/section-title";
 import { SourceNote } from "@/components/source-note";
 
-export function Notes({ data }: { data: NationalFile }) {
+export const Notes = ({ data }: { data: NationalFile }) => {
   return (
     <section id="notas" aria-labelledby="h-notas" className="pt-16">
       <SectionTitle id="h-notas" n="06">Notas e diferenças entre fontes</SectionTitle>
@@ -22,4 +22,4 @@ export function Notes({ data }: { data: NationalFile }) {
       <SourceNote meta={data.meta} />
     </section>
   );
-}
+};

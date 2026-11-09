@@ -8,7 +8,7 @@ interface Props {
 }
 
 /** Barra proporcional dos votos válidos. Os dois lados têm tratamento visual idêntico. */
-export function SplitBar({ lula, flavio, height = 14, label }: Props) {
+export const SplitBar = ({ lula, flavio, height = 14, label }: Props) => {
   const total = lula + flavio;
   const pl = total ? (lula / total) * 100 : 50;
   return (
@@ -23,4 +23,4 @@ export function SplitBar({ lula, flavio, height = 14, label }: Props) {
       <div className="absolute inset-y-0 left-1/2 w-px bg-bg/70" aria-hidden="true" />
     </div>
   );
-}
+};

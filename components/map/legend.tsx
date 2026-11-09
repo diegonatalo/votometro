@@ -12,7 +12,7 @@ export function useThemeName(): ThemeName {
 }
 
 /** Legenda da escala: 80% Lula … 50% … 80% Flávio. */
-export function Legend() {
+export const Legend = () => {
   const theme = useThemeName();
   const gradient = useMemo(
     () =>
@@ -34,4 +34,4 @@ export function Legend() {
       <p className="mt-1 text-xs text-ink-3">Cor = candidato à frente; intensidade = percentual dos votos válidos.</p>
     </figure>
   );
-}
+};

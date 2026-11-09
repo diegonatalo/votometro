@@ -26,16 +26,16 @@ interface Props {
   onBackToUf?: () => void;
 }
 
-function Row({ k, v }: { k: string; v: string }) {
+const Row = ({ k, v }: { k: string; v: string }) => {
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-line py-1.5 text-sm">
       <dt className="text-ink-2">{k}</dt>
       <dd className="font-data text-right">{v}</dd>
     </div>
   );
-}
+};
 
-export function MapPanel({ entity, candidates, municipalities, munisLoading, selectedIbge, onBack, onPickMuni, onBackToUf }: Props) {
+export const MapPanel = ({ entity, candidates, municipalities, munisLoading, selectedIbge, onBack, onPickMuni, onBackToUf }: Props) => {
   const t = entity.tally;
   const p = validPct(t);
   const m = voteMargin(t);
@@ -167,4 +167,4 @@ export function MapPanel({ entity, candidates, municipalities, munisLoading, sel
       ) : null}
     </aside>
   );
-}
+};

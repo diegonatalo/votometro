@@ -16,7 +16,7 @@ interface Props {
   height: number;
 }
 
-export function Tooltip({ info, width, height }: Props) {
+export const Tooltip = ({ info, width, height }: Props) => {
   if (!info) return null;
   const { tally: t } = info;
   const p = validPct(t);
@@ -56,4 +56,4 @@ export function Tooltip({ info, width, height }: Props) {
       </p>
     </div>
   );
-}
+};

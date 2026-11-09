@@ -7,7 +7,7 @@ import { SourceNote } from "@/components/source-note";
 
 const TH = "border-b border-ink px-3 py-2 text-right font-medium";
 
-function CompareTable({ a, b, caption, id }: { a: Round1Row; b: Tally; caption: string; id: string }) {
+const CompareTable = ({ a, b, caption, id }: { a: Round1Row; b: Tally; caption: string; id: string }) => {
   const valid1 = a.lula + a.flavio + a.others;
   const valid2 = b.lula + b.flavio;
   const rows = [
@@ -70,9 +70,9 @@ function CompareTable({ a, b, caption, id }: { a: Round1Row; b: Tally; caption: 
       </p>
     </div>
   );
-}
+};
 
-export function RoundCompare({ data }: { data: NationalFile }) {
+export const RoundCompare = ({ data }: { data: NationalFile }) => {
   const valid1 = data.round1.national.lula + data.round1.national.flavio + data.round1.national.others;
   return (
     <section id="turnos" aria-labelledby="h-turnos" className="pt-16">
@@ -87,4 +87,4 @@ export function RoundCompare({ data }: { data: NationalFile }) {
       <SourceNote meta={data.round1.meta} extra={`2º turno: ${data.meta.reference}`} />
     </section>
   );
-}
+};

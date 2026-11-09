@@ -10,7 +10,7 @@ interface Props {
   onPick: (m: Municipality) => void;
 }
 
-export function MunicipalitySearch({ municipalities, onWake, onPick }: Props) {
+export const MunicipalitySearch = ({ municipalities, onWake, onPick }: Props) => {
   const id = useId();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
@@ -88,4 +88,4 @@ export function MunicipalitySearch({ municipalities, onWake, onPick }: Props) {
       ) : null}
     </div>
   );
-}
+};

@@ -8,7 +8,7 @@ const OPTIONS = [
   { id: "dark", label: "Escuro", icon: "M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" },
 ] as const;
 
-export function ThemeToggle() {
+export const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useMounted();
   const current = mounted ? resolvedTheme : undefined;
@@ -39,4 +39,4 @@ export function ThemeToggle() {
       })}
     </div>
   );
-}
+};

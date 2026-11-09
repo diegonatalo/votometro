@@ -43,7 +43,7 @@ interface Props {
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function BrazilMap({ states, topo, national, meta, candidates }: Props) {
+export const BrazilMap = ({ states, topo, national, meta, candidates }: Props) => {
   const theme = useThemeName();
   const [sel, setSel] = useState<Sel>({ uf: null, ibge: null });
   const [hover, setHover] = useState<Hover | null>(null);
@@ -584,4 +584,4 @@ export function BrazilMap({ states, topo, national, meta, candidates }: Props) {
       </div>
     </div>
   );
-}
+};

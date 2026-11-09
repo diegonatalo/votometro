@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export function SectionTitle({ id, n, children }: { id: string; n: string; children: ReactNode }) {
+export const SectionTitle = ({ id, n, children }: { id: string; n: string; children: ReactNode }) => {
   return (
     <div>
       <h2 id={id} className="font-display flex items-center gap-3 text-2xl font-bold leading-tight tracking-tight sm:text-4xl">
@@ -9,4 +9,4 @@ export function SectionTitle({ id, n, children }: { id: string; n: string; child
       </h2>
     </div>
   );
-}
+};

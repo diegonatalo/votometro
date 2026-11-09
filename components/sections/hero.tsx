@@ -7,7 +7,7 @@ import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
 import { StatTile } from "@/components/stat-tile";
 
-function CandidateCard({ c, votes, pct }: { c: Candidate; votes: number; pct: number }) {
+const CandidateCard = ({ c, votes, pct }: { c: Candidate; votes: number; pct: number }) => {
   return (
     <article
       className="card relative overflow-hidden p-5 sm:p-7"
@@ -39,9 +39,9 @@ function CandidateCard({ c, votes, pct }: { c: Candidate; votes: number; pct: nu
       </p>
     </article>
   );
-}
+};
 
-export function Hero({ data }: { data: NationalFile }) {
+export const Hero = ({ data }: { data: NationalFile }) => {
   const t = data.national;
   const p = validPct(t);
   const m = voteMargin(t);
@@ -83,4 +83,4 @@ export function Hero({ data }: { data: NationalFile }) {
       <SourceNote meta={data.meta} extra={`${fmtInt(t.countedSections)} de ${fmtInt(t.sections)} seções`} />
     </section>
   );
-}
+};

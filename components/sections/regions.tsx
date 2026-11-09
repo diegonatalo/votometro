@@ -6,7 +6,7 @@ import type { State, SourceMeta } from "@/types";
 import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
 
-export function Regions({ states, meta }: { states: State[]; meta: SourceMeta }) {
+export const Regions = ({ states, meta }: { states: State[]; meta: SourceMeta }) => {
   const wins = { lula: 0, flavio: 0 };
   for (const e of states) {
     const w = winner(e);
@@ -51,4 +51,4 @@ export function Regions({ states, meta }: { states: State[]; meta: SourceMeta })
       <SourceNote meta={meta} extra="Totais regionais somam as UFs; o exterior fica fora das regiões" />
     </section>
   );
-}
+};

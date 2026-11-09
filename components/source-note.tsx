@@ -1,6 +1,6 @@
 import type { SourceMeta } from "@/types";
 
-export function SourceNote({ meta, extra }: { meta: SourceMeta; extra?: string }) {
+export const SourceNote = ({ meta, extra }: { meta: SourceMeta; extra?: string }) => {
   return (
     <p className="font-data mt-6 border-t border-line pt-3 text-xs leading-relaxed text-ink-3">
       Fonte:{" "}
@@ -11,4 +11,4 @@ export function SourceNote({ meta, extra }: { meta: SourceMeta; extra?: string }
       {extra ? ` · ${extra}` : ""}
     </p>
   );
-}
+};

@@ -7,7 +7,7 @@ import { SplitBar } from "@/components/split-bar";
 
 const asTally = (g: OvertimeGroup) => ({ lula: g.lula, flavio: g.flavio });
 
-function Method() {
+const Method = () => {
   return (
     <details className="card mt-4 p-4 text-sm">
       <summary className="cursor-pointer font-medium">Como calculamos</summary>
@@ -24,9 +24,9 @@ function Method() {
       </div>
     </details>
   );
-}
+};
 
-export function Overtime({ data, munis }: { data: OvertimeFile; munis: MunicipalitiesFile }) {
+export const Overtime = ({ data, munis }: { data: OvertimeFile; munis: MunicipalitiesFile }) => {
   if (data.status === "unavailable" || !data.total) {
     return (
       <section id="17h" aria-labelledby="h-17h" className="pt-16">
@@ -148,4 +148,4 @@ export function Overtime({ data, munis }: { data: OvertimeFile; munis: Municipal
       <SourceNote meta={data.meta} />
     </section>
   );
-}
+};

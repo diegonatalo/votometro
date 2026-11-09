@@ -8,7 +8,7 @@ interface Props {
   big?: boolean;
 }
 
-export function StatTile({ label, value, hint, tone, big }: Props) {
+export const StatTile = ({ label, value, hint, tone, big }: Props) => {
   const color = tone === "lula" ? "text-lula" : tone === "flavio" ? "text-flavio" : "text-ink";
   return (
     <div className="border-t border-line pt-3">
@@ -17,4 +17,4 @@ export function StatTile({ label, value, hint, tone, big }: Props) {
       {hint ? <p className="mt-2 text-sm text-ink-2">{hint}</p> : null}
     </div>
   );
-}
+};

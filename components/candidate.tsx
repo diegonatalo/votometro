@@ -5,7 +5,7 @@ import type { Candidate, Person } from "@/types";
 export const displayName = (c: Pick<Candidate, "id">): string => CANDIDATES[c.id].name;
 
 /** Número do candidato em caixas, como no visor da urna. */
-export function NumberBoxes({ number, size = "md" }: { number: string; size?: "sm" | "md" }) {
+export const NumberBoxes = ({ number, size = "md" }: { number: string; size?: "sm" | "md" }) => {
   const dim = size === "sm" ? "h-6 w-5 text-sm" : "h-9 w-7 text-xl";
   return (
     <span className="inline-flex gap-1" role="img" aria-label={`Número ${number}`}>
@@ -16,10 +16,10 @@ export function NumberBoxes({ number, size = "md" }: { number: string; size?: "s
       ))}
     </span>
   );
-}
+};
 
 /** Selo tipográfico do partido (o TSE não publica logos). */
-export function PartyBadge({ sigla, title }: { sigla: string; title?: string }) {
+export const PartyBadge = ({ sigla, title }: { sigla: string; title?: string }) => {
   return (
     <abbr
       title={title}
@@ -28,10 +28,10 @@ export function PartyBadge({ sigla, title }: { sigla: string; title?: string }) 
       {sigla}
     </abbr>
   );
-}
+};
 
 /** Foto do arquivo do TSE com faixa na cor do candidato. */
-export function Photo({ person, tone, width = 112 }: { person: Pick<Person, "photo" | "ballotName">; tone?: "lula" | "flavio"; width?: number }) {
+export const Photo = ({ person, tone, width = 112 }: { person: Pick<Person, "photo" | "ballotName">; tone?: "lula" | "flavio"; width?: number }) => {
   const height = Math.round((width * 226) / 161);
   return (
     <span className="relative inline-block shrink-0 overflow-hidden rounded-2xl bg-surface-2" style={{ width, height }}>
@@ -40,14 +40,14 @@ export function Photo({ person, tone, width = 112 }: { person: Pick<Person, "pho
       {tone ? <span className="absolute inset-x-0 bottom-0 h-1.5" style={{ background: `var(--${tone})` }} aria-hidden="true" /> : null}
     </span>
   );
-}
+};
 
 /** Foto pequena redonda, para listas e painéis. */
-export function Avatar({ c }: { c: Pick<Candidate, "id" | "photo" | "ballotName"> }) {
+export const Avatar = ({ c }: { c: Pick<Candidate, "id" | "photo" | "ballotName"> }) => {
   return (
     <span className="relative inline-block h-8 w-8 shrink-0 overflow-hidden rounded-full border-2" style={{ borderColor: `var(--${c.id})` }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={c.photo} alt="" width={32} height={32} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
     </span>
   );
-}
+};

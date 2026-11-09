@@ -12,7 +12,7 @@ interface Props {
   states: State[];
 }
 
-export function StatesTable({ states }: Props) {
+export const StatesTable = ({ states }: Props) => {
   const [q, setQ] = useState("");
   const [region, setRegion] = useState<Region | "all">("all");
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "name", dir: 1 });
@@ -107,4 +107,4 @@ export function StatesTable({ states }: Props) {
       </div>
     </div>
   );
-}
+};

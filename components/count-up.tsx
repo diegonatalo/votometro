@@ -10,7 +10,7 @@ interface Props {
 }
 
 /** Número com contagem animada ao entrar na tela. Sem animação com prefers-reduced-motion. */
-export function CountUp({ value, kind = "int", duration = 1100 }: Props) {
+export const CountUp = ({ value, kind = "int", duration = 1100 }: Props) => {
   const [shown, setShown] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -41,4 +41,4 @@ export function CountUp({ value, kind = "int", duration = 1100 }: Props) {
   }, [value, duration]);
 
   return <span ref={ref}>{kind === "pct" ? fmtPct(shown) : fmtInt(shown)}</span>;
-}
+};
