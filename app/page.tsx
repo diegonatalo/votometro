@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { readFileSync } from "node:fs";
 import { SectionTitle } from "@/components/section-title";
 import path from "node:path";
@@ -21,6 +22,8 @@ const NAV = [
   { href: "#17h", label: "Após 17h" },
   { href: "#notas", label: "Notas" },
 ];
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function Page() {
   const national = loadNational();

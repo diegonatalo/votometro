@@ -14,12 +14,10 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: ["eleições 2026", "2º turno", "presidente", "apuração", "resultado por município", "TSE", "mapa eleitoral"],
-  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "/",
     siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
