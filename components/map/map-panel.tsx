@@ -5,8 +5,8 @@ import { fmtInt, fmtPct, fmtPp, normalize } from "@/lib/format";
 import { margemPp, margemVotos, pctAbstencao, pctComparecimento, pctValidos, vencedor } from "@/lib/stats";
 import type { Municipio, Tally } from "@/types";
 import type { Candidato } from "@/types";
-import { Avatar } from "../candidate";
-import { SplitBar } from "../split-bar";
+import { Avatar } from "@/components/candidate";
+import { SplitBar } from "@/components/split-bar";
 
 export interface PanelEntity {
   kind: "br" | "uf" | "mun";

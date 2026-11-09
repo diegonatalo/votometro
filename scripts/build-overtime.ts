@@ -11,7 +11,7 @@ import { mkdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import readline from "node:readline";
 import { Open } from "unzipper";
-import type { OvertimeFile, OvertimeGroup } from "../types";
+import type { OvertimeFile, OvertimeGroup } from "@/types";
 import { ELE_T2, getJson } from "./lib/tse";
 
 const CKAN = "https://dadosabertos.tse.jus.br/api/3/action/package_show?id=resultados-2026-boletim-de-urna";

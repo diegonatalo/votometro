@@ -1,4 +1,4 @@
-import type { Tally } from "../types";
+import type { Tally } from "@/types";
 
 type Pair = Pick<Tally, "lula" | "flavio">;
 

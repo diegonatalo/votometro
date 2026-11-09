@@ -4,7 +4,7 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 import { feature, quantize } from "topojson-client";
 import { topology } from "topojson-server";
 import { presimplify, quantile, simplify } from "topojson-simplify";
-import { UFS } from "../lib/meta";
+import { UFS } from "@/lib/meta";
 
 const IBGE = "https://servicodados.ibge.gov.br/api/v3/malhas";
 

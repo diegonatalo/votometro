@@ -1,11 +1,11 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { margemPp, margemVotos, pctAbstencao, pctComparecimento, pctValidos } from "@/lib/stats";
 import type { Candidato, NationalFile } from "@/types";
-import { displayName, NumberBoxes, PartyBadge, Photo } from "../candidate";
-import { CountUp } from "../count-up";
-import { SourceNote } from "../source-note";
-import { SplitBar } from "../split-bar";
-import { StatTile } from "../stat-tile";
+import { displayName, NumberBoxes, PartyBadge, Photo } from "@/components/candidate";
+import { CountUp } from "@/components/count-up";
+import { SourceNote } from "@/components/source-note";
+import { SplitBar } from "@/components/split-bar";
+import { StatTile } from "@/components/stat-tile";
 
 function CandidateCard({ c, votos, pct }: { c: Candidato; votos: number; pct: number }) {
   return (

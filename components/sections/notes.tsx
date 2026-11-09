@@ -1,6 +1,6 @@
 import type { NationalFile } from "@/types";
 import { SectionTitle } from "@/components/section-title";
-import { SourceNote } from "../source-note";
+import { SourceNote } from "@/components/source-note";
 
 export function Notes({ data }: { data: NationalFile }) {
   return (

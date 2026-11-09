@@ -3,7 +3,7 @@ import { SectionTitle } from "@/components/section-title";
 import { CANDIDATES } from "@/lib/meta";
 import { pctComparecimento } from "@/lib/stats";
 import type { NationalFile, Tally, Turno1Row } from "@/types";
-import { SourceNote } from "../source-note";
+import { SourceNote } from "@/components/source-note";
 
 const TH = "border-b border-ink px-3 py-2 text-right font-medium";
 

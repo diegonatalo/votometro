@@ -2,8 +2,8 @@ import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { SectionTitle } from "@/components/section-title";
 import { margemPp, margemVotos, pctValidos } from "@/lib/stats";
 import type { MunicipiosFile, OvertimeFile, OvertimeGroup } from "@/types";
-import { SourceNote } from "../source-note";
-import { SplitBar } from "../split-bar";
+import { SourceNote } from "@/components/source-note";
+import { SplitBar } from "@/components/split-bar";
 
 const asTally = (g: OvertimeGroup) => ({ lula: g.lula, flavio: g.flavio });
 

@@ -12,7 +12,7 @@ import { BASE, buildMuniShapes, buildStateShapes, GridIndex, makeProjection, fea
 import { pctValidos } from "@/lib/stats";
 import { tallyFromTuple, type Estado, type Municipio, type MunicipiosFile, type SourceMeta, type Tally } from "@/types";
 import type { Candidato } from "@/types";
-import { SourceNote } from "../source-note";
+import { SourceNote } from "@/components/source-note";
 import { Legend, useThemeName } from "./legend";
 import { MapPanel, type PanelEntity } from "./map-panel";
 import { MunicipalitySearch } from "./municipality-search";

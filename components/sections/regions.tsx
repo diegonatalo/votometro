@@ -3,8 +3,8 @@ import { SectionTitle } from "@/components/section-title";
 import { REGIOES } from "@/lib/meta";
 import { margemPp, margemVotos, pctValidos, somar, vencedor } from "@/lib/stats";
 import type { Estado, SourceMeta } from "@/types";
-import { SourceNote } from "../source-note";
-import { SplitBar } from "../split-bar";
+import { SourceNote } from "@/components/source-note";
+import { SplitBar } from "@/components/split-bar";
 
 export function Regions({ estados, meta }: { estados: Estado[]; meta: SourceMeta }) {
   const wins = { lula: 0, flavio: 0 };

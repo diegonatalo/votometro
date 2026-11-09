@@ -1,4 +1,4 @@
-import type { Region } from "../types";
+import type { Region } from "@/types";
 
 export const UFS: { uf: string; nome: string; regiao: Region; cod: string }[] = [
   { uf: "AC", nome: "Acre", regiao: "N", cod: "12" },
