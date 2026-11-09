@@ -1,6 +1,6 @@
 {
   "name": "Votômetro",
-  "repo": "Votometro",
+  "repo": "votometro",
   "tagline": "O resultado do 2º turno de 2026, direto da fonte.",
   "urls": {
     "demo": "https://votometrobr.vercel.app"
