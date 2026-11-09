@@ -18,7 +18,7 @@
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-zoom": "^3.0.0",
-    "next": "^15.5.28",
+    "next": "^16.4.5",
     "next-themes": "^0.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -28,7 +28,7 @@
     "unzipper": "^0.12.5"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/d3-geo": "^3.1.1",
     "@types/d3-interpolate": "^3.0.4",
     "@types/d3-scale": "^4.0.9",
@@ -44,8 +44,8 @@
     "@types/topojson-specification": "^1.0.5",
     "@types/unzipper": "^0.10.11",
     "postcss": "^8.5.32",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3"
+    "typescript": "~6.0.3"
   }
 }

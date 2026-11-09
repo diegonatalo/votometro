@@ -1,7 +1,7 @@
 <!-- Arquivo gerado pelo readme-kit. Não edite aqui: altere docs/readme/ e rode "readme-kit build". -->
 <div align="center">
 
-<img src="docs/assets/banner.svg" alt="Votômetro: O resultado do 2º turno de 2026, direto da fonte. github.com/diegonatalo/Votometro. Stack: Next.js 15, React 19, TypeScript 5, Tailwind CSS 4" width="100%" />
+<img src="docs/assets/banner.svg" alt="Votômetro: O resultado do 2º turno de 2026, direto da fonte. github.com/diegonatalo/Votometro. Stack: Next.js 16, React 19, TypeScript 6, Tailwind CSS 4" width="100%" />
 
 <br />
 
@@ -10,9 +10,9 @@
 
 <br />
 
-![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb)
-![TypeScript](https://img.shields.io/badge/TypeScript_5-3178c6?style=flat-square&logo=typescript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript_6-3178c6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Abrir o app](https://img.shields.io/badge/abrir_o_app-votometrobr.vercel.app-10b981?style=flat-square&logo=vercel&logoColor=white)
 ![Dados](https://img.shields.io/badge/dados-oficiais_do_TSE-10b981?style=flat-square)
@@ -105,7 +105,7 @@ Mapa por estado e município, comparação com o 1º turno, voto no exterior e f
 
 <div align="center">
 
-<img src="docs/assets/stack.svg" alt="Stack: Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, d3-geo, d3-zoom, d3-scale, d3-interpolate, d3-quadtree, d3-selection, topojson-client, topojson-server, topojson-simplify, next-themes, unzipper, tsx" width="100%" />
+<img src="docs/assets/stack.svg" alt="Stack: Next.js 16, React 19, TypeScript 6, Tailwind CSS 4, d3-geo, d3-zoom, d3-scale, d3-interpolate, d3-quadtree, d3-selection, topojson-client, topojson-server, topojson-simplify, next-themes, unzipper, tsx" width="100%" />
 
 </div>
 
