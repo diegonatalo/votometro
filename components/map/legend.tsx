@@ -1,13 +1,13 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 import { legendStops, SATURA_PP, type ThemeName } from "@/lib/colors";
 
 export function useThemeName(): ThemeName {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   return mounted && resolvedTheme === "dark" ? "dark" : "light";
 }
 

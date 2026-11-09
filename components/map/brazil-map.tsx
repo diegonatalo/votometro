@@ -69,12 +69,17 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
   const snap = useRef<{ cv: HTMLCanvasElement; t: ZoomTransform; key: string; w: number; h: number } | null>(null);
   const bundle: MuniBundle | null = sel.uf ? byUf[sel.uf] ?? null : null;
   const byUfRef = useRef(byUf);
-  byUfRef.current = byUf;
   const inflight = useRef(new Map<string, Promise<MuniBundle | null>>());
   const live = useRef({ sel, hover, theme, bundle });
-  live.current = { sel, hover, theme, bundle };
   const sizeRef = useRef(size);
-  sizeRef.current = size;
+
+  // guarda os valores mais recentes para o desenho e os handlers lerem sem re-renderizar;
+  // vem antes dos demais efeitos para já estar atualizado quando eles rodarem
+  useEffect(() => {
+    byUfRef.current = byUf;
+    live.current = { sel, hover, theme, bundle };
+    sizeRef.current = size;
+  });
 
   // ---------- geometria dos estados ----------
   const projection = useMemo(() => makeProjection(featuresOf(topo, "estados")), [topo]);
@@ -132,18 +137,6 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
       /* a busca segue vazia */
     }
   }, [searchList]);
-
-  // cores dos municípios por tema
-  useEffect(() => {
-    if (!bundle) return;
-    snap.current = null;
-    colorsRef.current = bundle.shapes.map((s) => {
-      const m = bundle.byIbge.get(s.ibge);
-      return m && m.lula + m.flavio > 0 ? colorForPctLula(pctValidos(m).lula, theme) : NEUTRAL_FILL[theme];
-    });
-    scheduleDraw();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bundle, theme]);
 
   // ---------- desenho do canvas ----------
   const draw = useCallback(() => {
@@ -205,8 +198,12 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
     }
     ctx.globalAlpha = 1;
     if (!interacting.current) {
-      const cv = sn?.cv ?? document.createElement("canvas");
-      if (cv.width !== c.width || cv.height !== c.height) { cv.width = c.width; cv.height = c.height; }
+      let cv = sn?.cv;
+      if (!cv || cv.width !== c.width || cv.height !== c.height) {
+        cv = document.createElement("canvas");
+        cv.width = c.width;
+        cv.height = c.height;
+      }
       const cx2 = cv.getContext("2d");
       if (cx2) {
         cx2.setTransform(1, 0, 0, 1, 0, 0);
@@ -229,6 +226,17 @@ export function BrazilMap({ estados, topo, nacional, meta, candidatos }: Props) 
   }, [draw]);
 
   useEffect(scheduleDraw, [sel, hover, bundle, size, theme, scheduleDraw]);
+
+  // cores dos municípios por tema
+  useEffect(() => {
+    if (!bundle) return;
+    snap.current = null;
+    colorsRef.current = bundle.shapes.map((s) => {
+      const m = bundle.byIbge.get(s.ibge);
+      return m && m.lula + m.flavio > 0 ? colorForPctLula(pctValidos(m).lula, theme) : NEUTRAL_FILL[theme];
+    });
+    scheduleDraw();
+  }, [bundle, theme, scheduleDraw]);
 
   // ---------- zoom / pan ----------
   const applyTransform = useCallback(() => {
