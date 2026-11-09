@@ -1,6 +1,6 @@
 ### 🌐 Deploy
 
-O site é exportado como HTML estático (`output: "export"` em `next.config.mjs`), então funciona em Vercel,
+O site é exportado como HTML estático (`output: "export"` em `next.config.ts`), então funciona em Vercel,
 Netlify, GitHub Pages ou qualquer hospedagem de arquivos. Publique a pasta `out/`.
 
 - O site está no ar em [votometrobr.vercel.app](https://votometrobr.vercel.app). Esse é o endereço padrão do Open Graph, do canonical e do sitemap; em outro domínio, defina `NEXT_PUBLIC_SITE_URL` no build.

@@ -164,15 +164,14 @@ NEXT_PUBLIC_SITE_URL=https://seu-dominio.com.br pnpm build
 </div>
 
 ```text
-scripts/            build-data · build-geo · build-overtime · validate · lib/tse
-public/
-├── data/           JSON gerados (nacional, estados, municípios, 17h) e geo/ com os TopoJSON
-└── img/            fotos dos candidatos
-src/
 ├── app/            página, layout, favicon, imagem Open Graph, robots e sitemap
 ├── components/     Hero, seções, tabela de estados, tema, seletor de candidato
 │   └── map/        BrazilMap (SVG + Canvas), legenda, tooltip, painel e busca
 └── lib/            tipos, formatação, estatísticas, cores, geometria, validação, site
+scripts/            build-data · build-geo · build-overtime · validate · lib/tse
+public/
+├── data/           JSON gerados (nacional, estados, municípios, 17h) e geo/ com os TopoJSON
+└── img/            fotos dos candidatos
 docs/               banner e capturas de tela deste README
 ```
 
@@ -229,7 +228,7 @@ Limitações conhecidas:
 
 ### 🌐 Deploy
 
-O site é exportado como HTML estático (`output: "export"` em `next.config.mjs`), então funciona em Vercel,
+O site é exportado como HTML estático (`output: "export"` em `next.config.ts`), então funciona em Vercel,
 Netlify, GitHub Pages ou qualquer hospedagem de arquivos. Publique a pasta `out/`.
 
 - O site está no ar em [votometrobr.vercel.app](https://votometrobr.vercel.app). Esse é o endereço padrão do Open Graph, do canonical e do sitemap; em outro domínio, defina `NEXT_PUBLIC_SITE_URL` no build.

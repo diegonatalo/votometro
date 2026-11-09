@@ -2,6 +2,7 @@
   "name": "apuracao-2026",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "build-data": "tsx scripts/build-data.ts",
     "validate": "tsx scripts/validate.ts",
@@ -9,7 +10,8 @@
     "dev": "next dev",
     "build": "pnpm validate && next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",
@@ -28,7 +30,7 @@
     "unzipper": "^0.12.5"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.5",
+    "@tailwindcss/turbopack": "^4.3.5",
     "@types/d3-geo": "^3.1.1",
     "@types/d3-interpolate": "^3.0.4",
     "@types/d3-scale": "^4.0.9",
@@ -43,6 +45,8 @@
     "@types/topojson-simplify": "^3.0.3",
     "@types/topojson-specification": "^1.0.5",
     "@types/unzipper": "^0.10.11",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.4.5",
     "postcss": "^8.5.32",
     "tailwindcss": "^4.3.5",
     "tsx": "^4.23.15",
