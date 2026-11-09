@@ -1,4 +1,4 @@
-import type { SourceMeta } from "@/lib/types";
+import type { SourceMeta } from "@/types";
 
 export function SourceNote({ meta, extra }: { meta: SourceMeta; extra?: string }) {
   return (

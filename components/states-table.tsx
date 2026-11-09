@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { REGIOES } from "@/lib/meta";
 import { fmtInt, fmtPct, fmtPp, normalize } from "@/lib/format";
 import { margemPp, margemVotos, pctAbstencao, pctComparecimento, pctValidos, vencedor } from "@/lib/stats";
-import type { Estado, Region } from "@/lib/types";
+import type { Estado, Region } from "@/types";
 
 type SortKey = "nome" | "lula" | "flavio" | "pl" | "pf" | "margem" | "comp" | "abst";
 

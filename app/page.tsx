@@ -1,17 +1,17 @@
 import { readFileSync } from "node:fs";
-import { SectionTitle } from "@/components/SectionTitle";
+import { SectionTitle } from "@/components/section-title";
 import path from "node:path";
-import { BrazilMap } from "@/components/map/BrazilMap";
-import { Hero } from "@/components/sections/Hero";
-import { Notes } from "@/components/sections/Notes";
-import { Overtime } from "@/components/sections/Overtime";
-import { Regions } from "@/components/sections/Regions";
-import { RoundCompare } from "@/components/sections/RoundCompare";
-import { StatesTable } from "@/components/StatesTable";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { SourceNote } from "@/components/SourceNote";
+import { BrazilMap } from "@/components/map/brazil-map";
+import { Hero } from "@/components/sections/hero";
+import { Notes } from "@/components/sections/notes";
+import { Overtime } from "@/components/sections/overtime";
+import { Regions } from "@/components/sections/regions";
+import { RoundCompare } from "@/components/sections/round-compare";
+import { StatesTable } from "@/components/states-table";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { SourceNote } from "@/components/source-note";
 import { loadNational, loadOvertime, loadStates, loadStatesTopo } from "@/lib/data";
-import type { MunicipiosFile } from "@/lib/types";
+import type { MunicipiosFile } from "@/types";
 
 const NAV = [
   { href: "#resultado", label: "Resultado" },

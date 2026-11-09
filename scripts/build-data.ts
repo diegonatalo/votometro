@@ -1,6 +1,6 @@
 import { mkdir, stat, writeFile } from "node:fs/promises";
 import { UFS } from "../lib/meta";
-import type { Candidato, Estado, Tally, MunicipioTuple, MunicipiosFile, NationalFile, Nota, SourceMeta, StatesFile, Turno1Row } from "../lib/types";
+import type { Candidato, Estado, Tally, MunicipioTuple, MunicipiosFile, NationalFile, Nota, SourceMeta, StatesFile, Turno1Row } from "../types";
 import { ELE_T1, ELE_T2, getJson, parseUnit, pool, toTurno1, unitPath } from "./lib/tse";
 import { buildGeo } from "./build-geo";
 import { buildOvertime } from "./build-overtime";

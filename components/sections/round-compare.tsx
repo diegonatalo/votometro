@@ -1,9 +1,9 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
-import { SectionTitle } from "@/components/SectionTitle";
+import { SectionTitle } from "@/components/section-title";
 import { CANDIDATES } from "@/lib/meta";
 import { pctComparecimento } from "@/lib/stats";
-import type { NationalFile, Tally, Turno1Row } from "@/lib/types";
-import { SourceNote } from "../SourceNote";
+import type { NationalFile, Tally, Turno1Row } from "@/types";
+import { SourceNote } from "../source-note";
 
 const TH = "border-b border-ink px-3 py-2 text-right font-medium";
 

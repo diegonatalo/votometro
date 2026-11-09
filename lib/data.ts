@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { Topology } from "topojson-specification";
-import type { NationalFile, OvertimeFile, StatesFile } from "./types";
+import type { NationalFile, OvertimeFile, StatesFile } from "../types";
 
 function read<T>(...parts: string[]): T {
   return JSON.parse(readFileSync(path.join(process.cwd(), "public", "data", ...parts), "utf8")) as T;

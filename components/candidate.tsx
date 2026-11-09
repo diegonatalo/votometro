@@ -1,5 +1,5 @@
 import { CANDIDATES } from "@/lib/meta";
-import type { Candidato, Pessoa } from "@/lib/types";
+import type { Candidato, Pessoa } from "@/types";
 
 /** Nome de exibição com acentuação correta (os arquivos do TSE vêm sem acento). */
 export const displayName = (c: Pick<Candidato, "id">): string => CANDIDATES[c.id].nome;

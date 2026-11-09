@@ -1,6 +1,6 @@
 import { EXPECTED } from "./meta";
 import { somar, vencedor } from "./stats";
-import type { MunicipiosFile, NationalFile, StatesFile, Tally } from "./types";
+import type { MunicipiosFile, NationalFile, StatesFile, Tally } from "../types";
 
 export interface Check {
   nivel: "ok" | "erro" | "info";

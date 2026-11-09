@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Tally, Turno1Row } from "../../lib/types";
+import type { Tally, Turno1Row } from "../../types";
 
 export const TSE_BASE = "https://resultados.tse.jus.br/oficial/ele2026";
 export const ELE_T1 = "6257";

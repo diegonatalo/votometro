@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { validateAll } from "../lib/validation";
-import type { MunicipiosFile, NationalFile, StatesFile } from "../lib/types";
+import type { MunicipiosFile, NationalFile, StatesFile } from "../types";
 
 const read = async <T>(f: string): Promise<T> => JSON.parse(await readFile(`public/data/${f}`, "utf8")) as T;
 

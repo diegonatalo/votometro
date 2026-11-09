@@ -1,6 +1,6 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { margemPp, margemVotos, pctComparecimento, pctValidos } from "@/lib/stats";
-import type { Tally } from "@/lib/types";
+import type { Tally } from "@/types";
 
 export interface TooltipInfo {
   nome: string;

@@ -1,10 +1,10 @@
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
-import { SectionTitle } from "@/components/SectionTitle";
+import { SectionTitle } from "@/components/section-title";
 import { REGIOES } from "@/lib/meta";
 import { margemPp, margemVotos, pctValidos, somar, vencedor } from "@/lib/stats";
-import type { Estado, SourceMeta } from "@/lib/types";
-import { SourceNote } from "../SourceNote";
-import { SplitBar } from "../SplitBar";
+import type { Estado, SourceMeta } from "@/types";
+import { SourceNote } from "../source-note";
+import { SplitBar } from "../split-bar";
 
 export function Regions({ estados, meta }: { estados: Estado[]; meta: SourceMeta }) {
   const wins = { lula: 0, flavio: 0 };

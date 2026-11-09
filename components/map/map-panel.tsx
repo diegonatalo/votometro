@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import { fmtInt, fmtPct, fmtPp, normalize } from "@/lib/format";
 import { margemPp, margemVotos, pctAbstencao, pctComparecimento, pctValidos, vencedor } from "@/lib/stats";
-import type { Municipio, Tally } from "@/lib/types";
-import type { Candidato } from "@/lib/types";
-import { Avatar } from "../Candidate";
-import { SplitBar } from "../SplitBar";
+import type { Municipio, Tally } from "@/types";
+import type { Candidato } from "@/types";
+import { Avatar } from "../candidate";
+import { SplitBar } from "../split-bar";
 
 export interface PanelEntity {
   kind: "br" | "uf" | "mun";

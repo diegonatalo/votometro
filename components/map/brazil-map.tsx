@@ -8,15 +8,15 @@ import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, 
 import type { Topology } from "topojson-specification";
 import { colorForPctLula, NEUTRAL_FILL } from "@/lib/colors";
 import { fmtInt, fmtPct } from "@/lib/format";
-import { BASE, buildMuniShapes, buildStateShapes, GridIndex, makeProjection, featuresOf, type MuniShape } from "@/lib/mapGeo";
+import { BASE, buildMuniShapes, buildStateShapes, GridIndex, makeProjection, featuresOf, type MuniShape } from "@/lib/map-geo";
 import { pctValidos } from "@/lib/stats";
-import { tallyFromTuple, type Estado, type Municipio, type MunicipiosFile, type SourceMeta, type Tally } from "@/lib/types";
-import type { Candidato } from "@/lib/types";
-import { SourceNote } from "../SourceNote";
-import { Legend, useThemeName } from "./Legend";
-import { MapPanel, type PanelEntity } from "./MapPanel";
-import { MunicipalitySearch } from "./MunicipalitySearch";
-import { Tooltip, type TooltipInfo } from "./Tooltip";
+import { tallyFromTuple, type Estado, type Municipio, type MunicipiosFile, type SourceMeta, type Tally } from "@/types";
+import type { Candidato } from "@/types";
+import { SourceNote } from "../source-note";
+import { Legend, useThemeName } from "./legend";
+import { MapPanel, type PanelEntity } from "./map-panel";
+import { MunicipalitySearch } from "./municipality-search";
+import { Tooltip, type TooltipInfo } from "./tooltip";
 
 type LoadStatus = "idle" | "loading" | "ready" | "error";
 interface Sel { uf: string | null; ibge: string | null }

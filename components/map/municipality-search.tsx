@@ -2,7 +2,7 @@
 
 import { useId, useMemo, useState } from "react";
 import { normalize } from "@/lib/format";
-import type { Municipio } from "@/lib/types";
+import type { Municipio } from "@/types";
 
 interface Props {
   municipios: Municipio[] | null;

@@ -1,6 +1,6 @@
-import type { NationalFile } from "@/lib/types";
-import { SectionTitle } from "@/components/SectionTitle";
-import { SourceNote } from "../SourceNote";
+import type { NationalFile } from "@/types";
+import { SectionTitle } from "@/components/section-title";
+import { SourceNote } from "../source-note";
 
 export function Notes({ data }: { data: NationalFile }) {
   return (
