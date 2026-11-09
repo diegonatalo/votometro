@@ -130,7 +130,7 @@ Os arquivos de `public/data` já estão no projeto, então você pode pular o `b
 | Comando | O que faz |
 | --- | --- |
 | `pnpm dev` | Servidor de desenvolvimento em `localhost:3000` |
-| `pnpm build` | Valida os totais e gera o site estático em `out/` (falha se os números não baterem) |
+| `pnpm build` | Valida os totais e gera o build de produção (falha se os números não baterem) |
 | `pnpm build-data` | Baixa os dados do TSE e do IBGE e regenera `public/data` |
 | `pnpm validate` | Roda só a validação sobre os JSON já gerados |
 | `pnpm overtime` | Procura os Boletins de Urna do 2º turno e regenera o painel das 17h |
@@ -229,12 +229,9 @@ Limitações conhecidas:
 
 ### 🌐 Deploy
 
-O site é exportado como HTML estático (`output: "export"` em `next.config.ts`), então funciona em Vercel,
-Netlify, GitHub Pages ou qualquer hospedagem de arquivos. Publique a pasta `out/`.
+O site é publicado na Vercel. Todas as páginas são geradas no build, a partir dos JSON de `public/data`.
 
 - O site está no ar em [votometrobr.vercel.app](https://votometrobr.vercel.app). Esse é o endereço padrão do Open Graph, do canonical e do sitemap; em outro domínio, defina `NEXT_PUBLIC_SITE_URL` no build.
-- A imagem de compartilhamento (`opengraph-image`), o `twitter-image` e o `apple-icon` saem sem extensão. O `vercel.json` força
-  `Content-Type: image/png` neles; em outra hospedagem, faça o equivalente.
 - Se os dados mudarem, rode o build de novo: a imagem de compartilhamento usa os números do momento.
 
 ### 🧭 Próximos passos

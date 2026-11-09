@@ -11,7 +11,7 @@ Os arquivos de `public/data` já estão no projeto, então você pode pular o `b
 | Comando | O que faz |
 | --- | --- |
 | `pnpm dev` | Servidor de desenvolvimento em `localhost:3000` |
-| `pnpm build` | Valida os totais e gera o site estático em `out/` (falha se os números não baterem) |
+| `pnpm build` | Valida os totais e gera o build de produção (falha se os números não baterem) |
 | `pnpm build-data` | Baixa os dados do TSE e do IBGE e regenera `public/data` |
 | `pnpm validate` | Roda só a validação sobre os JSON já gerados |
 | `pnpm overtime` | Procura os Boletins de Urna do 2º turno e regenera o painel das 17h |
