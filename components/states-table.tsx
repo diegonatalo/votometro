@@ -8,9 +8,9 @@ import type { State, Region } from "@/types";
 
 type SortKey = "name" | "lula" | "flavio" | "pl" | "pf" | "margin" | "turnout" | "abstention";
 
-interface Props {
+type Props = {
   states: State[];
-}
+};
 
 export const StatesTable = ({ states }: Props) => {
   const [q, setQ] = useState("");

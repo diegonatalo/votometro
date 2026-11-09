@@ -8,14 +8,14 @@ import type { Candidate } from "@/types";
 import { Avatar } from "@/components/candidate";
 import { SplitBar } from "@/components/split-bar";
 
-export interface PanelEntity {
+export type PanelEntity = {
   kind: "br" | "uf" | "mun";
   name: string;
   subtitle?: string;
   tally: Tally;
-}
+};
 
-interface Props {
+type Props = {
   entity: PanelEntity;
   candidates: Candidate[];
   municipalities: Municipality[] | null;
@@ -24,7 +24,7 @@ interface Props {
   onBack: () => void;
   onPickMuni: (m: Municipality) => void;
   onBackToUf?: () => void;
-}
+};
 
 const Row = ({ k, v }: { k: string; v: string }) => {
   return (

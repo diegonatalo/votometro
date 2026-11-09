@@ -19,10 +19,10 @@ import { MunicipalitySearch } from "./municipality-search";
 import { Tooltip, type TooltipInfo } from "./tooltip";
 
 type LoadStatus = "idle" | "loading" | "ready" | "error";
-interface Sel { uf: string | null; ibge: string | null }
-interface Hover { kind: "uf" | "mun"; id: string; x: number; y: number }
+type Sel = { uf: string | null; ibge: string | null };
+type Hover = { kind: "uf" | "mun"; id: string; x: number; y: number };
 
-interface MuniBundle {
+type MuniBundle = {
   shapes: MuniShape[];
   index: GridIndex;
   list: Municipality[];
@@ -30,15 +30,15 @@ interface MuniBundle {
   byUf: Map<string, Municipality[]>;
   shapeIdx: Map<string, number>;
   meta: SourceMeta;
-}
+};
 
-interface Props {
+type Props = {
   states: State[];
   topo: Topology;
   national: Tally;
   meta: SourceMeta;
   candidates: Candidate[];
-}
+};
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

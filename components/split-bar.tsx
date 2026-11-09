@@ -1,11 +1,11 @@
 import { fmtPct } from "@/lib/format";
 
-interface Props {
+type Props = {
   lula: number;
   flavio: number;
   height?: number;
   label?: string;
-}
+};
 
 /** Barra proporcional dos votos válidos. Os dois lados têm tratamento visual idêntico. */
 export const SplitBar = ({ lula, flavio, height = 14, label }: Props) => {

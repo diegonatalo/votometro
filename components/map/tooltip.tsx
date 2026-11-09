@@ -2,19 +2,19 @@ import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { marginPp, voteMargin, turnoutPct, validPct } from "@/lib/stats";
 import type { Tally } from "@/types";
 
-export interface TooltipInfo {
+export type TooltipInfo = {
   name: string;
   detail?: string;
   tally: Tally;
   x: number;
   y: number;
-}
+};
 
-interface Props {
+type Props = {
   info: TooltipInfo | null;
   width: number;
   height: number;
-}
+};
 
 export const Tooltip = ({ info, width, height }: Props) => {
   if (!info) return null;

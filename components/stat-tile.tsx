@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
-interface Props {
+type Props = {
   label: string;
   value: ReactNode;
   hint?: ReactNode;
   tone?: "lula" | "flavio";
   big?: boolean;
-}
+};
 
 export const StatTile = ({ label, value, hint, tone, big }: Props) => {
   const color = tone === "lula" ? "text-lula" : tone === "flavio" ? "text-flavio" : "text-ink";

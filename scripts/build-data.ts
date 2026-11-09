@@ -6,14 +6,14 @@ import { buildGeo } from "./build-geo";
 import { buildOvertime } from "./build-overtime";
 import { runValidation } from "./validate";
 
-interface MunConfig {
+type MunConfig = {
   abr: { cd: string; mu?: { cd: string; cdi: string; nm: string }[] }[];
-}
+};
 
 const OUT = "public/data";
 
-interface RawCand { n: string; sqcand: string; nm: string; nmu: string; st: string; vs?: { sqcand: string; nm: string; nmu: string; sgp: string }[] }
-interface RawNat { carg: { agr: { nm: string; com?: string; par: { sg: string; nm: string; cand?: RawCand[] }[] }[] }[] }
+type RawCand = { n: string; sqcand: string; nm: string; nmu: string; st: string; vs?: { sqcand: string; nm: string; nmu: string; sgp: string }[] };
+type RawNat = { carg: { agr: { nm: string; com?: string; par: { sg: string; nm: string; cand?: RawCand[] }[] }[] }[] };
 
 const PHOTO_BASE = "https://resultados.tse.jus.br/oficial/ele2026/6258/fotos/br";
 

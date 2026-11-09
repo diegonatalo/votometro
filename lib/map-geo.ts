@@ -6,19 +6,19 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 /** Tamanho do sistema de coordenadas base do mapa (viewBox). */
 export const BASE = 800;
 
-export interface StateShape {
+export type StateShape = {
   uf: string;
   d: string;
   bounds: [[number, number], [number, number]];
   centroid: [number, number];
-}
+};
 
-export interface MuniShape {
+export type MuniShape = {
   ibge: string;
   uf: string;
   path: Path2D;
   bounds: [[number, number], [number, number]];
-}
+};
 
 type Props = { id: string; uf?: string };
 

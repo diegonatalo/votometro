@@ -2,10 +2,10 @@ import { EXPECTED } from "./meta";
 import { sumUp, winner } from "./stats";
 import type { MunicipalitiesFile, NationalFile, StatesFile, Tally } from "@/types";
 
-export interface Check {
+export type Check = {
   nivel: "ok" | "erro" | "info";
   text: string;
-}
+};
 
 const eq = (a: number, b: number) => a === b;
 const n = (x: number) => x.toLocaleString("pt-BR");

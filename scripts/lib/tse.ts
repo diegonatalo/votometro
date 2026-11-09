@@ -72,21 +72,21 @@ export async function pool<I, O>(items: I[], size: number, fn: (item: I, idx: nu
   return out;
 }
 
-interface RawCand { n: string; vap?: string }
-interface RawUnit {
+type RawCand = { n: string; vap?: string };
+type RawUnit = {
   dg: string; hg: string; dt: string; ht: string;
   carg: { agr: { par: { cand?: RawCand[] }[] }[] }[];
   s: { ts: string; st: string };
   e: { te: string; c: string; a: string; esni: string };
   v: { vb: string; tvn: string };
-}
+};
 
-export interface ParsedUnit {
+export type ParsedUnit = {
   tally: Tally;
   votesByNumber: Map<string, number>;
   generation: string;
   counting: string;
-}
+};
 
 const num = (s: string | undefined): number => Number(s ?? 0);
 

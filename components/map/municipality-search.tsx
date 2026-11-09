@@ -4,11 +4,11 @@ import { useId, useMemo, useState } from "react";
 import { normalize } from "@/lib/format";
 import type { Municipality } from "@/types";
 
-interface Props {
+type Props = {
   municipalities: Municipality[] | null;
   onWake: () => void;
   onPick: (m: Municipality) => void;
-}
+};
 
 export const MunicipalitySearch = ({ municipalities, onWake, onPick }: Props) => {
   const id = useId();

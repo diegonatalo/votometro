@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { fmtInt, fmtPct } from "@/lib/format";
 
-interface Props {
+type Props = {
   value: number;
   kind?: "int" | "pct";
   duration?: number;
-}
+};
 
 /** Número com contagem animada ao entrar na tela. Sem animação com prefers-reduced-motion. */
 export const CountUp = ({ value, kind = "int", duration = 1100 }: Props) => {

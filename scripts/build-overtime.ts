@@ -35,7 +35,7 @@ function splitCsv(line: string): string[] {
   return out;
 }
 
-interface Sec { mun: string; uf: string; abre: number; closes: number; comp: number; lula: number; flavio: number; blank: number; nullVotes: number }
+type Sec = { mun: string; uf: string; abre: number; closes: number; comp: number; lula: number; flavio: number; blank: number; nullVotes: number };
 
 /** "2026-10-04 15:01:05" → minutos do dia (hora local da urna) */
 function minutesOfDay(s: string | undefined): number {
@@ -85,7 +85,7 @@ async function download(url: string, dest: string): Promise<void> {
   await writeFile(dest, Buffer.from(await res.arrayBuffer()));
 }
 
-interface CkanRes { name: string; url: string; format: string }
+type CkanRes = { name: string; url: string; format: string };
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
