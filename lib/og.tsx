@@ -11,8 +11,8 @@ export function renderOg() {
   const d = loadNational();
   const p = validPct(d.national);
   const sides = [
-    { name: "Lula", pct: p.lula, cor: "#ff8576" },
-    { name: "Flávio Bolsonaro", pct: p.flavio, cor: "#7fb0ff" },
+    { name: "Lula", pct: p.lula, color: "#ff8576" },
+    { name: "Flávio Bolsonaro", pct: p.flavio, color: "#7fb0ff" },
   ];
   return new ImageResponse(
     (
@@ -30,7 +30,7 @@ export function renderOg() {
             {sides.map((l) => (
               <div key={l.name} style={{ display: "flex", flexDirection: "column", flex: 1, padding: 24, borderRadius: 24, background: "#121721", border: "1px solid #263042" }}>
                 <div style={{ fontSize: 30, color: "#b0b9c8" }}>{l.name}</div>
-                <div style={{ fontSize: 96, fontWeight: 800, color: l.cor, lineHeight: 1.1 }}>{fmtPct(l.pct)}</div>
+                <div style={{ fontSize: 96, fontWeight: 800, color: l.color, lineHeight: 1.1 }}>{fmtPct(l.pct)}</div>
               </div>
             ))}
           </div>

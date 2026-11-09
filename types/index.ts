@@ -90,10 +90,10 @@ export interface StatesFile {
 }
 
 export type MunicipalityTuple = [
-  ibge: string, nome: string, uf: string,
-  lula: number, flavio: number, brancos: number, nulos: number,
-  aptos: number, comparecimento: number, abstencoes: number,
-  secoes: number, secoesTotalizadas: number, naoInstalados: number,
+  ibge: string, name: string, uf: string,
+  lula: number, flavio: number, blank: number, nullVotes: number,
+  eligible: number, turnout: number, abstentions: number,
+  sections: number, countedSections: number, notInstalled: number,
 ];
 
 export interface MunicipalitiesFile {
@@ -119,7 +119,7 @@ export interface OvertimeFile {
   total?: { after: OvertimeGroup; upTo: OvertimeGroup; noTime: number };
   thresholds?: { minutes: number; sections: number }[];
   byState?: Record<string, { after: OvertimeGroup; upTo: OvertimeGroup }>;
-  /** ibge → [secoesApos, lula, flavio, comparecimento] */
+  /** ibge → [sectionsAfter, lula, flavio, turnout] */
   byMunicipality?: Record<string, [number, number, number, number]>;
 }
 
