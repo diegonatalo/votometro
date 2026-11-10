@@ -12,10 +12,10 @@ export async function runValidation(): Promise<boolean> {
   ]);
   const checks = validateAll(national, states, munis);
   for (const c of checks) {
-    const tag = c.nivel === "ok" ? "  OK  " : c.nivel === "erro" ? " ERRO " : " info ";
+    const tag = c.level === "ok" ? "  OK  " : c.level === "error" ? " ERRO " : " info ";
     console.log(`[${tag}] ${c.text}`);
   }
-  const errors = checks.filter((c) => c.nivel === "erro").length;
+  const errors = checks.filter((c) => c.level === "error").length;
   console.log(errors === 0 ? "\nValidação concluída: todos os totais conferem." : `\nValidação FALHOU: ${errors} divergência(s).`);
   return errors === 0;
 }

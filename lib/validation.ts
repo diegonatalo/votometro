@@ -3,7 +3,7 @@ import { sumUp, winner } from "./stats";
 import type { MunicipalitiesFile, NationalFile, StatesFile, Tally } from "@/types";
 
 export type Check = {
-  nivel: "ok" | "erro" | "info";
+  level: "ok" | "error" | "info";
   text: string;
 };
 
@@ -13,8 +13,8 @@ const n = (x: number) => x.toLocaleString("pt-BR");
 /** Valida os arquivos gerados contra os totais nacionais conferidos. */
 export function validateAll(national: NationalFile, states: StatesFile, munis: MunicipalitiesFile): Check[] {
   const out: Check[] = [];
-  const check = (cond: boolean, ok: string, err: string) => out.push(cond ? { nivel: "ok", text: ok } : { nivel: "erro", text: err });
-  const info = (text: string) => out.push({ nivel: "info", text });
+  const check = (cond: boolean, ok: string, err: string) => out.push(cond ? { level: "ok", text: ok } : { level: "error", text: err });
+  const info = (text: string) => out.push({ level: "info", text });
 
   const nat = national.national;
   const sum = sumUp([...states.states, national.abroad]);
@@ -42,10 +42,10 @@ export function validateAll(national: NationalFile, states: StatesFile, munis: M
     const s = ms.reduce((a, r) => ({ l: a.l + r[3], f: a.f + r[4], b: a.b + r[5], nu: a.nu + r[6], ap: a.ap + r[7], c: a.c + r[8] }), { l: 0, f: 0, b: 0, nu: 0, ap: 0, c: 0 });
     if (s.l !== e.lula || s.f !== e.flavio || s.b !== e.blank || s.nu !== e.nullVotes || s.ap !== e.eligible || s.c !== e.turnout) {
       ufsBad++;
-      out.push({ nivel: "erro", text: `${e.uf}: soma dos ${ms.length} municípios (Lula ${n(s.l)}, Flávio ${n(s.f)}) ≠ total da UF (Lula ${n(e.lula)}, Flávio ${n(e.flavio)})` });
+      out.push({ level: "error", text: `${e.uf}: soma dos ${ms.length} municípios (Lula ${n(s.l)}, Flávio ${n(s.f)}) ≠ total da UF (Lula ${n(e.lula)}, Flávio ${n(e.flavio)})` });
     }
   }
-  if (ufsBad === 0) out.push({ nivel: "ok", text: `Soma dos municípios = total de cada UF (27 UFs, ${n(munis.rows.length)} municípios)` });
+  if (ufsBad === 0) out.push({ level: "ok", text: `Soma dos municípios = total de cada UF (27 UFs, ${n(munis.rows.length)} municípios)` });
 
   const wins = { lula: 0, flavio: 0, tie: 0 };
   for (const e of states.states) wins[winner(e)]++;
