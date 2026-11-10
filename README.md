@@ -155,6 +155,16 @@ Só precisa definir se publicar em outro domínio:
 NEXT_PUBLIC_SITE_URL=https://seu-dominio.com.br pnpm build
 ```
 
+### 🧪 Testes
+
+```bash
+pnpm test
+```
+
+Usa [Vitest](https://vitest.dev). Os testes cobrem as estatísticas (votos válidos, margem, vencedor, comparecimento e abstenção), a validação dos totais, a formatação, as cores do mapa, a geometria por estado e o parser dos dados do TSE.
+
+Para reexecutar ao salvar: `pnpm test:watch`.
+
 <br />
 
 <div align="center">
@@ -237,7 +247,7 @@ O site é publicado na Vercel. Todas as páginas são geradas no build, a partir
 ### 🧭 Próximos passos
 
 - [ ] Publicar o painel “Após as 17h” com números assim que o TSE liberar os Boletins de Urna do 2º turno.
-- [ ] Adicionar testes automatizados (hoje a garantia é a validação dos totais no build).
+- [ ] Testes do índice espacial do mapa (hoje os testes cobrem as estatísticas, a validação e o parser do TSE).
 - [ ] Medir o desempenho do mapa em celulares reais (os testes foram feitos em navegador headless).
 - [ ] Conferir o preview de compartilhamento no site publicado (WhatsApp, X, LinkedIn).
 - [ ] Atualizar os dados sozinho com um agendamento, em vez de rodar `build-data` à mão.
