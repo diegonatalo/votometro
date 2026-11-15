@@ -24,7 +24,7 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 ## Arquitetura
 - `lib/` lógica pura (sem React, sem acesso a `window`). `hooks/` estado e efeitos. `components/` UI. `types/` tipos compartilhados. `app/` só arquivos de rota (`page`, `layout`, `not-found`, `route`, `robots`, `sitemap`, `opengraph-image`); o corpo de cada tela fica em `components/`.
 - Tipo derivado de um schema fica ao lado do schema.
-- Se guardar dados no navegador: `localStorage` lido com `useSyncExternalStore`, nunca no render do servidor. Chaves no formato `app:nome:v1`, em inglês, todas num único arquivo. Sem mapas de migração de dados antigos.
+- Se guardar dados no navegador: `localStorage` lido com `useSyncExternalStore`, nunca no render do servidor. Chaves no formato `<projeto>:<nome>:v1`, em que `<projeto>` é o nome da pasta do projeto e `<nome>` diz o que é guardado, em inglês (ex.: no `fitlog`, `fitlog:workouts:v1` e `fitlog:theme:v1`). Nunca use um prefixo genérico como `app:`: em `localhost` todos os projetos dividem o mesmo `localStorage`. Todas as chaves num único arquivo. Sem mapas de migração de dados antigos.
 
 ## Código
 - Componentes com arrow function e export nomeado: `export const Nome = (props: Props) => { ... };`. Só `page`, `layout` e arquivos de rota usam `export default function`.
@@ -43,7 +43,7 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - **Responsivo:** mobile-first com os breakpoints do Tailwind, sem rolagem horizontal em telas pequenas.
 - **Teclado:** tudo navegável e operável só com o teclado. Elementos nativos (`button`, `a`, `input`) em vez de `div` clicável; foco sempre visível; botão só com ícone leva `aria-label`.
 - **404:** `app/not-found.tsx` customizada, no visual do app, com link para a página inicial.
-- Se tiver tema claro e escuro: classe `dark` no `<html>` e `@custom-variant dark (&:where(.dark, .dark *));` no CSS global. Escolha salva em `app:theme:v1`, aplicada antes da primeira pintura (sem flash); sem escolha, segue o sistema.
+- Se tiver tema claro e escuro: classe `dark` no `<html>` e `@custom-variant dark (&:where(.dark, .dark *));` no CSS global. Escolha salva em `<projeto>:theme:v1`, aplicada antes da primeira pintura (sem flash); sem escolha, segue o sistema.
 - Se tiver 2 a 5 seções principais de navegação: Bottom Tab Bar abaixo do breakpoint `md`.
 - Se tiver modais: prendem o foco e fecham com Esc.
 - Se tiver várias páginas de conteúdo: link "Pular para o conteúdo" no início.
