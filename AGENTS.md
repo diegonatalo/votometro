@@ -60,3 +60,4 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 ## Documentação e git
 - `README.md` é gerado pelo readme-kit: edite `docs/readme/` e rode `build` e `check`, nunca o README à mão.
 - Commits em inglês, no formato Conventional Commits: `feat(scope): add ...`, `fix: ...`, `refactor: ...`, `test: ...`, `docs: ...`, `chore: ...`.
+- Nunca commite nem faça push direto na `main`. Antes de alterar qualquer coisa, crie uma branch a partir da `main` atualizada, com o mesmo prefixo dos commits: `feat/...`, `fix/...`, `refactor/...`, `docs/...`, `chore/...`. Ela volta para a `main` por pull request.
