@@ -10,5 +10,11 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.test.{ts,tsx}"],
     exclude: ["node_modules", ".next"],
+    coverage: {
+      provider: "v8",
+      include: ["lib/**/*.{ts,tsx}", "hooks/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+      exclude: ["**/*.test.{ts,tsx}", "**/*.d.ts"],
+      reporter: ["text-summary", "text"],
+    },
   },
 });

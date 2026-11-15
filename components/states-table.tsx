@@ -51,8 +51,8 @@ export const StatesTable = ({ states }: Props) => {
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <label className="sr-only" htmlFor="tbl-busca">Buscar estado</label>
-        <input id="tbl-busca" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar estado…" className="w-44 rounded-lg border border-line bg-bg px-2.5 py-1.5 text-sm placeholder:text-ink-3" />
+        <label className="sr-only" htmlFor="states-search">Buscar estado</label>
+        <input id="states-search" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar estado…" className="w-44 rounded-lg border border-line bg-bg px-2.5 py-1.5 text-sm placeholder:text-ink-3" />
         <div role="group" aria-label="Filtrar por região" className="flex flex-wrap gap-1">
           {([{ id: "all", name: "Todas" }, ...REGIONS] as { id: Region | "all"; name: string }[]).map((r) => (
             <button key={r.id} type="button" aria-pressed={region === r.id} onClick={() => setRegion(r.id)} className={`rounded-full border px-3 py-1 text-xs font-medium ${region === r.id ? "border-ink bg-ink text-bg" : "border-line hover:bg-surface-2"}`}>
