@@ -61,3 +61,4 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - `README.md` é gerado pelo readme-kit: edite `docs/readme/` e rode `build` e `check`, nunca o README à mão.
 - Commits em inglês, no formato Conventional Commits: `feat(scope): add ...`, `fix: ...`, `refactor: ...`, `test: ...`, `docs: ...`, `chore: ...`.
 - Nunca commite nem faça push direto na `main`. Antes de alterar qualquer coisa, crie uma branch a partir da `main` atualizada, com o mesmo prefixo dos commits: `feat/...`, `fix/...`, `refactor/...`, `docs/...`, `chore/...`. Ela volta para a `main` por pull request.
+- A Vercel só faz deploy da `main` (`vercel.json`); branches e PRs não geram preview. O CI (`.github/workflows/ci.yml`) roda lint, testes e build em cada PR. A conta gratuita da Vercel tem limite de 100 deploys por dia somando todos os projetos, então evite mesclar muitos PRs de uma vez.
