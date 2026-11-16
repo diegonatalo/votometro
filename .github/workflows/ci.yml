@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   check:
-    name: Lint e testes
+    name: Lint, testes e build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -28,3 +28,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm test
+      # A Vercel só publica a main (vercel.json), então o build do PR roda aqui.
+      - run: pnpm build
