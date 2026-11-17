@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { THEME_KEY } from "@/lib/storage-keys";
+import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -37,10 +38,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning className={`${display.variable} ${body.variable} ${data.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript(THEME_KEY) }} />
+      </head>
       <body className="min-h-screen antialiased">
-        <ThemeProvider attribute="class" storageKey="votometro:theme:v1" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
