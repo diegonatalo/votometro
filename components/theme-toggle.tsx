@@ -1,7 +1,8 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@/hooks/use-theme";
 import { useMounted } from "@/hooks/use-mounted";
+import { THEME_KEY } from "@/lib/storage-keys";
 
 const OPTIONS = [
   { id: "light", label: "Claro", icon: "M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" },
@@ -9,9 +10,9 @@ const OPTIONS = [
 ] as const;
 
 export const ThemeToggle = () => {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme(THEME_KEY);
   const mounted = useMounted();
-  const current = mounted ? resolvedTheme : undefined;
+  const current = mounted ? theme : undefined;
 
   return (
     <div role="radiogroup" aria-label="Tema da interface" className="inline-flex rounded-full border border-line bg-surface p-0.5">

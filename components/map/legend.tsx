@@ -1,14 +1,15 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@/hooks/use-theme";
 import { useMemo } from "react";
 import { useMounted } from "@/hooks/use-mounted";
+import { THEME_KEY } from "@/lib/storage-keys";
 import { legendStops, SATURA_PP, type ThemeName } from "@/lib/colors";
 
 export function useThemeName(): ThemeName {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme(THEME_KEY);
   const mounted = useMounted();
-  return mounted && resolvedTheme === "dark" ? "dark" : "light";
+  return mounted && theme === "dark" ? "dark" : "light";
 }
 
 /** Legenda da escala: 80% Lula … 50% … 80% Flávio. */
