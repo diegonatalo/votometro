@@ -41,8 +41,13 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 ## Testes
 - Toda feature nova com lógica vem com testes no mesmo commit. Vitest + Testing Library; script `pnpm test`.
 - Lógica em `lib/` sempre testada (`nome.test.ts` ao lado do arquivo). Se um componente tem comportamento (formulário, interação, estados), teste-o também. Não teste só aparência.
-- Componentes de servidor `async` não se testam com Vitest: cubra com E2E (Playwright), só se o projeto tiver fluxo que justifique.
-- Se tiver E2E: Playwright com `playwright.config.ts` na raiz, testes em `e2e/*.spec.ts` (o Vitest fica com `*.test.ts`) e script `test:e2e`. Só Chromium, contra o build de produção. O CI roda o E2E sempre que o `playwright.config.ts` existe. Teste fluxos que juntam telas e dados (criar, recarregar, backup), não o que o Vitest já cobre.
+- Componentes de servidor `async` não se testam com Vitest: cubra com E2E.
+- **E2E (Playwright):** obrigatório se o projeto guarda dados da pessoa no navegador (`localStorage` além do tema, ou IndexedDB); opcional nos demais. Teste fluxos que juntam telas e dados, não o que o Vitest já cobre. No mínimo:
+  - criar dados pela interface e conferir que continuam depois de recarregar a página;
+  - se houver backup: exportar, ficar sem os dados (de preferência um navegador limpo com `browser.newContext()`; também vale apagar pela própria interface ou limpar o storage), importar e conferir os dados, e recusar um arquivo inválido;
+  - `e2e/navigation.spec.ts`: cada página abre sem erro no console, e a 404 leva de volta ao início.
+- Estrutura do E2E: `playwright.config.ts` na raiz, igual ao modelo do standard-kit (`standard-kit/templates/`); testes em `e2e/*.spec.ts` (o Vitest fica com `*.test.ts`) e passos repetidos em `e2e/fixtures.ts`; script `test:e2e`. Só Chromium, contra o build de produção; o CI roda o E2E sempre que o `playwright.config.ts` existe.
+- Nada de rede de verdade no E2E: APIs externas são simuladas com `page.route`, senão o CI quebra quando a API sai do ar. Seletores por papel e nome (`getByRole`, `getByLabel`), como a pessoa enxerga a tela.
 
 ## Interface
 - **Responsivo:** mobile-first com os breakpoints do Tailwind, sem rolagem horizontal em telas pequenas.
