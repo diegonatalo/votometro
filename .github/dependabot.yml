@@ -1,0 +1,32 @@
+# Atualizações de dependências por PR. O CI roda em cada um; a Vercel não gera
+# preview (vercel.json só publica a main), então só o merge conta no limite de deploys.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Sao_Paulo
+    # Espera a versão ter uma semana antes de propor (evita pacote recém-comprometido).
+    cooldown:
+      default-days: 7
+    # Minor e patch num PR só; major vem em PR separado.
+    groups:
+      minor-e-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
