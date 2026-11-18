@@ -9,7 +9,8 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.test.{ts,tsx}"],
-    exclude: ["node_modules", ".next"],
+    // e2e/ é do Playwright (pnpm test:e2e).
+    exclude: ["node_modules", ".next", "e2e"],
     coverage: {
       provider: "v8",
       include: ["lib/**/*.{ts,tsx}", "hooks/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
