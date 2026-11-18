@@ -19,10 +19,10 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 ## Versões
 - Projeto novo: crie com `pnpm create next-app@latest` e mantenha as versões que ele gerar. Não fixe versões de memória nem rebaixe.
 - Dependência nova: `pnpm add <pacote>`; não escreva versões à mão no `package.json`.
-- Projeto existente: só atualize quando pedido.
+- Projeto existente: só atualize quando pedido. As atualizações de rotina chegam como PRs do Dependabot (`.github/dependabot.yml`, toda segunda); mescle aos poucos por causa do limite de deploys.
 
 ## Arquitetura
-- `lib/` lógica pura (sem React, sem acesso a `window`). `hooks/` estado e efeitos. `components/` UI. `types/` tipos compartilhados. `app/` só arquivos de rota (`page`, `layout`, `not-found`, `route`, `robots`, `sitemap`, `opengraph-image`); o corpo de cada tela fica em `components/`.
+- `lib/` lógica pura (sem React, sem acesso a `window`). `hooks/` estado e efeitos. `components/` UI. `types/` tipos compartilhados. `app/` só arquivos de rota (`page`, `layout`, `not-found`, `error`, `global-error`, `route`, `robots`, `sitemap`, `opengraph-image`); o corpo de cada tela fica em `components/`.
 - Tipo derivado de um schema fica ao lado do schema.
 - Se guardar dados no navegador: `localStorage` lido com `useSyncExternalStore`, nunca no render do servidor. Chaves no formato `<projeto>:<nome>:v1`, em que `<projeto>` é o nome da pasta do projeto e `<nome>` diz o que é guardado, em inglês (ex.: no `fitlog`, `fitlog:workouts:v1` e `fitlog:theme:v1`). Nunca use um prefixo genérico como `app:`: em `localhost` todos os projetos dividem o mesmo `localStorage`. Todas as chaves num único arquivo. Sem mapas de migração de dados antigos.
 
@@ -43,6 +43,7 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - **Responsivo:** mobile-first com os breakpoints do Tailwind, sem rolagem horizontal em telas pequenas.
 - **Teclado:** tudo navegável e operável só com o teclado. Elementos nativos (`button`, `a`, `input`) em vez de `div` clicável; foco sempre visível; botão só com ícone leva `aria-label`.
 - **404:** `app/not-found.tsx` customizada, no visual do app, com link para a página inicial.
+- **Erros:** `app/error.tsx` (`"use client"`) renderiza `components/error-screen.tsx`, no visual do app, com botão "Tentar de novo" (chama `retry`) e link para a página inicial, e registra o erro com `console.error`. A tela de erro é simples: nada de dados do `localStorage` nem componentes pesados, que podem ser a causa do erro. `app/global-error.tsx` é igual ao do modelo.
 - Se tiver tema claro e escuro: classe `dark` no `<html>` e `@custom-variant dark (&:where(.dark, .dark *));` no CSS global. Escolha salva em `<projeto>:theme:v1`, aplicada antes da primeira pintura (sem flash); sem escolha, segue o sistema.
 - Se tiver 2 a 5 seções principais de navegação: Bottom Tab Bar abaixo do breakpoint `md`.
 - Se tiver modais: prendem o foco e fecham com Esc.
