@@ -20,6 +20,10 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Projeto novo: crie com `pnpm create next-app@latest` e mantenha as versões que ele gerar. Não fixe versões de memória nem rebaixe.
 - Dependência nova: `pnpm add <pacote>`; não escreva versões à mão no `package.json`.
 - Projeto existente: só atualize quando pedido. As atualizações de rotina chegam como PRs do Dependabot (`.github/dependabot.yml`, toda segunda); mescle aos poucos por causa do limite de deploys.
+- Intervalos no formato que o modelo usa: se lá está `^6`, fica `^6`, não `^6.0.3`. O `pnpm update` expande os intervalos curtos; volte-os ao formato do modelo antes de commitar.
+- Versão major vai primeiro para o my-app e depois para os projetos. O aviso "my-app atrás em ..." do standard-kit indica uma versão que já chegou a um projeto e falta no modelo.
+- `@types/node` acompanha o Node do CI e da Vercel (24), não a última versão.
+- Mudou a versão de Next.js, React, TypeScript ou Tailwind: rode o `build` do readme-kit, porque o selo de stack do README mostra essas versões.
 
 ## Arquitetura
 - `lib/` lógica pura (sem React, sem acesso a `window`). `hooks/` estado e efeitos. `components/` UI. `types/` tipos compartilhados. `app/` só arquivos de rota (`page`, `layout`, `not-found`, `error`, `global-error`, `route`, `robots`, `sitemap`, `opengraph-image`); o corpo de cada tela fica em `components/`.
@@ -37,7 +41,13 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 ## Testes
 - Toda feature nova com lógica vem com testes no mesmo commit. Vitest + Testing Library; script `pnpm test`.
 - Lógica em `lib/` sempre testada (`nome.test.ts` ao lado do arquivo). Se um componente tem comportamento (formulário, interação, estados), teste-o também. Não teste só aparência.
-- Componentes de servidor `async` não se testam com Vitest: cubra com E2E (Playwright), só se o projeto tiver fluxo que justifique.
+- Componentes de servidor `async` não se testam com Vitest: cubra com E2E.
+- **E2E (Playwright):** obrigatório se o projeto guarda dados da pessoa no navegador (`localStorage` além do tema, ou IndexedDB); opcional nos demais. Teste fluxos que juntam telas e dados, não o que o Vitest já cobre. No mínimo:
+  - criar dados pela interface e conferir que continuam depois de recarregar a página;
+  - se houver backup: exportar, ficar sem os dados (de preferência um navegador limpo com `browser.newContext()`; também vale apagar pela própria interface ou limpar o storage), importar e conferir os dados, e recusar um arquivo inválido;
+  - `e2e/navigation.spec.ts`: cada página abre sem erro no console, e a 404 leva de volta ao início.
+- Estrutura do E2E: `playwright.config.ts` na raiz, igual ao modelo do standard-kit (`standard-kit/templates/`); testes em `e2e/*.spec.ts` (o Vitest fica com `*.test.ts`) e passos repetidos em `e2e/fixtures.ts`; script `test:e2e`. Só Chromium, contra o build de produção; o CI roda o E2E sempre que o `playwright.config.ts` existe.
+- Nada de rede de verdade no E2E: APIs externas são simuladas com `page.route`, senão o CI quebra quando a API sai do ar. Seletores por papel e nome (`getByRole`, `getByLabel`), como a pessoa enxerga a tela.
 
 ## Interface
 - **Responsivo:** mobile-first com os breakpoints do Tailwind, sem rolagem horizontal em telas pequenas.
@@ -62,4 +72,5 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - `README.md` é gerado pelo readme-kit: edite `docs/readme/` e rode `build` e `check`, nunca o README à mão.
 - Commits em inglês, no formato Conventional Commits: `feat(scope): add ...`, `fix: ...`, `refactor: ...`, `test: ...`, `docs: ...`, `chore: ...`.
 - Nunca commite nem faça push direto na `main`. Antes de alterar qualquer coisa, crie uma branch a partir da `main` atualizada, com o mesmo prefixo dos commits: `feat/...`, `fix/...`, `refactor/...`, `docs/...`, `chore/...`. Ela volta para a `main` por pull request.
+- Antes do push, rode `pnpm lint`, `pnpm test` e `pnpm build`. O CI repete os três, mas o erro achado localmente não vira PR vermelho.
 - A Vercel só faz deploy da `main` (`vercel.json`); branches e PRs não geram preview. O CI (`.github/workflows/ci.yml`) roda lint, testes e build em cada PR. A conta gratuita da Vercel tem limite de 100 deploys por dia somando todos os projetos, então evite mesclar muitos PRs de uma vez.

@@ -30,3 +30,8 @@ jobs:
       - run: pnpm test
       # A Vercel só publica a main (vercel.json), então o build do PR roda aqui.
       - run: pnpm build
+      # E2E só nos projetos com Playwright, contra o build acima.
+      - if: hashFiles('playwright.config.ts') != ''
+        run: pnpm exec playwright install --with-deps chromium
+      - if: hashFiles('playwright.config.ts') != ''
+        run: pnpm test:e2e
