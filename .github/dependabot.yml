@@ -15,6 +15,10 @@ updates:
     groups:
       minor-e-patch:
         update-types: [minor, patch]
+    # Os tipos do Node acompanham o Node do CI e da Vercel (24), não a última versão.
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 5
     commit-message:
       prefix: chore
