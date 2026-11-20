@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { REDIRECTS } from "@/lib/redirects";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -7,6 +8,7 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  redirects: async () => REDIRECTS,
   turbopack: {
     rules: {
       "*.css": {

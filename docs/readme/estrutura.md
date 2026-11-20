@@ -1,5 +1,5 @@
 ```text
-├── app/            página, layout, favicon, imagem Open Graph, robots e sitemap
+├── app/            landing (/), o resultado em /app, layout, favicon, imagem Open Graph, robots e sitemap
 ├── components/     Hero, seções, tabela de estados, tema, seletor de candidato
 │   └── map/        BrazilMap (SVG + Canvas), legenda, tooltip, painel e busca
 ├── lib/            formatação, estatísticas, cores, geometria, validação, site
