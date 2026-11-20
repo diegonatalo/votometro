@@ -3,5 +3,5 @@ import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  return ["/"].map((route) => ({ url: `${SITE_URL}${route}`, lastModified }));
+  return ["/", "/app"].map((route) => ({ url: `${SITE_URL}${route}`, lastModified }));
 }

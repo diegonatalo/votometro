@@ -64,6 +64,19 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Layout com `lang="pt-BR"`, `metadataBase`, título, descrição, `openGraph` e `twitter` (`summary_large_image`).
 - Se o site for público: imagem OG em `app/opengraph-image.tsx`, `robots.ts`, `sitemap.ts`, `canonical` em cada página (**nunca** no layout) e um `<h1>` por página.
 
+## Landing
+- Se tiver landing: `/` é a landing, um Server Component estático (só botões que leem o navegador viram ilhas cliente). O app fica todo sob `/app/...`, e as rotas que já existiam redirecionam com 308 (lista `REDIRECTS` em `lib/redirects.ts`, lida pelo `next.config.ts`, com `permanent: true`). Links internos, 404 e tela de erro apontam para `/app`.
+- Estrutura: hero com `<h1>` e CTA "Abrir o app", como funciona, recursos, prints, privacidade em uma frase (se guarda dados), FAQ, CTA final e rodapé. Textos em `lib/landing.ts`, seções em `components/landing/`. O visual é de cada projeto.
+- Prints em `public/landing/*.webp`, gerados por `e2e/screenshots.spec.ts` com dados de exemplo, nunca à mão. Botão de dados de exemplo só aparece com o navegador vazio e nunca sobrescreve dados.
+
+## Privacidade
+- Se guarda dados da pessoa (mesmo critério do E2E) ou envia dados a terceiros (API externa, formulário, analytics, banco): `app/privacidade/page.tsx` com `components/legal-page.tsx`, link no rodapé (`components/site-footer.tsx`), no sitemap e no `navigation.spec.ts`. A política diz o que é guardado e onde, quem recebe (incluindo a Vercel como hospedagem), o que vai no backup, como apagar e o contato (`PRIVACY_EMAIL` de `lib/site.ts`).
+- Se guarda dados ou tem conta: `app/termos/page.tsx`, com o mesmo layout.
+- Mudou o que se coleta ou com quem se compartilha: atualize a política e a data (`updatedAt`) no mesmo PR.
+- Se tiver dado sensível (saúde, por exemplo): aviso confirmado antes de exportar backup; nunca em URL, log ou analytics.
+- Sem cookie que não seja necessário (analytics com cookie, pixel, propaganda) sem discutir antes: ele obriga a ter aviso de cookies.
+- Os modelos de texto ficam em `standard-kit/templates/legal/`. Eles são ponto de partida e não substituem orientação jurídica.
+
 ## Next 16 com cacheComponents
 - Sem `new Date()` nem `Math.random()` durante a renderização; valores que dependem da data são calculados após a hidratação (`useSyncExternalStore` com snapshot de servidor vazio).
 - `searchParams`, `params` e dados de runtime pedem `<Suspense>` ou `export const instant = false`. `dynamicParams` não é permitido.
