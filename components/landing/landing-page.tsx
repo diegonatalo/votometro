@@ -52,7 +52,11 @@ export const LandingPage = ({ data }: { data: NationalFile }) => (
         </Link>
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
-          <Link href="/app" className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-bg hover:opacity-90">
+          {/* No celular o hero já traz o mesmo link logo abaixo. */}
+          <Link
+            href="/app"
+            className="whitespace-nowrap rounded-full bg-ink px-4 py-2 text-sm font-semibold text-bg hover:opacity-90 max-sm:hidden"
+          >
             Ver o resultado
           </Link>
         </div>
