@@ -42,11 +42,11 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Toda feature nova com lógica vem com testes no mesmo commit. Vitest + Testing Library; script `pnpm test`.
 - Lógica em `lib/` sempre testada (`nome.test.ts` ao lado do arquivo). Se um componente tem comportamento (formulário, interação, estados), teste-o também. Não teste só aparência.
 - Componentes de servidor `async` não se testam com Vitest: cubra com E2E.
-- **E2E (Playwright):** obrigatório se o projeto guarda dados da pessoa no navegador (`localStorage` além do tema, ou IndexedDB); opcional nos demais. Teste fluxos que juntam telas e dados, não o que o Vitest já cobre. No mínimo:
+- **E2E (Playwright):** obrigatório se o projeto guarda dados da pessoa no navegador (`localStorage` além do tema, ou IndexedDB) ou tem contas (ver "Contas"); opcional nos demais. Teste fluxos que juntam telas e dados, não o que o Vitest já cobre. No mínimo:
   - criar dados pela interface e conferir que continuam depois de recarregar a página;
   - se houver backup: exportar, ficar sem os dados (de preferência um navegador limpo com `browser.newContext()`; também vale apagar pela própria interface ou limpar o storage), importar e conferir os dados, e recusar um arquivo inválido;
   - `e2e/navigation.spec.ts`: cada página abre sem erro no console, e a 404 leva de volta ao início.
-- Estrutura do E2E: `playwright.config.ts` na raiz, igual ao modelo do standard-kit (`standard-kit/templates/`); testes em `e2e/*.spec.ts` (o Vitest fica com `*.test.ts`) e passos repetidos em `e2e/fixtures.ts`; script `test:e2e`. Só Chromium, contra o build de produção; o CI roda o E2E sempre que o `playwright.config.ts` existe.
+- Estrutura do E2E: `playwright.config.ts` na raiz, igual ao modelo do standard-kit (`standard-kit/templates/playwright.config.ts`; com contas, `templates/db/playwright.config.ts`); testes em `e2e/*.spec.ts` (o Vitest fica com `*.test.ts`) e passos repetidos em `e2e/fixtures.ts`; script `test:e2e`. Só Chromium, contra o build de produção; o CI roda o E2E sempre que o `playwright.config.ts` existe.
 - Nada de rede de verdade no E2E: APIs externas são simuladas com `page.route`, senão o CI quebra quando a API sai do ar. Seletores por papel e nome (`getByRole`, `getByLabel`), como a pessoa enxerga a tela.
 
 ## Interface
@@ -76,6 +76,28 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Se tiver dado sensível (saúde, por exemplo): aviso confirmado antes de exportar backup; nunca em URL, log ou analytics.
 - Sem cookie que não seja necessário (analytics com cookie, pixel, propaganda) sem discutir antes: ele obriga a ter aviso de cookies.
 - Os modelos de texto ficam em `standard-kit/templates/legal/`. Eles são ponto de partida e não substituem orientação jurídica.
+
+## Segurança
+- Cabeçalhos de segurança em `lib/security-headers.ts` (igual ao do modelo, com o teste), lido pelo `next.config.ts` como o `lib/redirects.ts`.
+
+## Banco de dados
+- Se tiver banco: Postgres no Neon pela integração da Vercel, com Drizzle. Schema em `lib/db/schema.ts`; conexão em `lib/db/index.ts`, com `import "server-only"`. Modelos em `standard-kit/templates/db/`.
+- Migrações em `drizzle/`, geradas por `pnpm db:generate` e aplicadas pelo script `vercel-build` (`drizzle-kit migrate && next build`), que só roda na `main`. As migrações usam `DATABASE_URL_UNPOOLED`. Migração destrutiva (apagar ou renomear coluna) só em duas etapas: primeiro o código para de usar a coluna, depois outro PR a remove.
+- Em desenvolvimento, o `.env.local` aponta para uma branch `dev` do Neon, nunca para a de produção. E2E e CI usam um Postgres descartável (service do GitHub Actions).
+- Variáveis no `.env.example`. Segredo nunca com `NEXT_PUBLIC_`. Um segredo diferente por ambiente. O que dá para derivar do `SITE_URL` não vira variável.
+- Leitura em `lib/data/queries.ts` (`server-only`) e escrita em `lib/data/actions.ts` (`"use server"`). Toda ação confere a sessão, valida a entrada como `unknown` com limites de tamanho (`LIMITS`) e filtra pelo `user_id` da sessão. Tabelas do app com chave `(user_id, id)`.
+- Escrita em mais de uma tabela é feita numa transação, inclusive criar os dados iniciais na primeira visita (duas abas abertas ao mesmo tempo criam os dados duas vezes).
+- Salvamento em segundo plano mostra o erro e avisa antes de fechar a aba (`beforeunload`) enquanto houver algo pendente. O service worker nunca guarda rotas logadas nem respostas RSC (`?_rsc`).
+- Dependência nova com script de instalação vai para o `allowBuilds` do `pnpm-workspace.yaml`, senão o `pnpm install` do CI falha.
+
+## Contas
+- Se tiver contas: Better Auth com e-mail e senha e o adaptador do Drizzle. `proxy.ts` faz a checagem otimista do cookie; o layout logado e cada Server Action fazem a checagem de verdade. O `robots.ts` bloqueia as rotas logadas e a API (`disallow`).
+- Com `cacheComponents`: a sessão é lida dentro de `<Suspense>` no layout logado, e `export const instant = false` vai em **cada** página logada (só no layout não basta).
+- Navegação completa (`window.location.assign`) ao entrar e ao sair. O parâmetro `?de=` aceita só caminhos internos.
+- Limite de tentativas guardado no banco (`rateLimit.storage = "database"`): na memória, cada instância da Vercel conta separado. "Excluir conta" apaga tudo em cascata.
+- Antes de lançar: serviço de e-mail para recuperação de senha e confirmação de e-mail, e `PRIVACY_EMAIL` definitivo. A política de privacidade cita o banco (Neon), a hospedagem (Vercel) e o cookie de sessão.
+- E2E obrigatório. Uma conta por teste, criada pela API (`signUpByApi` em `e2e/fixtures.ts`); `AUTH_RATE_LIMIT=off` só no `webServer.env` do Playwright (`standard-kit/templates/db/playwright.config.ts`). `e2e/auth.spec.ts` cobre cadastro, entrar, sair, senha errada, e-mail repetido, isolamento entre contas e excluir a conta.
+- Seletores: `getByLabel("Senha", { exact: true })` (senão pega também o botão "Mostrar senha") e avisos buscados dentro do `<main>`, porque o anunciador de rotas do Next também tem `role="alert"`.
 
 ## Next 16 com cacheComponents
 - Sem `new Date()` nem `Math.random()` durante a renderização; valores que dependem da data são calculados após a hidratação (`useSyncExternalStore` com snapshot de servidor vazio).
