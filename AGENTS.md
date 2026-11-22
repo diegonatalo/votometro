@@ -29,6 +29,7 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - `lib/` lógica pura (sem React, sem acesso a `window`). `hooks/` estado e efeitos. `components/` UI. `types/` tipos compartilhados. `app/` só arquivos de rota (`page`, `layout`, `not-found`, `error`, `global-error`, `route`, `robots`, `sitemap`, `opengraph-image`); o corpo de cada tela fica em `components/`.
 - Tipo derivado de um schema fica ao lado do schema.
 - Se guardar dados no navegador: `localStorage` lido com `useSyncExternalStore`, nunca no render do servidor. Chaves no formato `<projeto>:<nome>:v1`, em que `<projeto>` é o nome da pasta do projeto e `<nome>` diz o que é guardado, em inglês (ex.: no `fitlog`, `fitlog:workouts:v1` e `fitlog:theme:v1`). Nunca use um prefixo genérico como `app:`: em `localhost` todos os projetos dividem o mesmo `localStorage`. Todas as chaves num único arquivo. Sem mapas de migração de dados antigos.
+- Se tiver backup: o arquivo leva `app: "<projeto>"` e a versão do formato. Importar confere os dois e valida cada registro; arquivo de outro app, de versão desconhecida ou com dado inválido é recusado com uma mensagem, e o que está salvo continua intacto.
 
 ## Código
 - Componentes com arrow function e export nomeado: `export const Nome = (props: Props) => { ... };`. Só `page`, `layout` e arquivos de rota usam `export default function`.
@@ -81,7 +82,9 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Cabeçalhos de segurança em `lib/security-headers.ts` (igual ao do modelo, com o teste), lido pelo `next.config.ts` como o `lib/redirects.ts`.
 
 ## Banco de dados
-- Se tiver banco: Postgres no Neon pela integração da Vercel, com Drizzle. Schema em `lib/db/schema.ts`; conexão em `lib/db/index.ts`, com `import "server-only"`. Modelos em `standard-kit/templates/db/`.
+- Se tiver banco: Postgres no Neon pela integração da Vercel, com Drizzle. Schema em `lib/db/schema.ts`; conexão em `lib/db/index.ts`, igual ao modelo: driver `pg` (TCP, com transações de verdade), `attachDatabasePool` do `@vercel/functions` e `pool.on("error")`, senão uma conexão ociosa derrubada pelo Neon vira exceção sem tratamento. Modelos em `standard-kit/templates/db/`.
+- Tabela nova: datas em `timestamp` com `withTimezone: true` e dinheiro em centavos (`integer`). Não migre as tabelas que já existem só por isso.
+- Código que lê ou grava no banco tem teste contra um Postgres de verdade, que roda no CI (o service do `ci.yml`); teste que só roda com um banco local não conta.
 - Migrações em `drizzle/`, geradas por `pnpm db:generate` e aplicadas pelo script `vercel-build` (`drizzle-kit migrate && next build`), que só roda na `main`. As migrações usam `DATABASE_URL_UNPOOLED`. Migração destrutiva (apagar ou renomear coluna) só em duas etapas: primeiro o código para de usar a coluna, depois outro PR a remove.
 - Em desenvolvimento, o `.env.local` aponta para uma branch `dev` do Neon, nunca para a de produção. E2E e CI usam um Postgres descartável (service do GitHub Actions).
 - Variáveis no `.env.example`. Segredo nunca com `NEXT_PUBLIC_`. Um segredo diferente por ambiente. O que dá para derivar do `SITE_URL` não vira variável.
@@ -95,6 +98,7 @@ Regras que valem sempre, e regras marcadas com "Se..." que valem só quando o pr
 - Com `cacheComponents`: a sessão é lida dentro de `<Suspense>` no layout logado, e `export const instant = false` vai em **cada** página logada (só no layout não basta).
 - Navegação completa (`window.location.assign`) ao entrar e ao sair. O parâmetro `?de=` aceita só caminhos internos.
 - Limite de tentativas guardado no banco (`rateLimit.storage = "database"`): na memória, cada instância da Vercel conta separado. "Excluir conta" apaga tudo em cascata.
+- Regras da conta em `lib/auth-guard.ts`, igual ao modelo (`standard-kit/templates/db/lib/`): `guardAccountRoutes` em `hooks.before` (excluir a conta sempre pede a senha, e o cabeçalho da conta recusa a aba antiga) e `limitUser` em `databaseHooks.user.create` e `update` (nome e e-mail com tamanho máximo, sem imagem). Sem isso, o Better Auth aceita nome de qualquer tamanho e exclui a conta sem senha numa sessão de menos de um dia. O adaptador do Drizzle com `transaction: true`, para o cadastro não deixar usuário sem senha. `lib/auth.test.ts` confere essas regras pela API, com o adaptador em memória.
 - Antes de lançar: serviço de e-mail para recuperação de senha e confirmação de e-mail, e `PRIVACY_EMAIL` definitivo. A política de privacidade cita o banco (Neon), a hospedagem (Vercel) e o cookie de sessão.
 - E2E obrigatório. Uma conta por teste, criada pela API (`signUpByApi` em `e2e/fixtures.ts`); `AUTH_RATE_LIMIT=off` só no `webServer.env` do Playwright (`standard-kit/templates/db/playwright.config.ts`). `e2e/auth.spec.ts` cobre cadastro, entrar, sair, senha errada, e-mail repetido, isolamento entre contas e excluir a conta.
 - Seletores: `getByLabel("Senha", { exact: true })` (senão pega também o botão "Mostrar senha") e avisos buscados dentro do `<main>`, porque o anunciador de rotas do Next também tem `role="alert"`.
