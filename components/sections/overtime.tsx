@@ -1,6 +1,8 @@
-import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
+import { fmtInt, fmtPct } from "@/lib/format";
+import { CANDIDATES } from "@/lib/meta";
+import { overtimeSummary } from "@/lib/overtime";
 import { SectionTitle } from "@/components/section-title";
-import { marginPp, voteMargin, validPct } from "@/lib/stats";
+import { validPct } from "@/lib/stats";
 import type { MunicipalitiesFile, OvertimeFile, OvertimeGroup } from "@/types";
 import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
@@ -50,8 +52,8 @@ export const Overtime = ({ data, munis }: { data: OvertimeFile; munis: Municipal
   }
 
   const { after, upTo } = data.total;
-  const pa = validPct(asTally(after));
   const pr = validPct(asTally(upTo));
+  const sum = overtimeSummary(after, upTo);
   const nameOf = new Map(munis.rows.map((r) => [r[0], `${r[1]} (${r[2]})`]));
   const topMun = Object.entries(data.byMunicipality ?? {})
     .sort((a, b) => b[1][0] - a[1][0])
@@ -59,47 +61,62 @@ export const Overtime = ({ data, munis }: { data: OvertimeFile; munis: Municipal
   const ufs = Object.entries(data.byState ?? {})
     .filter(([, v]) => v.after.sections > 0)
     .sort((a, b) => b[1].after.sections - a[1].after.sections);
-  const totalSections = after.sections + upTo.sections;
 
   return (
     <section id="17h" aria-labelledby="h-17h" className="pt-20 sm:pt-28">
       <SectionTitle id="h-17h" n="04" em="do horário regular">Votação além</SectionTitle>
-      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-2" role="note">
-        Medimos o resultado das <strong>seções</strong> cujo Boletim de Urna indica encerramento mais de 15 minutos depois das 17h (Brasília). Os dados não informam a hora de cada voto.
+      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-2">
+        Quantos votos vieram das seções que fecharam depois do horário regular, para quem foram e quanto pesam no resultado.
       </p>
 
-      <div className="mt-6 grid gap-3 md:grid-cols-2">
-        {[
-          { title: "Seções que encerraram depois", g: after, p: pa },
-          { title: "Demais seções", g: upTo, p: pr },
-        ].map((b) => (
-          <div key={b.title} className="card p-6 sm:p-7">
-            <h3 className="text-xl font-bold">{b.title}</h3>
-            <p className="font-data text-xs text-ink-3">{fmtInt(b.g.sections)} seções · {fmtInt(b.g.turnout)} comparecimentos</p>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              {[
-                { n: "Lula", v: b.g.lula, pct: b.p.lula, tone: "lula" },
-                { n: "Flávio", v: b.g.flavio, pct: b.p.flavio, tone: "flavio" },
-              ]
-                .sort((x, y) => y.v - x.v)
-                .map((c) => (
-                  <div key={c.n}>
-                    <p className="flex items-center gap-1.5 text-sm text-ink-2"><span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: `var(--${c.tone})` }} aria-hidden="true" />{c.n}</p>
-                    <p className="font-display text-4xl tracking-[-0.02em]" style={{ color: `var(--${c.tone})` }}>{fmtPct(c.pct)}</p>
-                    <p className="font-data text-xs text-ink-2">{fmtInt(c.v)} votos</p>
-                  </div>
-                ))}
+      <div className="card mt-8 overflow-hidden">
+        <div className="p-6 sm:p-8">
+          <p className="section-eyebrow">Seções que fecharam depois das 17h15 (Brasília)</p>
+          <p className="font-display mt-3 text-5xl leading-none tracking-[-0.03em] sm:text-7xl">
+            {fmtInt(sum.votes)} <span className="text-2xl text-ink-2 sm:text-3xl">votos</span>
+          </p>
+          <p className="mt-3 max-w-2xl text-lg leading-relaxed text-ink-2">
+            <strong className="text-ink">{fmtPct(sum.ofAllVotes)} de todos os votos</strong> do 2º turno no Brasil, em {fmtInt(sum.sections)} seções ({fmtPct(sum.ofAllSections)} das seções).
+          </p>
+        </div>
+        <div className="grid border-t border-line md:grid-cols-2">
+          {sum.candidates.map((c, i) => (
+            <div key={c.id} className={`flex flex-col gap-2 p-6 sm:p-8 ${i === 0 ? "border-b border-line md:border-r md:border-b-0" : ""}`}>
+              <p className="flex items-center gap-2 font-bold">
+                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: `var(--${c.id})` }} aria-hidden="true" />
+                {CANDIDATES[c.id].name}
+              </p>
+              <p className="font-display text-5xl leading-none tracking-[-0.03em]" style={{ color: `var(--${c.id})` }}>
+                {fmtInt(c.votes)} <span className="text-xl text-ink-2">votos</span>
+              </p>
+              <dl className="mt-2 grid grid-cols-2 gap-4">
+                <div>
+                  <dt className="text-sm text-ink-2">Dos votos válidos dessas seções</dt>
+                  <dd className="font-display mt-1 text-3xl tracking-[-0.02em]">{fmtPct(c.validShare)}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-ink-2">De todos os votos do candidato</dt>
+                  <dd className="font-display mt-1 text-3xl tracking-[-0.02em]">{fmtPct(c.ofCandidateTotal)}</dd>
+                </div>
+              </dl>
             </div>
-            <div className="mt-3"><SplitBar lula={b.g.lula} flavio={b.g.flavio} height={10} /></div>
-            <p className="font-data mt-2 text-xs text-ink-2">
-              Diferença: {fmtInt(Math.abs(voteMargin(asTally(b.g))))} votos ({fmtPp(Math.abs(marginPp(asTally(b.g))))}, {voteMargin(asTally(b.g)) > 0 ? "Lula" : "Flávio"})
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div className="border-t border-line px-6 py-5 sm:px-8">
+          <SplitBar lula={after.lula} flavio={after.flavio} height={12} />
+          <p className="font-data mt-1 flex flex-wrap justify-between gap-2 text-xs text-ink-2">
+            <span>Brancos e nulos nessas seções: {fmtInt(sum.blankNull)}</span>
+            <span>Nas demais seções: Lula {fmtPct(pr.lula)} · Flávio {fmtPct(pr.flavio)}</span>
+          </p>
+        </div>
       </div>
-      <p className="font-data mt-3 text-xs text-ink-2">
-        {fmtPct((after.sections / totalSections) * 100)} das seções com BU analisadas encerraram depois do corte. Seções sem horário utilizável: {fmtInt(data.total.noTime)}.
-      </p>
+
+      <div role="note" className="mt-4 flex gap-3 rounded-3xl bg-surface-2 p-5 text-[0.95rem] leading-relaxed sm:px-7">
+        <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-ink stroke-2 [stroke-linecap:round] [stroke-linejoin:round]" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v5M12 16.5v.01" /></svg>
+        <p>
+          <strong>São todos os votos dessas seções, inclusive os dados antes das 17h.</strong> O Boletim de Urna registra só a hora em que cada seção fechou, não a hora de cada voto. Por isso não dá para saber quantos votos foram dados depois das 17h. Consideramos fora do horário a seção que fechou mais de 15 minutos depois das 17h, porque a urna costuma ser encerrada alguns minutos depois mesmo sem fila. O recorte não inclui o exterior.
+        </p>
+      </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <div>
