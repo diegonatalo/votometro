@@ -96,7 +96,7 @@
         "file": "docs/screenshots/principal-dark.png",
         "file_light": "docs/screenshots/principal-light.png",
         "title": "Início",
-        "alt": "Tela inicial com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual e total de votos"
+        "alt": "Resultado com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual em destaque e total de votos"
       },
       {
         "file": "docs/screenshots/mapa-estado.png",
@@ -107,19 +107,19 @@
       {
         "file": "docs/screenshots/regioes.png",
         "title": "Regiões",
-        "alt": "Cinco cartões, um por região, com percentuais de Lula e Flávio Bolsonaro e a diferença em votos",
+        "alt": "Uma linha por região, com a barra dividida, os percentuais, as siglas dos estados e a diferença em votos",
         "caption": "<b>Regiões</b>: percentuais, diferença em votos e estados vencidos."
       },
       {
         "file": "docs/screenshots/turnos.png",
         "title": "Turnos",
-        "alt": "Tabelas comparando o 1º e o 2º turno no Brasil e no exterior, com variação em votos e em percentual",
-        "caption": "<b>Turnos</b>: 1º e 2º turno lado a lado, com a variação de cada linha."
+        "alt": "Gráfico da virada entre o 1º e o 2º turno, ganho de votos de cada candidato e tabela com abas Brasil e Exterior",
+        "caption": "<b>Turnos</b>: a virada entre os turnos e a variação de cada linha."
       },
       {
         "file": "docs/screenshots/mobile.png",
         "title": "Celular",
-        "alt": "Versão para celular com os cartões dos dois candidatos empilhados",
+        "alt": "Versão para celular com os dois candidatos empilhados e a navegação por seções logo abaixo do logo",
         "caption": "<b>Celular</b>: o layout empilha os candidatos e o mapa ocupa a largura da tela."
       }
     ]
@@ -129,6 +129,6 @@
     "Dados de votação, fotos dos candidatos e Boletins de Urna: [TSE](https://www.tse.jus.br).",
     "Malhas de estados e municípios: [IBGE](https://servicodados.ibge.gov.br/api/docs/malhas).",
     "Mapa: [d3-geo](https://d3js.org/d3-geo), [d3-zoom](https://d3js.org/d3-zoom) e [TopoJSON](https://github.com/topojson/topojson).",
-    "Fontes: Bricolage Grotesque, Instrument Sans e JetBrains Mono, via Google Fonts."
+    "Fontes: Newsreader, Schibsted Grotesk e IBM Plex Mono, via Google Fonts e Fontsource."
   ]
 }

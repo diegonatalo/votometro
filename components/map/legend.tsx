@@ -1,10 +1,9 @@
 "use client";
 
 import { useTheme } from "@/hooks/use-theme";
-import { useMemo } from "react";
 import { useMounted } from "@/hooks/use-mounted";
 import { THEME_KEY } from "@/lib/storage-keys";
-import { legendStops, SATURA_PP, type ThemeName } from "@/lib/colors";
+import { legendBins, type ThemeName } from "@/lib/colors";
 
 export function useThemeName(): ThemeName {
   const { theme } = useTheme(THEME_KEY);
@@ -12,27 +11,26 @@ export function useThemeName(): ThemeName {
   return mounted && theme === "dark" ? "dark" : "light";
 }
 
-/** Legenda da escala: 80% Lula … 50% … 80% Flávio. */
+/** Legenda em faixas: Lula 70%+ … 50% … Flávio 70%+. */
 export const Legend = () => {
   const theme = useThemeName();
-  const gradient = useMemo(
-    () =>
-      `linear-gradient(90deg, ${legendStops(theme)
-        .map((s) => `${s.color} ${((1 - s.offset) * 100).toFixed(1)}%`)
-        .reverse()
-        .join(", ")})`,
-    [theme],
-  );
-  const edge = 50 + SATURA_PP;
+  const bins = legendBins(theme);
   return (
-    <figure className="w-full max-w-md" aria-label="Legenda do mapa: cor pelo percentual dos votos válidos do mais votado">
-      <div className="h-3 w-full border border-line" style={{ background: gradient }} aria-hidden="true" />
-      <figcaption className="font-data mt-1.5 flex justify-between text-[0.7rem] text-ink-2">
-        <span>{edge}% Lula ou mais</span>
-        <span>50%</span>
-        <span>{edge}% Flávio ou mais</span>
+    <figure className="w-full max-w-md" aria-label="Legenda do mapa: cor pelo candidato à frente, intensidade pelo percentual dos votos válidos">
+      <div className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full" aria-hidden="true">
+        {bins.map((b) => (
+          <div key={`${b.leader}-${b.label}`} className="flex-1" style={{ background: b.color }} title={`${b.leader === "lula" ? "Lula" : "Flávio"} ${b.label}`} />
+        ))}
+      </div>
+      <figcaption className="font-data mt-1.5 flex justify-between text-xs text-ink-2">
+        <span>Lula 70%+</span>
+        <span>60</span>
+        <span>55</span>
+        <span>50</span>
+        <span>55</span>
+        <span>60</span>
+        <span>Flávio 70%+</span>
       </figcaption>
-      <p className="mt-1 text-xs text-ink-3">Cor = candidato à frente; intensidade = percentual dos votos válidos.</p>
     </figure>
   );
 };

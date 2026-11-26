@@ -43,7 +43,7 @@ Mapa por estado e município, comparação com o 1º turno, voto no exterior e f
 
 <sub>Capturas com os dados reais do TSE (referência 25/10/2026 23:27:02).</sub>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-01.svg" /><img src="docs/assets/shot-01-light.svg" alt="Tela inicial com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual e total de votos" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/shot-01.svg" /><img src="docs/assets/shot-01-light.svg" alt="Resultado com Lula e Flávio Bolsonaro lado a lado, com foto, partido, percentual em destaque e total de votos" width="100%" /></picture>
 
 <br />
 
@@ -53,19 +53,19 @@ Mapa por estado e município, comparação com o 1º turno, voto no exterior e f
 
 <br />
 
-<img src="docs/assets/shot-03.svg" alt="Cinco cartões, um por região, com percentuais de Lula e Flávio Bolsonaro e a diferença em votos" width="100%" />
+<img src="docs/assets/shot-03.svg" alt="Uma linha por região, com a barra dividida, os percentuais, as siglas dos estados e a diferença em votos" width="100%" />
 <br />
 <sub><b>Regiões</b>: percentuais, diferença em votos e estados vencidos.</sub>
 
 <br />
 
-<img src="docs/assets/shot-04.svg" alt="Tabelas comparando o 1º e o 2º turno no Brasil e no exterior, com variação em votos e em percentual" width="100%" />
+<img src="docs/assets/shot-04.svg" alt="Gráfico da virada entre o 1º e o 2º turno, ganho de votos de cada candidato e tabela com abas Brasil e Exterior" width="100%" />
 <br />
-<sub><b>Turnos</b>: 1º e 2º turno lado a lado, com a variação de cada linha.</sub>
+<sub><b>Turnos</b>: a virada entre os turnos e a variação de cada linha.</sub>
 
 <br />
 
-<img src="docs/assets/shot-05.svg" alt="Versão para celular com os cartões dos dois candidatos empilhados" width="380" />
+<img src="docs/assets/shot-05.svg" alt="Versão para celular com os dois candidatos empilhados e a navegação por seções logo abaixo do logo" width="380" />
 <br />
 <sub><b>Celular</b>: o layout empilha os candidatos e o mapa ocupa a largura da tela.</sub>
 
@@ -161,9 +161,18 @@ NEXT_PUBLIC_SITE_URL=https://seu-dominio.com.br pnpm build
 pnpm test
 ```
 
-Usa [Vitest](https://vitest.dev). Os testes cobrem as estatísticas (votos válidos, margem, vencedor, comparecimento e abstenção), a validação dos totais, a formatação, as cores do mapa, a geometria por estado e o parser dos dados do TSE.
+Usa [Vitest](https://vitest.dev). Os testes cobrem as estatísticas (votos válidos, margem, vencedor, comparecimento e abstenção), a validação dos totais, a formatação, as faixas de cor do mapa, a geometria por estado, o parser dos dados do TSE e componentes com comportamento (busca, tabela, abas e tela de erro).
 
 Para reexecutar ao salvar: `pnpm test:watch`.
+
+Os testes de ponta a ponta usam [Playwright](https://playwright.dev), só no Chromium e contra o build de produção:
+
+```bash
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
+
+Eles abrem cada página sem erros no console, seguem o botão da landing até o app, conferem o tema depois de recarregar e a 404. Os prints da landing (`public/landing/`) e deste README (`docs/screenshots/`) saem de `SCREENSHOTS=1 pnpm test:e2e e2e/screenshots.spec.ts`.
 
 <br />
 
@@ -175,14 +184,16 @@ Para reexecutar ao salvar: `pnpm test:watch`.
 
 ```text
 ├── app/            landing (/), o resultado em /app, layout, favicon, imagem Open Graph, robots e sitemap
-├── components/     Hero, seções, tabela de estados, tema, seletor de candidato
-│   └── map/        BrazilMap (SVG + Canvas), legenda, tooltip, painel e busca
+├── components/     logo, landing, Hero, seções, tabela de estados, abas, tema
+│   └── map/        BrazilMap (SVG + Canvas), mapa estático da landing, legenda, tooltip, painel e busca
 ├── lib/            formatação, estatísticas, cores, geometria, validação, site
-└── types/          tipos do domínio e declarações de CSS
+├── types/          tipos do domínio e declarações de CSS
+└── e2e/            testes Playwright e geração dos prints
 scripts/            build-data · build-geo · build-overtime · validate · lib/tse
 public/
 ├── data/           JSON gerados (nacional, estados, municípios, 17h) e geo/ com os TopoJSON
-└── img/            fotos dos candidatos
+├── img/            fotos dos candidatos
+└── landing/        prints do app usados na landing
 docs/               banner e capturas de tela deste README
 ```
 
@@ -257,7 +268,7 @@ O site é publicado na Vercel. Todas as páginas são geradas no build, a partir
 - Dados de votação, fotos dos candidatos e Boletins de Urna: [TSE](https://www.tse.jus.br).
 - Malhas de estados e municípios: [IBGE](https://servicodados.ibge.gov.br/api/docs/malhas).
 - Mapa: [d3-geo](https://d3js.org/d3-geo), [d3-zoom](https://d3js.org/d3-zoom) e [TopoJSON](https://github.com/topojson/topojson).
-- Fontes: Bricolage Grotesque, Instrument Sans e JetBrains Mono, via Google Fonts.
+- Fontes: Newsreader, Schibsted Grotesk e IBM Plex Mono, via Google Fonts e Fontsource.
 - Distribuído sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE).
 
 <br />

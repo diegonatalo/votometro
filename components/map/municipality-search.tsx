@@ -40,6 +40,7 @@ export const MunicipalitySearch = ({ municipalities, onWake, onPick }: Props) =>
   return (
     <div className="relative w-full max-w-sm">
       <label htmlFor={`${id}-in`} className="sr-only">Buscar município</label>
+      <svg viewBox="0 0 24 24" className="pointer-events-none absolute top-1/2 left-4 h-[18px] w-[18px] -translate-y-1/2 fill-none stroke-ink-3 stroke-2 [stroke-linecap:round]" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
       <input
         id={`${id}-in`}
         type="search"
@@ -60,10 +61,10 @@ export const MunicipalitySearch = ({ municipalities, onWake, onPick }: Props) =>
           else if (e.key === "Enter" && open && results[active]) { e.preventDefault(); pick(results[active]); }
           else if (e.key === "Escape") setOpen(false);
         }}
-        className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm placeholder:text-ink-3"
+        className="h-11 w-full rounded-full border border-line bg-surface pr-4 pl-11 text-[0.95rem] placeholder:text-ink-3"
       />
       {open && q.trim().length >= 2 ? (
-        <ul id={`${id}-list`} role="listbox" aria-label="Municípios encontrados" className="absolute left-0 right-0 top-full z-30 mt-1 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow)]">
+        <ul id={`${id}-list`} role="listbox" aria-label="Municípios encontrados" className="absolute left-0 right-0 top-full z-30 mt-1.5 overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
           {results.length === 0 ? (
             <li className="px-3 py-2 text-sm text-ink-3" role="option" aria-selected="false">
               {municipalities ? "Nenhum município encontrado" : "Carregando municípios…"}
@@ -77,7 +78,7 @@ export const MunicipalitySearch = ({ municipalities, onWake, onPick }: Props) =>
                 aria-selected={i === active}
                 onMouseDown={(e) => { e.preventDefault(); pick(m); }}
                 onMouseEnter={() => setActive(i)}
-                className={`flex cursor-pointer items-baseline justify-between px-3 py-1.5 text-sm ${i === active ? "bg-ink text-bg" : ""}`}
+                className={`flex cursor-pointer items-baseline justify-between px-4 py-2 text-sm ${i === active ? "bg-inv text-inv-ink" : ""}`}
               >
                 <span>{m.name}</span>
                 <span className="font-data text-xs opacity-80">{m.uf}</span>

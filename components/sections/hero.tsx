@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { fmtInt, fmtPct, fmtPp } from "@/lib/format";
 import { marginPp, voteMargin, abstentionPct, turnoutPct, validPct } from "@/lib/stats";
 import type { Candidate, NationalFile } from "@/types";
@@ -5,41 +6,57 @@ import { displayName, NumberBoxes, PartyBadge, Photo } from "@/components/candid
 import { CountUp } from "@/components/count-up";
 import { SourceNote } from "@/components/source-note";
 import { SplitBar } from "@/components/split-bar";
-import { StatTile } from "@/components/stat-tile";
 
-const CandidateCard = ({ c, votes, pct }: { c: Candidate; votes: number; pct: number }) => {
+const Elected = ({ c }: { c: Candidate }) => {
+  const elected = c.electionStatus.toLowerCase() === "eleito";
+  return elected ? (
+    <span className="inline-flex items-center gap-1.5 rounded-full py-1 pr-2.5 pl-2 text-[0.8rem] font-bold text-on-cand" style={{ background: `var(--${c.id})` }}>
+      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-[3] [stroke-linecap:round] [stroke-linejoin:round]" aria-hidden="true"><path d="m5 12 5 5 9-10" /></svg>
+      {c.electionStatus}
+    </span>
+  ) : (
+    <span className="rounded-full border border-line px-2.5 py-1 text-[0.8rem] font-semibold text-ink-2">{c.electionStatus}</span>
+  );
+};
+
+const CandidateColumn = ({ c, votes, pct, first }: { c: Candidate; votes: number; pct: number; first: boolean }) => {
   return (
     <article
-      className="card relative overflow-hidden p-5 sm:p-7"
-      style={{ backgroundImage: `radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--${c.id}) 18%, transparent), transparent 62%)` }}
       aria-label={displayName(c)}
+      className={`flex min-w-0 flex-col gap-5 py-7 sm:py-9 ${first ? "border-b border-line md:border-r md:border-b-0 md:pr-9" : "md:pl-9"}`}
     >
-      <div className="flex gap-4 sm:gap-5">
-        <Photo person={{ photo: c.photo, ballotName: displayName(c) }} tone={c.id} width={128} />
-        <div className="min-w-0 flex-1">
-          <h2 className="font-display text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{displayName(c)}</h2>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-4 sm:gap-5">
+        <Photo person={{ photo: c.photo, ballotName: displayName(c) }} tone={c.id} size={84} />
+        <div className="flex min-w-0 flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{displayName(c)}</h2>
+            <Elected c={c} />
+          </div>
+          <p className="flex flex-wrap items-center gap-2 text-sm text-ink-2">
             <PartyBadge sigla={c.party} title={c.partyName} />
             <NumberBoxes number={c.number} size="sm" />
-          </div>
-          <p className="mt-2 text-xs leading-snug text-ink-2">
-            {c.coalition !== c.party ? `Coligação: ${c.coalition}` : c.partyName}
+            <span>Vice: {c.vice.ballotName} ({c.vice.party})</span>
           </p>
-          <p className="mt-1 text-xs text-ink-2">Vice: {c.vice.ballotName} ({c.vice.party})</p>
         </div>
       </div>
-      <p className="font-display mt-5 text-6xl font-extrabold leading-none tracking-tight sm:text-8xl" style={{ color: `var(--${c.id})` }}>
+      <p className="font-display text-[5.5rem] leading-[0.85] tracking-[-0.045em] sm:text-9xl lg:text-[9rem]" style={{ color: `var(--${c.id})` }}>
         <CountUp value={pct} kind="pct" />
       </p>
-      <p className="font-data mt-3 flex items-baseline justify-between gap-3 text-lg">
-        <span>
-          <CountUp value={votes} /> <span className="text-sm text-ink-2">votos</span>
-        </span>
-        <span className="rounded-full border border-line px-2.5 py-0.5 text-[0.7rem] text-ink-2">TSE: {c.electionStatus}</span>
+      <p className="font-data text-lg">
+        <CountUp value={votes} /> <span className="text-sm text-ink-2">votos</span>
       </p>
+      <p className="text-[0.8rem] text-ink-3">{c.coalition !== c.party ? `Coligação: ${c.coalition}` : c.partyName}</p>
     </article>
   );
 };
+
+const Stat = ({ label, value, hint }: { label: string; value: ReactNode; hint: string }) => (
+  <div>
+    <dt className="text-sm text-ink-2">{label}</dt>
+    <dd className="font-display mt-1.5 text-4xl tracking-[-0.02em] sm:text-[2.5rem]">{value}</dd>
+    <dd className="font-data mt-1 text-xs text-ink-2">{hint}</dd>
+  </div>
+);
 
 export const Hero = ({ data }: { data: NationalFile }) => {
   const t = data.national;
@@ -51,34 +68,44 @@ export const Hero = ({ data }: { data: NationalFile }) => {
 
   return (
     <section id="resultado" aria-labelledby="h-resultado" className="pt-8 sm:pt-12">
-      <p className="font-data flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-[0.14em] text-ink-2">
-        <span className="inline-flex items-center gap-2">
-          <span className="led h-2.5 w-2.5 bg-accent" aria-hidden="true" />
-          {fmtPct((t.countedSections / t.sections) * 100, 0)} das seções totalizadas
-        </span>
-        <span aria-hidden="true">/</span>
-        <span>25 de outubro de 2026</span>
-      </p>
-      <h1 id="h-resultado" className="font-display mt-3 max-w-4xl text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
-        Presidente, <span className="text-ink-3">2º turno</span>
-      </h1>
+      <div className="flex flex-wrap items-end justify-between gap-5 border-b-2 border-ink pb-6">
+        <div className="flex flex-col gap-3.5">
+          <p className="font-data flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs uppercase tracking-[0.1em] text-ink-2 sm:text-[0.8rem]">
+            <span className="inline-flex items-center gap-2.5">
+              <span className="led h-2.5 w-2.5" aria-hidden="true" />
+              {fmtPct((t.countedSections / t.sections) * 100, 0)} das seções totalizadas
+            </span>
+            <span aria-hidden="true">·</span>
+            <span>25 de outubro de 2026</span>
+          </p>
+          <h1 id="h-resultado" className="font-display text-6xl leading-[0.95] tracking-[-0.04em] sm:text-8xl">
+            Presidente, <em className="text-ink-3">2º turno</em>
+          </h1>
+        </div>
+        <p className="font-data text-xs leading-relaxed text-ink-2 sm:text-right">
+          Fonte: {data.meta.source}
+          <br />
+          Referência {data.meta.reference}
+        </p>
+      </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {cands.map(({ c, votes, pct }) => (
-          <CandidateCard key={c.id} c={c} votes={votes} pct={pct} />
+      <div className="grid md:grid-cols-2">
+        {cands.map(({ c, votes, pct }, i) => (
+          <CandidateColumn key={c.id} c={c} votes={votes} pct={pct} first={i === 0} />
         ))}
       </div>
-      <div className="card mt-4 p-5 sm:p-6">
-        <SplitBar lula={t.lula} flavio={t.flavio} height={16} />
-        <p className="font-data mt-2 flex justify-between gap-3 text-xs text-ink-2">
-          <span>Percentuais sobre votos válidos (exclui brancos e nulos)</span>
-          <span>Ordem: mais votados primeiro</span>
+
+      <div className="card p-5 sm:px-8 sm:py-7">
+        <SplitBar lula={t.lula} flavio={t.flavio} height={22} chevron />
+        <p className="font-data mt-1 flex flex-wrap justify-between gap-2 text-xs text-ink-2">
+          <span>Percentual sobre os votos válidos (sem brancos e nulos)</span>
+          <span>Traço central = 50%</span>
         </p>
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 border-t border-line pt-5 sm:grid-cols-3">
-        <StatTile label="Diferença em votos" value={<CountUp value={Math.abs(m)} />} hint={`${fmtPp(Math.abs(marginPp(t)))} sobre os votos válidos`} />
-        <StatTile label="Comparecimento" value={fmtPct(turnoutPct(t))} hint={`${fmtInt(t.turnout)} de ${fmtInt(t.eligible)} aptos · abstenção ${fmtPct(abstentionPct(t))}`} />
-        <StatTile label="Brancos e nulos" value={fmtInt(t.blank + t.nullVotes)} hint={`Brancos ${fmtInt(t.blank)} · Nulos ${fmtInt(t.nullVotes)}`} />
-        </div>
+        <dl className="mt-7 grid gap-6 border-t border-line pt-6 sm:grid-cols-3">
+          <Stat label="Diferença em votos" value={<CountUp value={Math.abs(m)} />} hint={`${fmtPp(Math.abs(marginPp(t)))} dos votos válidos`} />
+          <Stat label="Comparecimento" value={fmtPct(turnoutPct(t))} hint={`${fmtInt(t.turnout)} de ${fmtInt(t.eligible)} aptos · abstenção ${fmtPct(abstentionPct(t))}`} />
+          <Stat label="Brancos e nulos" value={fmtInt(t.blank + t.nullVotes)} hint={`Brancos ${fmtInt(t.blank)} · Nulos ${fmtInt(t.nullVotes)}`} />
+        </dl>
       </div>
       <SourceNote meta={data.meta} extra={`${fmtInt(t.countedSections)} de ${fmtInt(t.sections)} seções`} />
     </section>

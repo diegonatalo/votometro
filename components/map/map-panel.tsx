@@ -58,25 +58,25 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
   }, [municipalities, filter, sort]);
 
   return (
-    <aside aria-label={`Detalhes: ${entity.name}`} className="card flex min-h-0 flex-col p-4 sm:p-5">
+    <aside aria-label={`Detalhes: ${entity.name}`} className="card flex min-h-0 flex-col p-5 sm:p-7">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="section-eyebrow">{entity.kind === "br" ? "Brasil" : entity.kind === "uf" ? "Estado" : "Município"}</p>
-          <h3 className="font-display text-2xl font-semibold leading-tight">{entity.name}</h3>
+          <h3 className="font-display mt-1.5 text-4xl leading-tight tracking-[-0.02em]">{entity.name}</h3>
           {entity.subtitle ? <p className="text-sm text-ink-3">{entity.subtitle}</p> : null}
         </div>
         {entity.kind !== "br" ? (
           <button
             type="button"
             onClick={entity.kind === "mun" && onBackToUf ? onBackToUf : onBack}
-            className="shrink-0 rounded-lg border border-line px-2.5 py-1.5 text-xs font-medium hover:bg-ink hover:text-bg"
+            className="shrink-0 cursor-pointer rounded-full border border-line px-3.5 py-2.5 text-sm font-semibold hover:bg-surface-2"
           >
             {entity.kind === "mun" && onBackToUf ? "← Estado" : "← Brasil"}
           </button>
         ) : null}
       </div>
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-5 space-y-4">
         {lead.map((c) => (
           <div key={c.id} className="flex items-end justify-between gap-3">
             <div>
@@ -86,10 +86,10 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
               </p>
               <p className="font-data text-xs text-ink-2">{fmtInt(c.votes)} votos</p>
             </div>
-            <p className="font-display text-3xl font-semibold leading-none">{fmtPct(c.pct)}</p>
+            <p className="font-display text-4xl leading-none tracking-[-0.02em]" style={{ color: c.color }}>{fmtPct(c.pct)}</p>
           </div>
         ))}
-        <SplitBar lula={t.lula} flavio={t.flavio} height={12} />
+        <SplitBar lula={t.lula} flavio={t.flavio} height={10} />
         <p className="text-sm text-ink-2">
           {winner(t) === "tie"
             ? "Votos iguais."
@@ -97,7 +97,7 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
         </p>
       </div>
 
-      <dl className="mt-4">
+      <dl className="mt-5">
         <Row k="Votos válidos" v={fmtInt(t.lula + t.flavio)} />
         <Row k="Brancos" v={`${fmtInt(t.blank)} (${fmtPct(t.turnout ? (t.blank / t.turnout) * 100 : 0)})`} />
         <Row k="Nulos" v={`${fmtInt(t.nullVotes)} (${fmtPct(t.turnout ? (t.nullVotes / t.turnout) * 100 : 0)})`} />
@@ -117,7 +117,7 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
               id="ord-mun"
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="border border-line bg-surface px-1.5 py-1 text-xs"
+              className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs"
             >
               <option value="name">A–Z</option>
               <option value="margin">Mais Lula → Flávio</option>
@@ -130,12 +130,12 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Filtrar municípios…"
-            className="mt-2 w-full rounded-lg border border-line bg-bg px-2.5 py-1.5 text-sm placeholder:text-ink-3"
+            className="mt-2 h-10 w-full rounded-full border border-line bg-bg px-4 text-sm placeholder:text-ink-3"
           />
           {munisLoading && !municipalities ? (
             <div className="mt-2 space-y-1.5" aria-busy="true">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="skeleton h-7" />
+                <div key={i} className="skeleton h-7 rounded-md" />
               ))}
             </div>
           ) : (
@@ -153,7 +153,7 @@ export const MapPanel = ({ entity, candidates, municipalities, munisLoading, sel
                     >
                       <span className="truncate">{x.name}</span>
                       <span className="font-data flex shrink-0 items-center gap-1.5 text-xs">
-                        <span className="inline-block h-2 w-2" style={{ background: win === "lula" ? "var(--lula)" : win === "flavio" ? "var(--flavio)" : "var(--ink-3)" }} aria-hidden="true" />
+                        <span className="inline-block h-2 w-2 rounded-[2px]" style={{ background: win === "lula" ? "var(--lula)" : win === "flavio" ? "var(--flavio)" : "var(--ink-3)" }} aria-hidden="true" />
                         L {fmtPct(pc.lula, 1)} · F {fmtPct(pc.flavio, 1)}
                       </span>
                     </button>

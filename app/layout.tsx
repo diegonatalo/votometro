@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Newsreader, Schibsted_Grotesk } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { THEME_KEY } from "@/lib/storage-keys";
 import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", display: "swap" });
-const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
-const data = JetBrains_Mono({ subsets: ["latin"], variable: "--font-data", display: "swap" });
+const display = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-display", display: "swap" });
+const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+const data = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-data", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,8 +30,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f1efe8" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0d13" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f5f1" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0e12" },
   ],
 };
 

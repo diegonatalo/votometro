@@ -1,49 +1,63 @@
 import { describe, expect, it } from "vitest";
-import { NEUTRAL_FILL, SATURA_PP, colorForPctLula, legendStops, type ThemeName } from "@/lib/colors";
+import { binIndex, colorForPctLula, cssVarForPctLula, legendBins, NEUTRAL_FILL, type ThemeName } from "@/lib/colors";
 
 const themes: ThemeName[] = ["light", "dark"];
 
-/** d3 devolve "rgb(r, g, b)"; a cor neutra está declarada em hexadecimal. */
-const toHex = (color: string) => {
-  if (color.startsWith("#")) return color.toLowerCase();
-  const [r, g, b] = color.match(/\d+/g)!.map(Number);
-  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
-};
-
-describe("colorForPctLula", () => {
-  it.each(themes)("50%% é a cor neutra no tema %s", (theme) => {
-    expect(toHex(colorForPctLula(50, theme))).toBe(NEUTRAL_FILL[theme]);
-  });
-
-  it.each(themes)("a escala satura a partir de SATURA_PP pontos (tema %s)", (theme) => {
-    expect(colorForPctLula(50 + SATURA_PP, theme)).toBe(colorForPctLula(100, theme));
-    expect(colorForPctLula(50 - SATURA_PP, theme)).toBe(colorForPctLula(0, theme));
-  });
-
-  it.each(themes)("Lula e Flávio têm cores diferentes (tema %s)", (theme) => {
-    expect(colorForPctLula(70, theme)).not.toBe(colorForPctLula(30, theme));
-  });
-
-  it("Lula é vermelho e Flávio é azul no tema claro", () => {
-    const channels = (hex: string) => hex.match(/\d+/g)!.map(Number);
-    const [lr, , lb] = channels(colorForPctLula(80, "light"));
-    const [fr, , fb] = channels(colorForPctLula(20, "light"));
-    expect(lr).toBeGreaterThan(lb);
-    expect(fb).toBeGreaterThan(fr);
+describe("binIndex", () => {
+  it("separa as faixas em 55, 60 e 70%", () => {
+    expect(binIndex(50)).toBe(0);
+    expect(binIndex(54.99)).toBe(0);
+    expect(binIndex(55)).toBe(1);
+    expect(binIndex(60)).toBe(2);
+    expect(binIndex(69.9)).toBe(2);
+    expect(binIndex(70)).toBe(3);
+    expect(binIndex(100)).toBe(3);
   });
 });
 
-describe("legendStops", () => {
-  it("gera n amostras com offsets de 0 a 1", () => {
-    const stops = legendStops("light", 5);
-    expect(stops.map((s) => s.offset)).toEqual([0, 0.25, 0.5, 0.75, 1]);
+describe("colorForPctLula", () => {
+  it.each(themes)("a mesma margem dá a mesma faixa para os dois lados, em cores diferentes (tema %s)", (theme) => {
+    const lula = colorForPctLula(65, theme);
+    const flavio = colorForPctLula(35, theme);
+    expect(lula).not.toBe(flavio);
+    expect(legendBins(theme).find((b) => b.color === lula)?.label).toBe("60–70%");
+    expect(legendBins(theme).find((b) => b.color === flavio)?.label).toBe("60–70%");
   });
 
-  it("começa no lado do Flávio, termina no de Lula e o meio é neutro", () => {
-    const stops = legendStops("dark", 33);
-    expect(stops).toHaveLength(33);
-    expect(stops[0].color).toBe(colorForPctLula(50 - SATURA_PP, "dark"));
-    expect(stops[32].color).toBe(colorForPctLula(50 + SATURA_PP, "dark"));
-    expect(toHex(stops[16].color)).toBe(NEUTRAL_FILL.dark);
+  it.each(themes)("a cor fica igual dentro de uma faixa (tema %s)", (theme) => {
+    expect(colorForPctLula(72, theme)).toBe(colorForPctLula(99, theme));
+    expect(colorForPctLula(28, theme)).toBe(colorForPctLula(1, theme));
+  });
+
+  it("Lula é vermelho e Flávio é azul no tema claro", () => {
+    const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const [lr, , lb] = rgb(colorForPctLula(80, "light"));
+    const [fr, , fb] = rgb(colorForPctLula(20, "light"));
+    expect(lr).toBeGreaterThan(lb);
+    expect(fb).toBeGreaterThan(fr);
+  });
+
+  it.each(themes)("nenhuma faixa usa a cor neutra (tema %s)", (theme) => {
+    expect(legendBins(theme).map((b) => b.color)).not.toContain(NEUTRAL_FILL[theme]);
+  });
+});
+
+describe("legendBins", () => {
+  it("vai de Lula forte a Flávio forte, com 4 faixas de cada lado", () => {
+    const bins = legendBins("light");
+    expect(bins).toHaveLength(8);
+    expect(bins[0]).toMatchObject({ leader: "lula", label: "70% ou mais" });
+    expect(bins[3]).toMatchObject({ leader: "lula", label: "50–55%" });
+    expect(bins[4]).toMatchObject({ leader: "flavio", label: "50–55%" });
+    expect(bins[7]).toMatchObject({ leader: "flavio", label: "70% ou mais" });
+  });
+});
+
+describe("cssVarForPctLula", () => {
+  it("aponta para a variável da faixa e do candidato à frente", () => {
+    expect(cssVarForPctLula(52)).toBe("var(--l1)");
+    expect(cssVarForPctLula(75.9)).toBe("var(--l4)");
+    expect(cssVarForPctLula(46.15)).toBe("var(--f1)");
+    expect(cssVarForPctLula(30.4)).toBe("var(--f3)");
   });
 });

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Wordmark } from "@/components/logo";
 
 export const metadata: Metadata = {
   title: "Página não encontrada",
@@ -7,48 +8,50 @@ export const metadata: Metadata = {
 };
 
 const LINKS = [
-  { href: "/#resultado", label: "Resultado" },
-  { href: "/#mapa", label: "Mapa por estado" },
-  { href: "/#turnos", label: "Entre os turnos" },
+  { href: "/app#mapa", label: "Mapa" },
+  { href: "/app#turnos", label: "Entre os turnos" },
+  { href: "/app#tabela", label: "Estados" },
 ];
 
 export default function NotFound() {
   return (
-    <main id="conteudo" className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-4 py-16 sm:px-6">
-      <p className="font-display flex items-center gap-2 text-lg font-extrabold uppercase leading-none tracking-tight">
-        <span className="led h-2.5 w-2.5 bg-accent" aria-hidden="true" />
-        Votômetro
-      </p>
-
-      <div className="card mt-8 overflow-hidden p-6 sm:p-10">
-        <svg viewBox="0 0 64 40" className="h-16 w-28" role="img" aria-label="Medidor sem leitura">
-          <path d="M10 38A22 22 0 0 1 32 16" fill="none" stroke="var(--lula)" strokeWidth="8" opacity="0.35" />
-          <path d="M32 16A22 22 0 0 1 54 38" fill="none" stroke="var(--flavio)" strokeWidth="8" opacity="0.35" />
-          <path d="M32 38 20 24" stroke="var(--ink)" strokeWidth="3.5" strokeLinecap="round" />
-          <circle cx="32" cy="38" r="4.5" fill="var(--ink)" />
-        </svg>
-
-        <p className="font-data mt-6 text-sm font-semibold text-ink-3">Erro 404</p>
-        <h1 className="font-display mt-1 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-          Essa página <span className="text-ink-3">não foi apurada</span>
-        </h1>
-        <p className="mt-4 max-w-xl text-ink-2">
-          O endereço pode ter sido digitado errado ou a página não existe mais. O resultado do 2º turno continua na página inicial.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link href="/" className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-bg hover:opacity-90">
-            Voltar ao resultado
-          </Link>
-          <nav aria-label="Atalhos" className="flex flex-wrap gap-1 text-sm text-ink-2">
-            {LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className="rounded-full px-3 py-2 hover:bg-surface-2 hover:text-ink">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
+    <div className="flex min-h-screen flex-col">
+      <header className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6">
+        <Link href="/" className="inline-flex"><Wordmark className="text-[1.6rem]" /></Link>
+      </header>
+      <main id="conteudo" className="mx-auto flex w-full max-w-6xl flex-1 flex-wrap items-center gap-12 px-4 pb-16 sm:px-6">
+        <div className="flex min-w-0 flex-[1_1_26rem] flex-col gap-6">
+          <p className="section-eyebrow font-semibold">Erro 404</p>
+          <h1 className="font-display text-5xl leading-[0.98] tracking-[-0.035em] text-balance sm:text-7xl">
+            Essa página <em className="text-ink-3">não foi apurada.</em>
+          </h1>
+          <p className="max-w-lg text-lg leading-relaxed text-ink-2">
+            O endereço pode ter sido digitado errado ou a página não existe mais. O resultado do 2º turno continua no app.
+          </p>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Link href="/app" className="rounded-full bg-inv px-6 py-4 font-bold text-inv-ink hover:opacity-90">
+              Voltar ao resultado
+            </Link>
+            <nav aria-label="Atalhos" className="flex flex-wrap gap-1 text-[0.95rem] text-ink-2">
+              {LINKS.map((l) => (
+                <Link key={l.href} href={l.href} className="rounded-full px-3.5 py-3 hover:bg-surface-2 hover:text-ink">
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
         </div>
-      </div>
-    </main>
+        <div className="flex flex-[1_1_20rem] justify-center">
+          <div className="relative flex aspect-square w-full max-w-sm items-center justify-center rounded-[3rem] border border-line bg-surface">
+            <svg viewBox="0 0 100 100" className="w-3/5" role="img" aria-label="Logo sem leitura: os traços não se encontram">
+              <path d="M27 42 L46 21" fill="none" stroke="var(--line)" strokeWidth="12" strokeLinecap="round" />
+              <path d="M54 21 L73 42" fill="none" stroke="var(--line)" strokeWidth="12" strokeLinecap="round" />
+              <circle cx="50" cy="66" r="19" fill="none" stroke="var(--ink)" strokeWidth="13" strokeDasharray="8 9" />
+            </svg>
+            <span className="font-data absolute bottom-6 text-xs text-ink-3">0 de 1 página encontrada</span>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

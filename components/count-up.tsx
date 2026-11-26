@@ -24,7 +24,7 @@ export const CountUp = ({ value, kind = "int", duration = 1100 }: Props) => {
         io.disconnect();
         const start = performance.now();
         const tick = (now: number) => {
-          const t = Math.min(1, (now - start) / duration);
+          const t = Math.min(1, Math.max(0, (now - start) / duration));
           const eased = 1 - Math.pow(1 - t, 3);
           setShown(value * eased);
           if (t < 1) raf = requestAnimationFrame(tick);
