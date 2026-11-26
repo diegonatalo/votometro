@@ -115,7 +115,7 @@ describe("StatesTable", () => {
   const names = () =>
     within(screen.getByRole("table"))
       .getAllByRole("rowheader")
-      .map((h) => h.textContent?.replace(/\s+[A-Z]{2}$/, "").trim());
+      .map((h) => h.textContent?.replace(/^[A-Z]{2}/, "").trim());
   const header = (name: string) => within(screen.getByRole("table")).getByRole("button", { name });
 
   it("começa em ordem alfabética", () => {

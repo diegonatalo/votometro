@@ -13,6 +13,11 @@
   --color-accent: var(--accent);
   --color-lula: var(--lula);
   --color-flavio: var(--flavio);
+  --color-lula-soft: var(--lula-soft);
+  --color-flavio-soft: var(--flavio-soft);
+  --color-on-cand: var(--on-cand);
+  --color-inv: var(--inv);
+  --color-inv-ink: var(--inv-ink);
   --font-display: var(--font-display);
   --font-sans: var(--font-body);
   --font-mono: var(--font-data);
@@ -20,44 +25,72 @@
 
 :root {
   color-scheme: light;
-  --bg: #f1efe8;
-  --surface: #fbfaf6;
-  --surface-2: #e8e5db;
-  --ink: #14171a;
-  --ink-2: #3d4247;
-  --ink-3: #5a6065;
-  --line: #d9d6cb;
-  --accent: #1d6a3a;
-  --focus: #1d6a3a;
-  --lula: #a8231b;
-  --flavio: #1b4c99;
-  --shadow: 0 1px 0 rgb(20 23 26 / 0.04), 0 12px 32px -16px rgb(20 23 26 / 0.28);
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --surface-2: #eceae4;
+  --ink: #111318;
+  --ink-2: #474c56;
+  --ink-3: #676c76;
+  --line: #dcd9d1;
+  --accent: #111318;
+  --focus: #111318;
+  --lula: #c2321d;
+  --flavio: #1f45a8;
+  --lula-soft: #f7e1db;
+  --flavio-soft: #e0e6f6;
+  --on-cand: #ffffff;
+  --inv: #111318;
+  --inv-ink: #f6f5f1;
+  --l1: #f4d4cc;
+  --l2: #e9998a;
+  --l3: #d45a42;
+  --l4: #a82a17;
+  --f1: #d5def4;
+  --f2: #9db3e6;
+  --f3: #5577c9;
+  --f4: #1d3c91;
+  --shadow: 0 30px 60px -40px rgb(17 19 24 / 0.45);
 }
 
 .dark {
   color-scheme: dark;
-  --bg: #0a0d13;
-  --surface: #121721;
-  --surface-2: #1b2230;
-  --ink: #eef1f6;
-  --ink-2: #b0b9c8;
-  --ink-3: #8c97a9;
-  --line: #263042;
-  --accent: #6ee7a8;
-  --focus: #6ee7a8;
-  --lula: #ff8576;
-  --flavio: #7fb0ff;
-  --shadow: 0 1px 0 rgb(255 255 255 / 0.03), 0 10px 28px -14px rgb(0 0 0 / 0.8);
+  --bg: #0c0e12;
+  --surface: #14171d;
+  --surface-2: #1c2028;
+  --ink: #f1f0ec;
+  --ink-2: #b5b9c2;
+  --ink-3: #8d939e;
+  --line: #2a2e37;
+  --accent: #f1f0ec;
+  --focus: #f1f0ec;
+  --lula: #ff8a70;
+  --flavio: #7fa3ff;
+  --lula-soft: #2e1a16;
+  --flavio-soft: #172038;
+  --on-cand: #0c0e12;
+  --inv: #f1f0ec;
+  --inv-ink: #0c0e12;
+  --l1: #4a2620;
+  --l2: #7a3627;
+  --l3: #c24e36;
+  --l4: #ff8a70;
+  --f1: #1d2846;
+  --f2: #2c4382;
+  --f3: #4a6dd2;
+  --f4: #8fb0ff;
+  --shadow: 0 30px 60px -40px rgb(0 0 0 / 0.9);
 }
 
+/* Anel de "apurado": o anel do logo, pulsando de leve. */
 .led {
   border-radius: 9999px;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  border: 2.5px solid var(--ink);
+  box-sizing: border-box;
   animation: led 2.4s ease-in-out infinite;
 }
 @keyframes led {
   50% {
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 5%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink) 12%, transparent);
   }
 }
 
@@ -67,25 +100,26 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(60rem 28rem at 12% -8%, color-mix(in srgb, var(--lula) 9%, transparent), transparent 70%),
-    radial-gradient(60rem 28rem at 92% -8%, color-mix(in srgb, var(--flavio) 9%, transparent), transparent 70%),
-    var(--bg);
-  background-repeat: no-repeat;
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 .font-display {
   font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
   font-variant-numeric: tabular-nums lining-nums;
 }
 
 .font-data {
   font-family: var(--font-data), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabelas alinham os números; a pontuação do texto corrido fica com largura normal. */
+td {
   font-variant-numeric: tabular-nums;
 }
 
@@ -110,7 +144,7 @@ body {
 
 .section-eyebrow {
   font-family: var(--font-data), monospace;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -119,8 +153,7 @@ body {
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 1.25rem;
-  box-shadow: var(--shadow);
+  border-radius: 1.75rem;
 }
 
 .skeleton {

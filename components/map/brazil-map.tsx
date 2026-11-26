@@ -181,7 +181,7 @@ export const BrazilMap = ({ states, topo, national, meta, candidates }: Props) =
     const strokeOn = !interacting.current && T.k > 1.5;
     ctx.lineJoin = "round";
     ctx.lineWidth = (T.k < 4 ? 0.5 : 0.8) / k;
-    ctx.strokeStyle = L.theme === "dark" ? "rgba(17,17,19,0.6)" : "rgba(251,250,246,0.75)";
+    ctx.strokeStyle = L.theme === "dark" ? "rgba(20,23,29,0.65)" : "rgba(255,255,255,0.8)";
     let alpha = 1;
     const colors = colorsRef.current;
     const shapes = b.shapes;
@@ -212,7 +212,7 @@ export const BrazilMap = ({ states, topo, national, meta, candidates }: Props) =
         snap.current = { cv, t: T, key, w, h };
       }
     }
-    ctx.strokeStyle = L.theme === "dark" ? "#f4f1ea" : "#1c1b17";
+    ctx.strokeStyle = L.theme === "dark" ? "#f1f0ec" : "#111318";
     for (const id of [L.hover?.kind === "mun" ? L.hover.id : null, L.sel.ibge]) {
       const idx = id ? b.shapeIdx.get(id) : undefined;
       if (idx === undefined) continue;
@@ -474,16 +474,16 @@ export const BrazilMap = ({ states, topo, national, meta, candidates }: Props) =
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <MunicipalitySearch municipalities={searchList} onWake={() => void loadSearchList()} onPick={selectMuni} />
-        <a href="#tabela" className="ml-auto rounded-lg border border-line px-3 py-2 text-sm hover:bg-surface-2">Ver como tabela</a>
+        <a href="#tabela" className="ml-auto rounded-full border border-line bg-surface px-4 py-2.5 text-sm font-semibold hover:bg-surface-2">Ver como tabela</a>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="min-w-0">
           {(
             <>
               <div
                 ref={containerRef}
-                className="relative mx-auto aspect-square w-full max-w-[860px] card overflow-hidden"
+                className="card relative mx-auto aspect-square w-full max-w-[860px] overflow-hidden"
                 onPointerLeave={() => { activeWheel.current = false; setHover(null); }}
                 onPointerDown={() => { activeWheel.current = true; }}
                 onKeyDown={(e) => { if (e.key === "Escape") reset(); }}
@@ -547,21 +547,23 @@ export const BrazilMap = ({ states, topo, national, meta, candidates }: Props) =
                   </div>
                 ) : null}
                 {status === "error" ? (
-                  <div className="absolute inset-x-3 bottom-3 z-10 flex items-center justify-between gap-3 rounded-xl border border-ink bg-surface p-3 text-sm" role="alert">
+                  <div className="absolute inset-x-3 bottom-3 z-10 flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-3 text-sm shadow-[var(--shadow)]" role="alert">
                     <span>Não foi possível carregar os municípios.</span>
-                    <button type="button" onClick={() => { setStatus("idle"); if (sel.uf) void loadMunis(sel.uf); }} className="border border-ink px-2.5 py-1 font-medium hover:bg-ink hover:text-bg">
+                    <button type="button" onClick={() => { setStatus("idle"); if (sel.uf) void loadMunis(sel.uf); }} className="rounded-full bg-inv px-4 py-2 font-semibold text-inv-ink hover:opacity-90">
                       Tentar de novo
                     </button>
                   </div>
                 ) : null}
 
-                <div className="absolute right-2 top-2 z-10 flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-[var(--shadow)]">
-                  <button type="button" aria-label="Aproximar" onClick={() => zoomBy(1.7)} className="h-9 w-9 text-lg hover:bg-surface-2">+</button>
-                  <button type="button" aria-label="Afastar" onClick={() => zoomBy(1 / 1.7)} className="h-9 w-9 border-t border-line text-lg hover:bg-surface-2">−</button>
-                  <button type="button" aria-label="Voltar ao Brasil" onClick={reset} className="h-9 w-9 border-t border-line text-sm hover:bg-surface-2">⌂</button>
+                <div className="absolute right-3 bottom-3 z-10 flex flex-col gap-1.5">
+                  <button type="button" aria-label="Aproximar" onClick={() => zoomBy(1.7)} className="h-11 w-11 cursor-pointer rounded-2xl border border-line bg-surface text-xl hover:bg-surface-2">+</button>
+                  <button type="button" aria-label="Afastar" onClick={() => zoomBy(1 / 1.7)} className="h-11 w-11 cursor-pointer rounded-2xl border border-line bg-surface text-xl hover:bg-surface-2">−</button>
+                  <button type="button" aria-label="Voltar ao Brasil" onClick={reset} className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-2xl border border-line bg-surface hover:bg-surface-2">
+                    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]" aria-hidden="true"><path d="M4 11 12 4l8 7M6 9.5V20h12V9.5" /></svg>
+                  </button>
                 </div>
               </div>
-              <div className="mx-auto mt-3 flex max-w-[860px] flex-wrap items-end justify-between gap-4">
+              <div className="mx-auto mt-4 flex max-w-[860px] flex-wrap items-end justify-between gap-4">
                 <Legend />
                 <p className="max-w-xs text-xs text-ink-3">Arraste para mover; use + e − ou Ctrl + rolagem para ampliar.</p>
               </div>

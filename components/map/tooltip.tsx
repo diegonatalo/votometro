@@ -31,16 +31,16 @@ export const Tooltip = ({ info, width, height }: Props) => {
   return (
     <div
       role="tooltip"
-      className="pointer-events-none absolute z-20 rounded-xl border border-line bg-surface p-3 text-sm shadow-[var(--shadow)]"
+      className="pointer-events-none absolute z-20 rounded-2xl bg-inv p-4 text-sm text-inv-ink shadow-[var(--shadow)]"
       style={{ left, top, width: W }}
     >
-      <p className="font-display text-base font-semibold leading-tight">{info.name}</p>
-      {info.detail ? <p className="text-xs text-ink-3">{info.detail}</p> : null}
+      <p className="text-[0.95rem] font-bold leading-tight">{info.name}</p>
+      {info.detail ? <p className="text-xs opacity-70">{info.detail}</p> : null}
       <ul className="mt-2 space-y-1">
         {lead.map((c) => (
           <li key={c.id} className="flex items-baseline justify-between gap-2">
             <span className="flex items-center gap-1.5">
-              <span className={`inline-block h-2.5 w-2.5 ${c.cls}`} aria-hidden="true" />
+              <span className={`inline-block h-2.5 w-2.5 rounded-[3px] ${c.cls}`} aria-hidden="true" />
               {c.name}
             </span>
             <span className="font-data text-xs">
@@ -49,7 +49,7 @@ export const Tooltip = ({ info, width, height }: Props) => {
           </li>
         ))}
       </ul>
-      <p className="font-data mt-2 border-t border-line pt-2 text-[0.7rem] leading-relaxed text-ink-2">
+      <p className="font-data mt-2.5 border-t border-current/20 pt-2 text-[0.7rem] leading-relaxed opacity-75">
         Margem: {fmtInt(Math.abs(m))} votos ({fmtPp(Math.abs(marginPp(t)))})
         <br />
         Participação: {fmtPct(turnoutPct(t))}
